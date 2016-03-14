@@ -14,14 +14,17 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
         $scope.array = [];
 
         $scope.subsearchFunc = function (item) {
-            return (!$scope.searchtext || item.texto.toLowerCase().indexOf($scope.searchtext.toLowerCase()) !== -1);
+            return (!$scope.searchtext ||
+            item.texto.toLowerCase().indexOf($scope.searchtext.toLowerCase()) !== -1 ||
+            item.concurso.toLowerCase().indexOf($scope.searchtext.toLowerCase()) !== -1);
         };
 
         $scope.searchFunc = function (item) {
             return (
                 !$scope.searchtext ||
                 item.assunto.toLowerCase().indexOf($scope.searchtext.toLowerCase()) !== -1 ||
-                ($filter('filter')(item.materias, {texto: $scope.searchtext})).length > 0);
+                ($filter('filter')(item.materias, {texto: $scope.searchtext})).length > 0 ||
+                ($filter('filter')(item.materias, {concurso: $scope.searchtext})).length > 0);
         };
 
         $scope.verDetalhes = function (materia, assunto) {

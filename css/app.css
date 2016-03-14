@@ -52,3 +52,7 @@
 .obs-content {
     white-space: pre;
 }
+
+.assunto-title {
+    height: 40px;
+}

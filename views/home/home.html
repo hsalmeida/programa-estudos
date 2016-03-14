@@ -6,11 +6,18 @@
                     <span class="list-group-item-heading h4">Programa de Estudos</span>
                 </div>
                 <div class="list-group-item active">
-                    <input type="text" ng-model="searchtext" class="form-control busca-assunto" placeholder="Buscar pelo assunto" aria-describedby="basic-addon1">
+                    <input type="text" ng-model="searchtext" class="form-control busca-assunto" placeholder="Buscar pelo assunto, texto ou concurso" aria-describedby="basic-addon1">
                 </div>
                 <div class="list-group-item" ng-repeat="materia in materiasUnificadas | filter:searchFunc">
                     <span class="list-group-item-heading h4 materia-header" ng-click="setselectedrow($index)">
-                        <b>{{materia.assunto}} - {{materia.geral.total}} / {{materia.geral.acertos}} / {{materia.geral.aproveitamento}}%</b>
+                        <div class="assunto-title">
+                            <b>{{materia.assunto}} - {{materia.geral.total}} / {{materia.geral.acertos}} / {{materia.geral.aproveitamento}}%</b>
+                            <div class="pull-right">
+                                <button class="btn btn-success" ng-show="materia.executando" tooltip="Finalizar">
+                                    <span class="glyphicon glyphicon-stop"></span>
+                                </button>
+                            </div>
+                        </div>
                     </span>
                     <div class="list-group list-assuntos" ng-class="{'list-assuntos-show':$index === selectedrow}">
                         <div class="list-group-item active">
