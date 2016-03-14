@@ -34,13 +34,27 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
             });
 
             $scope.estudar = function () {
-                $modal
-                    .open({
-                    templateUrl: 'views/estudar/estudar.html',
-                    controller: 'EstudarController'
-                }).result.then(function () {
-                        $state.reload();
-                    }, function () {});
+                if($scope.array && $scope.array.length > 0) {
+                    $modal
+                        .open({
+                            templateUrl: 'views/estudar/estudar.html',
+                            controller: 'EstudarController',
+                            resolve: {
+                                assuntosDB: function () {
+                                    return Assuntos;
+                                },
+                                arraySelecionados: function () {
+                                    return $scope.array;
+                                },
+                                materias: function () {
+                                    return $scope.materiasUnificadas;
+                                }
+                            }
+                        }).result.then(function () {
+                            $state.reload();
+                        }, function () {
+                        });
+                }
             };
         };
     }]);

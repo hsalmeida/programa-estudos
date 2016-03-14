@@ -1,4 +1,4 @@
-angular.module('estudos').controller('EstudarController', function ($scope) {
+angular.module('estudos').controller('EstudarController', function ($scope, assuntosDB, arraySelecionados, materias) {
 
     $scope.initEstudar = function () {
 
@@ -10,17 +10,52 @@ angular.module('estudos').controller('EstudarController', function ($scope) {
         };
 
         $scope.Math = window.Math;
+
+        console.log(arraySelecionados);
     };
 
     $scope.confirmarEstudo = function () {
+        $scope.estudo.aproveitamento = Math.floor(($scope.estudo.acerto / $scope.estudo.total) * 100);
+        var jaPassou = false;
+        angular.forEach(arraySelecionados, function (selecionado, chaveSelection) {
+            var id = selecionado.split("#")[0];
+            var indice = selecionado.split("#")[1];
+            angular.forEach(materias, function (materia, chaveMateria) {
+                //acha o assunto
+                if(materia._id.$oid === id) {
+                    var indiceB = -1;
+                    materia.materias[indice].datas.push($scope.estudo);
 
-        console.log($scope.estudo.total);
-        console.log($scope.estudo.acerto);
-        console.log($scope.estudo.data);
-        console.log($scope.estudo.observacao);
-        console.log(Math.floor(($scope.estudo.acerto / $scope.estudo.total) * 100));
+                    materia.materias[indice].geral.total += $scope.estudo.total;
+                    materia.materias[indice].geral.acertos += $scope.estudo.acerto;
+                    materia.materias[indice].geral.aproveitamento =
+                        Math.floor((materia.materias[indice].geral.acertos / materia.materias[indice].geral.total) * 100);
 
-        $scope.$close(true);
+                    if(!jaPassou) {
+                        materia.geral.total += materia.materias[indice].geral.total;
+                        materia.geral.acertos += materia.materias[indice].geral.acertos;
+                        materia.geral.aproveitamento =
+                            Math.floor((materia.geral.acertos / materia.geral.total) * 100);
+
+                    }
+                    jaPassou = true;
+                } else {
+                    jaPassou = false;
+                }
+            });
+        });
+        var salvos = 0;
+        angular.forEach(materias, function (materia, chaveMateria) {
+            materia.$saveOrUpdate().then(function () {
+                salvos++;
+                console.log("save");
+                if(arraySelecionados.length == salvos) {
+                    $scope.$close(true);
+                }
+            });
+        });
+
+
     };
     $scope.cancelarEstudo = function () {
         $scope.$dismiss();
