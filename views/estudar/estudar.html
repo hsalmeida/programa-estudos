@@ -11,6 +11,13 @@
         </div>
 
         <div class="form-group">
+            <label for="tempo" class="col-lg-2 control-label">Tempo de Estudo</label>
+            <div class="col-lg-10">
+                <input id="tempo" class="form-control" type="time" ng-model="estudo.tempo" placeholder="Tempo de Estudo">
+            </div>
+        </div>
+
+        <div class="form-group">
             <label for="total" class="col-lg-2 control-label">Total de Questões</label>
             <div class="col-lg-10">
                 <input id="total" class="form-control" type="number" min="1" ng-model="estudo.total" placeholder="Total">

@@ -6,6 +6,7 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
             total: 1,
             acerto: 0,
             data: new Date(),
+            tempo: 0,
             observacao: ""
         };
 
@@ -13,7 +14,6 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
     };
 
     $scope.confirmarEstudo = function () {
-
         $scope.estudo.aproveitamento = Math.floor(($scope.estudo.acerto / $scope.estudo.total) * 100);
         var idAnterior = "";
         angular.forEach(arraySelecionados, function (selecionado, chaveSelection) {
@@ -61,7 +61,6 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
                 }
             });
         });
-
     };
     $scope.cancelarEstudo = function () {
         $scope.$dismiss();

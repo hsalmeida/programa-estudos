@@ -26,7 +26,8 @@
                         </div>
                         <p>
                             {{data.data | date:'dd/MM/yyyy'}}
-                            - Questões: {{data.total}}
+                            - Tempo: {{data.tempo | date: 'HH:mm'}}
+                            Questões: {{data.total}}
                             Acertos: {{data.acerto}}
                             Aproveitamento: {{data.aproveitamento}}
                         </p>
