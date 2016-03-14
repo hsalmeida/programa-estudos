@@ -16,6 +16,14 @@
                         </span>
                     </div>
                     <div class="list-group-item" ng-repeat="data in assunto.datas">
+                        <div class="pull-right">
+                            <button class="btn btn-primary" tooltip="Editar">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                            <button class="btn btn-danger" tooltip="Excluir" ng-click="excluir($index)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </div>
                         <p>
                             {{data.data | date:'dd/MM/yyyy'}}
                             - Questões: {{data.total}}
@@ -29,4 +37,20 @@
             </div>
         </div>
     </div>
+
+    <script type="text/ng-template" id="confirmarExclusao.html">
+        <div class="modal-header text-center">
+            <h4 class="modal-title">Confirmar Exclusão</h4>
+        </div>
+        <div class="modal-body">
+            <span class="h2">
+                Realmente deseja exluir a data?
+            </span>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" ng-click="cancelarExclusao()" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-success" ng-click="confirmarExclusao()">Confirmar Exclusão</button>
+        </div>
+    </script>
+
 </div>
