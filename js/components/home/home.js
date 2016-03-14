@@ -24,11 +24,17 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                 ($filter('filter')(item.materias, {texto: $scope.searchtext})).length > 0);
         };
 
+        $scope.verDetalhes = function (materia, assunto) {
+            var assuntoIndice = materia.materias.indexOf(assunto);
+            var materiaId = materia._id.$oid;
+            $state.go('detalhes',{materia: materiaId, indice: assuntoIndice});
+        };
+
         $scope.initHome = function () {
 
             waitingDialog.show();
 
-            Assuntos.all().then(function (assuntos) {
+            Assuntos.all({sort : {"assunto" : 1}}).then(function (assuntos) {
                 $scope.materiasUnificadas = assuntos;
                 waitingDialog.hide();
             });

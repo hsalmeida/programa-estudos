@@ -48,3 +48,7 @@
     opacity: 1;
     height: auto;
 }
+
+.obs-content {
+    white-space: pre;
+}

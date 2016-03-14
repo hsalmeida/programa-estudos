@@ -20,10 +20,10 @@
                             <input type="checkbox" index="{{$index}}" id="assuntock{{$parent.$index}}{{$index}}" checkbox-group>
                             &nbsp;
                             <label for="assuntock{{$parent.$index}}{{$index}}" class="assunto-label">
-                                {{assunto.texto}} - <i>{{assunto.concurso}}</i> - {{assunto.geral.total}} / {{assunto.geral.acertos}} / {{assunto.geral.aproveitamento}}%
+                                {{materia.materias.indexOf(assunto)}}. {{assunto.texto}} - <i>{{assunto.concurso}}</i> - {{assunto.geral.total}} / {{assunto.geral.acertos}} / {{assunto.geral.aproveitamento}}%
                             </label>
                             <div class="pull-right">
-                                <button class="btn btn-primary" tooltip="Mostrar detalhes" ui-sref="detalhes">
+                                <button class="btn btn-primary" tooltip="Mostrar detalhes" ng-click="verDetalhes(materia, assunto);">
                                     <span class="glyphicon glyphicon-search"></span>
                                 </button>
                             </div>

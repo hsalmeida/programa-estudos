@@ -3,4 +3,30 @@
         <li><a ui-sref="home">Home</a></li>
         <li class="active">Detalhes</li>
     </ol>
+    <div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="list-group">
+                    <div class="list-group-item active">
+                        <span class="list-group-item-heading h4">{{assunto.texto}}</span>
+                        <br />
+                        <span>Total de Questões: {{assunto.geral.total}}
+                             Acertos: {{assunto.geral.acertos}}
+                             Aproveitamento: {{assunto.geral.aproveitamento}}%
+                        </span>
+                    </div>
+                    <div class="list-group-item" ng-repeat="data in assunto.datas">
+                        <p>
+                            {{data.data | date:'dd/MM/yyyy'}}
+                            - Questões: {{data.total}}
+                            Acertos: {{data.acerto}}
+                            Aproveitamento: {{data.aproveitamento}}
+                        </p>
+                        <label>Observação:</label>
+                        <p class="obs-content">{{data.observacao}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -8,7 +8,7 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             controller: 'HomeController'
         })
         .state('detalhes', {
-            url: "/detalhes",
+            url: "/detalhes/:materia/:indice",
             templateUrl: "views/detalhes/detalhes.html",
             controller: 'DetalhesController'
         });

@@ -10,20 +10,27 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
         };
 
         $scope.Math = window.Math;
-
-        console.log(arraySelecionados);
     };
 
     $scope.confirmarEstudo = function () {
         $scope.estudo.aproveitamento = Math.floor(($scope.estudo.acerto / $scope.estudo.total) * 100);
-        var jaPassou = false;
+        var idAnterior = "";
         angular.forEach(arraySelecionados, function (selecionado, chaveSelection) {
+            var mudouId = false;
             var id = selecionado.split("#")[0];
             var indice = selecionado.split("#")[1];
+            if(idAnterior === "") {
+                mudouId = true;
+            } else {
+                if(id !== idAnterior) {
+                    mudouId = true;
+                }
+            }
+
             angular.forEach(materias, function (materia, chaveMateria) {
                 //acha o assunto
                 if(materia._id.$oid === id) {
-                    var indiceB = -1;
+
                     materia.materias[indice].datas.push($scope.estudo);
 
                     materia.materias[indice].geral.total += $scope.estudo.total;
@@ -31,19 +38,18 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
                     materia.materias[indice].geral.aproveitamento =
                         Math.floor((materia.materias[indice].geral.acertos / materia.materias[indice].geral.total) * 100);
 
-                    if(!jaPassou) {
+                    if(mudouId) {
                         materia.geral.total += materia.materias[indice].geral.total;
                         materia.geral.acertos += materia.materias[indice].geral.acertos;
                         materia.geral.aproveitamento =
                             Math.floor((materia.geral.acertos / materia.geral.total) * 100);
 
                     }
-                    jaPassou = true;
-                } else {
-                    jaPassou = false;
+                    idAnterior = id;
                 }
             });
         });
+
         var salvos = 0;
         angular.forEach(materias, function (materia, chaveMateria) {
             materia.$saveOrUpdate().then(function () {
@@ -54,7 +60,6 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
                 }
             });
         });
-
 
     };
     $scope.cancelarEstudo = function () {
