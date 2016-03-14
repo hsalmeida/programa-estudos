@@ -1,9 +1,14 @@
 <div ng-controller="HomeController" ng-init="initHome()">
-    <div class="row">
+    <div class="row lista-home">
         <div class="col-md-10 col-md-offset-1">
             <div class="list-group">
                 <div class="list-group-item active">
                     <span class="list-group-item-heading h4">Programa de Estudos</span>
+                    <div class="pull-right">
+                        <button class="btn btn-default" tooltip="Calendário">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </button>
+                    </div>
                 </div>
                 <div class="list-group-item active">
                     <input type="text" ng-model="searchtext" class="form-control busca-assunto" placeholder="Buscar pelo assunto, texto ou concurso" aria-describedby="basic-addon1">

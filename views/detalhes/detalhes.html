@@ -4,12 +4,12 @@
         <li class="active">Detalhes</li>
     </ol>
     <div>
-        <div class="row">
+        <div class="row lista-home">
             <div class="col-md-10 col-md-offset-1">
                 <div class="list-group">
                     <div class="list-group-item active">
                         <span class="list-group-item-heading h4">{{assunto.texto}} - <i>{{assunto.concurso}}</i></span>
-                        <br />
+                        <br/>
                         <span>Total de Questões: {{assunto.geral.total}}
                              Acertos: {{assunto.geral.acertos}}
                              Aproveitamento: {{assunto.geral.aproveitamento}}%
@@ -32,6 +32,7 @@
                             Aproveitamento: {{data.aproveitamento}}
                         </p>
                         <label>Observação:</label>
+
                         <p class="obs-content">{{data.observacao}}</p>
                     </div>
                 </div>
@@ -43,13 +44,18 @@
         <div class="modal-header text-center">
             <h4 class="modal-title">Confirmar Exclusão</h4>
         </div>
-        <div class="modal-body">
-            <span class="h2">
+        <div class="modal-body text-center">
+            <p class="h3">
                 Realmente deseja exluir a data?
-            </span>
+            </p>
+            <p>
+                <input id="relevante" type="checkbox" ng-model="relevante">
+                <label for="relevante" class="assunto-label">Data é relevante no calculo de aproveitamento?</label>
+            </p>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-warning" ng-click="cancelarExclusao()" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-warning" ng-click="cancelarExclusao()" data-dismiss="modal">Cancelar
+            </button>
             <button type="button" class="btn btn-success" ng-click="confirmarExclusao()">Confirmar Exclusão</button>
         </div>
     </script>
