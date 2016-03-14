@@ -1,0 +1,42 @@
+<div ng-controller="HomeController" ng-init="initHome()">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="list-group">
+                <div class="list-group-item active">
+                    <span class="list-group-item-heading h4">Programa de Estudos</span>
+                </div>
+                <div class="list-group-item active">
+                    <input type="text" ng-model="searchtext" class="form-control busca-assunto" placeholder="Buscar pelo assunto" aria-describedby="basic-addon1">
+                </div>
+                <div class="list-group-item" ng-repeat="materia in materiasUnificadas | filter:searchFunc">
+                    <span class="list-group-item-heading h4 materia-header" ng-click="setselectedrow($index)">
+                        <b>{{materia.assunto}} - {{materia.geral.total}} / {{materia.geral.acertos}} / {{materia.geral.aproveitamento}}%</b>
+                    </span>
+                    <div class="list-group list-assuntos" ng-class="{'list-assuntos-show':$index === selectedrow}">
+                        <div class="list-group-item active">
+                            <span class="list-group-item-heading h4">Assuntos</span>
+                        </div>
+                        <div class="list-group-item" ng-repeat="assunto in materia.materias | filter:subsearchFunc">
+                            <input type="checkbox" index="{{$index}}" id="assuntock{{$parent.$index}}{{$index}}" checkbox-group>
+                            &nbsp;
+                            <label for="assuntock{{$parent.$index}}{{$index}}" class="assunto-label">
+                                {{assunto.texto}} - <i>{{assunto.concurso}}</i> - {{assunto.geral.total}} / {{assunto.geral.acertos}} / {{assunto.geral.aproveitamento}}%
+                            </label>
+                            <div class="pull-right">
+                                <button class="btn btn-primary" tooltip="Mostrar detalhes" ui-sref="detalhes">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="add-group-fab-container">
+        <button class="btn btn-danger btn-add-grp" ng-click="estudar()" tooltip="Iniciar Estudo">
+            <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+    </div>
+</div>

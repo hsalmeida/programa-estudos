@@ -1,0 +1,51 @@
+<div class="modal-header text-center">
+    <h4 class="modal-title">Confirmar Estudos</h4>
+</div>
+<div class="modal-body" ng-init="initEstudar()">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="data" class="col-lg-2 control-label">Data do Estudo</label>
+            <div class="col-lg-10">
+                <input id="data" class="form-control" type="date" ng-model="estudo.data" placeholder="Data do Estudo">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="total" class="col-lg-2 control-label">Total de Questões</label>
+            <div class="col-lg-10">
+                <input id="total" class="form-control" type="number" min="1" ng-model="estudo.total" placeholder="Total">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="acertos" class="col-lg-2 control-label">Acertos</label>
+            <div class="col-lg-10">
+                <input id="acertos" class="form-control" type="number" min="0" ng-model="estudo.acerto" placeholder="Acertos">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="acertos" class="col-lg-2 control-label">Aproveitamento</label>
+            <div class="col-lg-10 text-center">
+                <span class="h3">{{Math.floor((estudo.acerto / estudo.total) * 100)}}%</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="total" class="col-lg-2 control-label">Observações</label>
+            <div class="col-lg-10">
+                <textarea class="form-control" ng-model="estudo.observacao" placeholder="Observação"></textarea>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="form-group">
+    <div class="col-lg-12">
+        <hr>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-warning" ng-click="cancelarEstudo()" data-dismiss="modal">Cancelar</button>
+    <button type="button" class="btn btn-success" ng-click="confirmarEstudo()">Confirmar Estudo</button>
+</div>
