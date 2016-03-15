@@ -16,6 +16,8 @@
                 <div class="list-group-item" ng-repeat="materia in materiasUnificadas | filter:searchFunc">
                     <span class="list-group-item-heading h4 materia-header" ng-click="setselectedrow($index)">
                         <b>{{materia.assunto}} - {{materia.geral.total}} / {{materia.geral.acertos}} / {{materia.geral.aproveitamento}}%</b>
+                        <span class="label label-success" ng-show="materia.status">{{materia.status}}</span>
+                        <span class="label label-as-badge label-danger" ng-show="!materia.status">incompleto</span>
                     </span>
                     <div class="list-group list-assuntos" ng-class="{'list-assuntos-show':$index === selectedrow}">
                         <div class="list-group-item active">
@@ -27,6 +29,8 @@
                             <label for="assuntock{{$parent.$index}}{{$index}}" class="assunto-label">
                                 {{materia.materias.indexOf(assunto)}}. {{assunto.texto}} - <i>{{assunto.concurso}}</i> - {{assunto.geral.total}} / {{assunto.geral.acertos}} / {{assunto.geral.aproveitamento}}%
                             </label>
+                            <span class="label label-success" ng-show="assunto.status">{{assunto.status}}</span>
+                            <span class="label label-as-badge label-danger" ng-show="!assunto.status">incompleto</span>
                             <div class="pull-right">
                                 <button class="btn btn-primary" ng-show="assunto.datas.length > 0" tooltip="Mostrar detalhes" ng-click="verDetalhes(materia, assunto);">
                                     <span class="glyphicon glyphicon-search"></span>

@@ -62,3 +62,9 @@ html, body {
     white-space: pre;
     word-wrap: break-word;
 }
+
+.label-as-badge{
+    padding-right: .6em;
+    padding-left: .6em;
+    border-radius: 10rem;
+}
