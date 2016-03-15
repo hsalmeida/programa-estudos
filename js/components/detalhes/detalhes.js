@@ -107,7 +107,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
             $modal
                 .open({
                     templateUrl: 'confirmarExclusao.html',
-                    controller: function ($scope, parentScope) {
+                    controller: function ($scope, parentScope, indiceMateria) {
                         $scope.relevante = true;
                         $scope.cancelarExclusao = function () {
                             $scope.$dismiss();
@@ -115,18 +115,34 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
 
                         $scope.confirmarExclusao = function () {
                             parentScope.relevante = $scope.relevante;
+
+                            if($scope.relevante) {
+                                //atualizo o valor da materia.
+                                var geralMateria = parentScope.materiaMae.materias[indiceMateria].geral;
+                                geralMateria.acertos = (geralMateria.acertos - dataOriginal.acerto) + $scope.estudo.acerto;
+                                geralMateria.total = (geralMateria.total - dataOriginal.total) + $scope.estudo.total;
+                                geralMateria.aproveitamento = Math.floor((geralMateria.acertos / geralMateria.total) * 100);
+                                parentScope.materiaMae.materias[indiceMateria].geral = geralMateria;
+                                //atualizo o valor do assunto.
+                                var geralMae = parentScope.materiaMae.geral;
+                                geralMae.acertos = (geralMae.acertos - dataOriginal.acerto) + $scope.estudo.acerto;
+                                geralMae.total = (geralMae.total - dataOriginal.total) + $scope.estudo.total;
+                                geralMae.aproveitamento = Math.floor((geralMae.acertos / geralMae.total) * 100);
+                                parentScope.materiaMae.geral = geralMae;
+                            }
+
                             $scope.$close(true);
                         };
                     },
                     resolve: {
                         parentScope: function () {
                             return $scope;
+                        },
+                        indiceMateria: function () {
+                            return $stateParams.indice;
                         }
                     }
                 }).result.then(function () {
-                    if ($scope.relevante) {
-
-                    }
                     $scope.materiaMae.materias[$stateParams.indice].datas.splice(indice, 1);
                     $scope.materiaMae.$saveOrUpdate().then(function () {
                         $state.reload();
