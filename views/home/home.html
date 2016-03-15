@@ -37,7 +37,7 @@
                             <input type="checkbox" index="{{$index}}" id="assuntock{{$parent.$index}}{{$index}}" checkbox-group>
                             &nbsp;
                             <label for="assuntock{{$parent.$index}}{{$index}}" class="assunto-label">
-                                {{materia.materias.indexOf(assunto)}}. {{assunto.texto}} - <i>{{assunto.concurso}}</i> - {{assunto.geral.total}} / {{assunto.geral.acertos}} / {{assunto.geral.aproveitamento}}%
+                                {{materia.materias.indexOf(assunto) + 1}}. {{assunto.texto}} - <i>{{assunto.concurso}}</i> - {{assunto.geral.total}} / {{assunto.geral.acertos}} / {{assunto.geral.aproveitamento}}%
                             </label>
                             <span class="label label-as-badge label-primary" ng-show="assunto.status === 'completo'">
                                 {{assunto.arrayStatus[3]}}% completo
