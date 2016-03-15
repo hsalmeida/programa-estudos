@@ -11,5 +11,10 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             url: "/detalhes/:materia/:indice",
             templateUrl: "views/detalhes/detalhes.html",
             controller: 'DetalhesController'
+        })
+        .state('calendario', {
+            url: "/calendario",
+            templateUrl: "views/calendario/calendario.html",
+            controller: 'CalendarioController'
         });
 });

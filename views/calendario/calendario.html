@@ -1,0 +1,62 @@
+<div ng-controller="CalendarioController" ng-init="initCalendar()">
+
+    <h2 class="text-center">{{calendarTitle}}</h2>
+
+    <div class="row">
+
+        <div class="col-md-6 text-center">
+            <div class="btn-group">
+
+                <button
+                        class="btn btn-primary"
+                        mwl-date-modifier
+                        date="calendarDate"
+                        decrement="calendarView">
+                    Anterior
+                </button>
+                <button
+                        class="btn btn-default"
+                        mwl-date-modifier
+                        date="calendarDate"
+                        set-to-today>
+                    Hoje
+                </button>
+                <button
+                        class="btn btn-primary"
+                        mwl-date-modifier
+                        date="calendarDate"
+                        increment="calendarView">
+                    Próximo
+                </button>
+            </div>
+        </div>
+
+        <br class="visible-xs visible-sm">
+
+        <div class="col-md-6 text-center">
+            <div class="btn-group">
+                <label class="btn btn-primary" ng-model="calendarView" btn-radio="'year'">Ano</label>
+                <label class="btn btn-primary" ng-model="calendarView" btn-radio="'month'">Mês</label>
+                <label class="btn btn-primary" ng-model="calendarView" btn-radio="'week'">Semana</label>
+                <label class="btn btn-primary" ng-model="calendarView" btn-radio="'day'">Dia</label>
+            </div>
+        </div>
+
+    </div>
+
+    <br>
+
+    <mwl-calendar
+            view="calendarView"
+            view-date="calendarDate"
+            events="events"
+            view-title="calendarTitle"
+            on-event-click="eventClicked(calendarEvent)"
+            on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+            edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'"
+            delete-event-html="'<i class=\'glyphicon glyphicon-remove\'></i>'"
+            on-edit-event-click="eventEdited(calendarEvent)"
+            on-delete-event-click="eventDeleted(calendarEvent)"
+            cell-is-open="true">
+    </mwl-calendar>
+</div>
