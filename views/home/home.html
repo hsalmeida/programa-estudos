@@ -16,8 +16,18 @@
                 <div class="list-group-item" ng-repeat="materia in materiasUnificadas | filter:searchFunc">
                     <span class="list-group-item-heading h4 materia-header" ng-click="setselectedrow($index)">
                         <b>{{materia.assunto}} - {{materia.geral.total}} / {{materia.geral.acertos}} / {{materia.geral.aproveitamento}}%</b>
-                        <span class="label label-success" ng-show="materia.status">{{materia.status}}</span>
-                        <span class="label label-as-badge label-warning" ng-show="!materia.status">em aberto</span>
+                        <span class="label label-as-badge label-primary" ng-show="materia.arrayStatus[3] > 0">
+                            {{materia.arrayStatus[3]}}% completo
+                        </span>
+                        <span class="label label-as-badge label-success" ng-show="materia.arrayStatus[2] > 0">
+                            {{materia.arrayStatus[2]}}% revisar
+                        </span>
+                        <span class="label label-as-badge label-danger" ng-show="materia.arrayStatus[1] > 0">
+                            {{materia.arrayStatus[1]}}% incompleto
+                        </span>
+                        <span class="label label-as-badge label-warning" ng-show="materia.arrayStatus[0] > 0">
+                            {{materia.arrayStatus[0]}}% em aberto
+                        </span>
                     </span>
                     <div class="list-group list-assuntos" ng-class="{'list-assuntos-show':$index === selectedrow}">
                         <div class="list-group-item active">
@@ -29,8 +39,18 @@
                             <label for="assuntock{{$parent.$index}}{{$index}}" class="assunto-label">
                                 {{materia.materias.indexOf(assunto)}}. {{assunto.texto}} - <i>{{assunto.concurso}}</i> - {{assunto.geral.total}} / {{assunto.geral.acertos}} / {{assunto.geral.aproveitamento}}%
                             </label>
-                            <span class="label label-success" ng-show="assunto.status">{{assunto.status}}</span>
-                            <span class="label label-as-badge label-warning" ng-show="!assunto.status">em aberto</span>
+                            <span class="label label-as-badge label-primary" ng-show="assunto.status === 'completo'">
+                                {{assunto.arrayStatus[3]}}% completo
+                            </span>
+                            <span class="label label-as-badge label-success" ng-show="assunto.status === 'revisar'">
+                                {{assunto.arrayStatus[2]}}% revisar
+                            </span>
+                            <span class="label label-as-badge label-danger" ng-show="assunto.status === 'incompleto'">
+                                {{assunto.arrayStatus[1]}}% incompleto
+                            </span>
+                            <span class="label label-as-badge label-warning" ng-show="!assunto.status">
+                                {{assunto.arrayStatus[0]}}% em aberto
+                            </span>
                             <div class="pull-right">
                                 <button class="btn btn-primary" ng-show="assunto.datas.length > 0" tooltip="Mostrar detalhes" ng-click="verDetalhes(materia, assunto);">
                                     <span class="glyphicon glyphicon-search"></span>

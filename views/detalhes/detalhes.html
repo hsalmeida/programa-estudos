@@ -13,11 +13,23 @@
                         <span>Total de Questões: {{assunto.geral.total}}
                              Acertos: {{assunto.geral.acertos}}
                              Aproveitamento: {{assunto.geral.aproveitamento}}%
+                            <span class="label label-as-badge label-primary" ng-show="assunto.status === 'completo'">
+                                {{assunto.arrayStatus[3]}}% completo
+                            </span>
+                            <span class="label label-as-badge label-success" ng-show="assunto.status === 'revisar'">
+                                {{assunto.arrayStatus[2]}}% revisar
+                            </span>
+                            <span class="label label-as-badge label-danger" ng-show="assunto.status === 'incompleto'">
+                                {{assunto.arrayStatus[1]}}% incompleto
+                            </span>
+                            <span class="label label-as-badge label-warning" ng-show="!assunto.status">
+                                {{assunto.arrayStatus[0]}}% em aberto
+                            </span>
                         </span>
                     </div>
                     <div class="list-group-item" ng-repeat="data in assunto.datas">
                         <div class="pull-right">
-                            <button class="btn btn-primary" tooltip="Editar">
+                            <button class="btn btn-primary" ng-click="editar($index, data)" tooltip="Editar">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </button>
                             <button class="btn btn-danger" tooltip="Excluir" ng-click="excluir($index)">
@@ -29,7 +41,11 @@
                             - Tempo: {{data.tempo | date: 'HH:mm'}}
                             Questões: {{data.total}}
                             Acertos: {{data.acerto}}
-                            Aproveitamento: {{data.aproveitamento}}
+                            Aproveitamento: {{data.aproveitamento}}%
+                            <span class="label label-as-badge label-primary" ng-show="data.status === 'completo'">completo</span>
+                            <span class="label label-as-badge label-success" ng-show="data.status === 'revisar'">revisar</span>
+                            <span class="label label-as-badge label-danger" ng-show="data.status === 'incompleto'">incompleto</span>
+                            <span class="label label-as-badge label-warning" ng-show="!data.status">em aberto</span>
                         </p>
                         <label>Observação:</label>
 
@@ -57,6 +73,76 @@
             <button type="button" class="btn btn-warning" ng-click="cancelarExclusao()" data-dismiss="modal">Cancelar
             </button>
             <button type="button" class="btn btn-success" ng-click="confirmarExclusao()">Confirmar Exclusão</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="editarData.html">
+        <div class="modal-header text-center">
+            <h4 class="modal-title">Confirmar Estudos</h4>
+        </div>
+        <div class="modal-body" ng-init="initEditar()">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="data" class="col-lg-2 control-label">Data do Estudo</label>
+                    <div class="col-lg-10">
+                        <input id="data" class="form-control" type="date" ng-model="estudo.data" placeholder="Data do Estudo">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="tempo" class="col-lg-2 control-label">Tempo de Estudo</label>
+                    <div class="col-lg-10">
+                        <input id="tempo" class="form-control" type="time" ng-model="estudo.tempo" placeholder="Tempo de Estudo">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="total" class="col-lg-2 control-label">Total de Questões</label>
+                    <div class="col-lg-10">
+                        <input id="total" class="form-control" type="number" min="1" ng-model="estudo.total" placeholder="Total">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="acertos" class="col-lg-2 control-label">Acertos</label>
+                    <div class="col-lg-10">
+                        <input id="acertos" class="form-control" type="number" min="0" ng-model="estudo.acerto" placeholder="Acertos">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="acertos" class="col-lg-2 control-label">Aproveitamento</label>
+                    <div class="col-lg-10 text-center">
+                        <span class="h3">{{Math.floor((estudo.acerto / estudo.total) * 100)}}%</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Status</label>
+                    <div class="btn-group col-lg-10">
+                        <label class="btn btn-danger" ng-model="estudo.status" btn-radio="'incompleto'" uncheckable>incompleto</label>
+                        <label class="btn btn-success" ng-model="estudo.status" btn-radio="'revisar'" uncheckable>revisar</label>
+                        <label class="btn btn-primary" ng-model="estudo.status" btn-radio="'completo'" uncheckable>completo</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="total" class="col-lg-2 control-label">Observações</label>
+                    <div class="col-lg-10">
+                        <textarea class="form-control" ng-model="estudo.observacao" placeholder="Observação"></textarea>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <hr>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" ng-click="cancelarEditar()" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-success" ng-click="confirmarEstudo()">Confirmar Estudo</button>
         </div>
     </script>
 

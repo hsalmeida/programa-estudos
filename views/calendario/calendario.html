@@ -1,5 +1,8 @@
 <div ng-controller="CalendarioController" ng-init="initCalendar()">
-
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Home</a></li>
+        <li class="active">Calendário</li>
+    </ol>
     <h2 class="text-center">{{calendarTitle}}</h2>
 
     <div class="row">
@@ -53,10 +56,6 @@
             view-title="calendarTitle"
             on-event-click="eventClicked(calendarEvent)"
             on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
-            edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'"
-            delete-event-html="'<i class=\'glyphicon glyphicon-remove\'></i>'"
-            on-edit-event-click="eventEdited(calendarEvent)"
-            on-delete-event-click="eventDeleted(calendarEvent)"
             cell-is-open="true">
     </mwl-calendar>
 </div>
