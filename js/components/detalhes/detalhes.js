@@ -40,7 +40,8 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                                 data: new Date(data.data),
                                 tempo: new Date(dataSelecionada.tempo),
                                 observacao: dataSelecionada.observacao,
-                                status: data.status ? data.status : "incompleto"
+                                status: data.status ? data.status : "incompleto",
+                                relevante: dataSelecionada.relevante ? dataSelecionada.relevante : false
                             };
                         };
                         $scope.confirmarEditar = function () {

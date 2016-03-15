@@ -46,6 +46,7 @@
                             <span class="label label-as-badge label-success" ng-show="data.status === 'revisar'">revisar</span>
                             <span class="label label-as-badge label-danger" ng-show="data.status === 'incompleto'">incompleto</span>
                             <span class="label label-as-badge label-warning" ng-show="!data.status">em aberto</span>
+                            <span class="label label-as-badge label-default" ng-show="data.relevante">relevante</span>
                         </p>
                         <label>Observação:</label>
 
@@ -123,6 +124,14 @@
                         <label class="btn btn-danger" ng-model="estudo.status" btn-radio="'incompleto'" uncheckable>incompleto</label>
                         <label class="btn btn-success" ng-model="estudo.status" btn-radio="'revisar'" uncheckable>revisar</label>
                         <label class="btn btn-primary" ng-model="estudo.status" btn-radio="'completo'" uncheckable>completo</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-2"></div>
+                    <div class="btn-group col-lg-10">
+                        <input id="datarelevante" type="checkbox" ng-model="estudo.relevante">
+                        <label for="datarelevante" class="assunto-label">Data é relevante no calculo de aproveitamento?</label>
                     </div>
                 </div>
 
