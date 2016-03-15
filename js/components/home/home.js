@@ -2,6 +2,10 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
     'Assuntos',
     function($scope, $rootScope, $state, $cookies, $http, $filter, $modal, Assuntos){
 
+        /*
+        status:
+            em aberto
+        * */
         $scope.setselectedrow = function (index) {
             if($scope.selectedrow === index) {
                 $scope.selectedrow = -1;
