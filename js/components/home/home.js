@@ -122,7 +122,7 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                                 }
                             }
                         }).result.then(function () {
-                            $state.reload();
+                            $scope.initHome();
                         }, function () {
                         });
                 }
