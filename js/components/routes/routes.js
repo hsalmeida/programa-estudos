@@ -16,5 +16,10 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             url: "/calendario",
             templateUrl: "views/calendario/calendario.html",
             controller: 'CalendarioController'
+        })
+        .state('charts', {
+            url: "/chart",
+            templateUrl: "views/chart/chart.html",
+            controller: 'ChartController'
         });
 });
