@@ -17,7 +17,9 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                         arrayStatus[3]++ : arrayStatus[0]++;
                 });
                 for(var i = 0; i < arrayStatus.length; i++) {
-                    arrayStatus[i] = Math.floor((arrayStatus[i] / $scope.assunto.qtdDatas) * 100);
+                    if($scope.assunto.qtdDatas > 0) {
+                        arrayStatus[i] = Math.floor((arrayStatus[i] / $scope.assunto.qtdDatas) * 100);
+                    }
                 }
                 $scope.assunto.status = arrayStatus[3] === 100 ? "completo" :
                     arrayStatus[2] === 100 ? "revisar" :

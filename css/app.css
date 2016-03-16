@@ -59,7 +59,7 @@ html, body {
 }
 
 .obs-content {
-    white-space: pre;
+    white-space: pre-wrap;
     word-wrap: break-word;
 }
 
