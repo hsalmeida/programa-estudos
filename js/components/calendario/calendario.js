@@ -12,6 +12,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                         angular.forEach(materia.datas, function(data, dataIndex){
 
                             var status = "info";
+                            var textStatus = data.status ? data.status : "em andamento";
                             if(data.status === "completo")
                                 status = "success";
                             if(data.status === "revisar")
@@ -19,10 +20,8 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                             if(data.status === "incompleto")
                                 status = "important";
 
-                            console.log(status);
-
                             var evento = {
-                                title: '1. Matéria: ' + materia.topico + ' 2. Assunto: ' + materia.texto,
+                                title: '• Matéria: ' + materia.topico + ' • Assunto: ' + materia.texto + ' (' + textStatus + ')',
                                 type: status,
                                 startsAt: new Date(data.data),
                                 editable: false,
