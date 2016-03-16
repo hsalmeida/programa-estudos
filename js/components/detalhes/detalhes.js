@@ -118,6 +118,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                         $scope.confirmarExclusao = function () {
                             parentScope.relevante = $scope.relevante;
 
+
                             if($scope.relevante) {
                                 //atualizo o valor da materia.
                                 var geralMateria = parentScope.materiaMae.materias[indiceMateria].geral;

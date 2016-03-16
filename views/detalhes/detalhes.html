@@ -121,17 +121,31 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Status</label>
                     <div class="btn-group col-lg-10">
-                        <label class="btn btn-danger" ng-model="estudo.status" btn-radio="'incompleto'" uncheckable>incompleto</label>
-                        <label class="btn btn-success" ng-model="estudo.status" btn-radio="'revisar'" uncheckable>revisar</label>
-                        <label class="btn btn-primary" ng-model="estudo.status" btn-radio="'completo'" uncheckable>completo</label>
+                        <label class="btn btn-default" ng-model="estudo.status" btn-radio="'incompleto'" uncheckable>incompleto</label>
+                        <label class="btn btn-default" ng-model="estudo.status" btn-radio="'revisar'" uncheckable>revisar</label>
+                        <label class="btn btn-default" ng-model="estudo.status" btn-radio="'completo'" uncheckable>completo</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-lg-2"></div>
                     <div class="btn-group col-lg-10">
-                        <input id="datarelevante" type="checkbox" ng-model="estudo.relevante">
-                        <label for="datarelevante" class="assunto-label">Data é relevante no calculo de aproveitamento?</label>
+                        <label class="assunto-label">Data é relevante no calculo de aproveitamento?</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-2"></div>
+                    <div class="btn-group col-lg-10">
+                        <label class="btn btn-default" ng-model="estudo.relevante" btn-radio="true" uncheckable>sim</label>
+                        <label class="btn btn-default" ng-model="estudo.relevante" btn-radio="false" uncheckable>não</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-2"></div>
+                    <div class="btn-group col-lg-10">
+                        <label class="assunto-label"><b>Sim</b>, o assunto e a matéria serão recalculados. <b>Não</b>, a modificação afetará somente este registro.</label>
                     </div>
                 </div>
 
