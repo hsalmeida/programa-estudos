@@ -119,14 +119,14 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                             if($scope.relevante) {
                                 //atualizo o valor da materia.
                                 var geralMateria = parentScope.materiaMae.materias[indiceMateria].geral;
-                                geralMateria.acertos = (geralMateria.acertos - dataOriginal.acerto) + $scope.estudo.acerto;
-                                geralMateria.total = (geralMateria.total - dataOriginal.total) + $scope.estudo.total;
+                                geralMateria.acertos = (geralMateria.acertos - parentScope.materiaMae.materias[indiceMateria].datas[indice].acerto);
+                                geralMateria.total = (geralMateria.total - parentScope.materiaMae.materias[indiceMateria].datas[indice].total);
                                 geralMateria.aproveitamento = Math.floor((geralMateria.acertos / geralMateria.total) * 100);
                                 parentScope.materiaMae.materias[indiceMateria].geral = geralMateria;
                                 //atualizo o valor do assunto.
                                 var geralMae = parentScope.materiaMae.geral;
-                                geralMae.acertos = (geralMae.acertos - dataOriginal.acerto) + $scope.estudo.acerto;
-                                geralMae.total = (geralMae.total - dataOriginal.total) + $scope.estudo.total;
+                                geralMae.acertos = (geralMae.acertos - parentScope.materiaMae.materias[indiceMateria].datas[indice].acerto);
+                                geralMae.total = (geralMae.total - parentScope.materiaMae.materias[indiceMateria].datas[indice].total);
                                 geralMae.aproveitamento = Math.floor((geralMae.acertos / geralMae.total) * 100);
                                 parentScope.materiaMae.geral = geralMae;
                             }

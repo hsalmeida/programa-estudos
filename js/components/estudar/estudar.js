@@ -7,7 +7,8 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
             acerto: 0,
             data: new Date(),
             tempo: 0,
-            observacao: ""
+            observacao: "",
+            status: "incompleto"
         };
 
         $scope.Math = window.Math;
