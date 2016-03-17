@@ -14,17 +14,17 @@ angular.module("estudos", [
  * @param attrs lista em string dos atributos a serem testados
  * @returns {boolean} true quando há diferença.
  */
-function checkDiffs (obj1, obj2, attrs) {
+function checkDiffs(obj1, obj2, attrs) {
     var hasDif = false;
 
-    for(var i = 0;i < attrs.length; i ++) {
-        if(obj1[attrs[i]] instanceof Date && obj2[attrs[i]] instanceof Date){
-            if(obj1[attrs[i]].getTime() !== obj2[attrs[i]].getTime()) {
+    for (var i = 0; i < attrs.length; i++) {
+        if (obj1[attrs[i]] instanceof Date && obj2[attrs[i]] instanceof Date) {
+            if (obj1[attrs[i]].getTime() !== obj2[attrs[i]].getTime()) {
                 hasDif = true;
                 break;
             }
         } else {
-            if(obj1[attrs[i]] !== obj2[attrs[i]]) {
+            if (obj1[attrs[i]] !== obj2[attrs[i]]) {
                 hasDif = true;
                 break;
             }

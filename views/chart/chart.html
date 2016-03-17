@@ -1,4 +1,4 @@
-<div ng-controller="ChartController">
+<div ng-controller="ChartController" ng-init="initChart();">
     <ol class="breadcrumb">
         <li><a ui-sref="home">Home</a></li>
         <li class="active">Gráficos</li>
@@ -7,7 +7,8 @@
         <div class="row lista-home">
             <div class="col-md-10 col-md-offset-1">
                 <canvas id="doughnut" class="chart chart-doughnut"
-                        chart-data="data" chart-labels="labels" chart-options="options">
+                        chart-data="data" chart-labels="labels"
+                        chart-options="options">
                 </canvas>
             </div>
         </div>
