@@ -19,11 +19,18 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                                 status = "warning";
                             if(data.status === "incompleto")
                                 status = "important";
+                            var MILLISECS_PER_HOUR = 60 /* min/hour */ * 60 /* sec/min */ * 1000 /* ms/s */;
+
+                            var inicioData = new Date(data.data);
+                            inicioData.setHours(1);
+                            var fimData = new Date(data.data);
+                            fimData.setHours(23);
 
                             var evento = {
                                 title: '• Matéria: ' + materia.topico + ' • Assunto: ' + materia.texto + ' (' + textStatus + ')',
                                 type: status,
-                                startsAt: new Date(data.data),
+                                startsAt: inicioData,
+                                endsAt: fimData,
                                 editable: false,
                                 deletable: false,
                                 draggable: false,
