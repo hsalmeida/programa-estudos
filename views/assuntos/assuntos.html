@@ -37,4 +37,58 @@
             <span class="glyphicon glyphicon-plus"></span>
         </button>
     </div>
+
+    <script type="text/ng-template" id="exclusao.html">
+        <div class="modal-header text-center">
+            <h4 class="modal-title">Confirmar Exclusão</h4>
+        </div>
+        <div class="modal-body text-center">
+            <p class="h3">
+                Realmente deseja exluir o assunto?
+            </p>
+
+            <p class="h3">
+                Excluir o assunto vai excluir todas as materias e o que foi feito nela.
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" ng-click="cancelarExclusao()" data-dismiss="modal">
+                Cancelar
+            </button>
+            <button type="button" class="btn btn-success" ng-click="confirmarExclusao()">
+                Confirmar Exclusão
+            </button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="criar-assunto.html">
+        <div class="modal-header text-center">
+            <h4 class="modal-title">Criar Novo Assunto</h4>
+        </div>
+        <div class="modal-body" ng-init="initCriar()">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="ctexto" class="col-lg-2 control-label">Assunto</label>
+
+                    <div class="col-lg-10">
+                        <input id="ctexto" class="form-control" type="text" ng-model="assunto.assunto"
+                               placeholder="Texto da matéria">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <hr>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" ng-click="cancelarCriacao()" data-dismiss="modal">
+                Cancelar
+            </button>
+            <button type="button" class="btn btn-success" ng-click="confirmarCriacao()">
+                Salvar
+            </button>
+        </div>
+    </script>
 </div>
