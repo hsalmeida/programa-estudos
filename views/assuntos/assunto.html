@@ -1,0 +1,155 @@
+<div ng-controller="AssuntoController" ng-init="assuntoInit();">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Home</a></li>
+        <li><a ui-sref="assuntos">Controlar Assuntos</a></li>
+        <li class="active">Assunto</li>
+    </ol>
+    <div>
+        <div class="row lista-home">
+            <div class="col-md-8 col-md-offset-2">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-1 text-right">Nome:</label>
+                        <input class="col-lg-11" type="text" ng-model="assunto.assunto" placeholder="Nome">
+                    </div>
+                </form>
+                <div class="list-group">
+                    <div class="list-group-item active">
+                        <span>Lista de Matérias do Assunto</span>
+                    </div>
+                    <div class="list-group-item active">
+                        <input type="text" ng-model="searchtext.texto" class="form-control busca-assunto"
+                               placeholder="Buscar pelo texto" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="list-group-item" ng-repeat="materia in assunto.materias | filter:searchtext">
+                        <label>
+                            {{assunto.materias.indexOf(materia) + 1}}. {{materia.texto}} - <i>{{materia.concurso}}</i>
+                            <span class="label label-warning" ng-show="materia.datas.length > 0">
+                                possui {{materia.datas.length}} estudo(s) cadastrados.
+                            </span>
+                        </label>
+                        <button class="btn btn-primary" ng-click="editar(materia, $index)" tooltip="Editar Matéria">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                        <button class="btn btn-danger" ng-click="excluir($index)" tooltip="Excluir Matéria">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="add-group-fab-container-2">
+        <button class="btn btn-success btn-save-assunto" tooltip="Salvar alterações" ng-click="salvar()">
+            <span class="glyphicon glyphicon-ok"></span>
+        </button>
+    </div>
+    <div class="add-group-fab-container">
+        <button class="btn btn-danger btn-add-grp" ng-click="criarMateria()" tooltip="Criar nova matéria">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+    </div>
+
+    <script type="text/ng-template" id="exclusao.html">
+        <div class="modal-header text-center">
+            <h4 class="modal-title">Confirmar Exclusão</h4>
+        </div>
+        <div class="modal-body text-center">
+            <p class="h3">
+                Realmente deseja exluir a matéria?
+            </p>
+
+            <p class="h3">
+                Excluir matéria salva automaticamente alterações no assunto.
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" ng-click="cancelarExclusao()" data-dismiss="modal">
+                Cancelar
+            </button>
+            <button type="button" class="btn btn-success" ng-click="confirmarExclusao()">
+                Confirmar Exclusão
+            </button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="editar.html">
+        <div class="modal-header text-center">
+            <h4 class="modal-title">Editar Matéria</h4>
+        </div>
+        <div class="modal-body" ng-init="initEditar()">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="texto" class="col-lg-2 control-label">Texto</label>
+
+                    <div class="col-lg-10">
+                        <input id="texto" class="form-control" type="text" ng-model="materia.texto"
+                               placeholder="Texto da matéria">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="concurso" class="col-lg-2 control-label">Concurso</label>
+
+                    <div class="col-lg-10">
+                        <input id="concurso" class="form-control" type="text" ng-model="materia.concurso"
+                               placeholder="Concurso">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <hr>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" ng-click="cancelarEditar()" data-dismiss="modal">
+                Cancelar
+            </button>
+            <button type="button" class="btn btn-success" ng-click="confirmarEditar()">
+                Salvar
+            </button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="criar-materia.html">
+        <div class="modal-header text-center">
+            <h4 class="modal-title">Criar Matéria</h4>
+        </div>
+        <div class="modal-body" ng-init="initCriar()">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="ctexto" class="col-lg-2 control-label">Texto</label>
+
+                    <div class="col-lg-10">
+                        <input id="ctexto" class="form-control" type="text" ng-model="materia.texto"
+                               placeholder="Texto da matéria">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="cconcurso" class="col-lg-2 control-label">Concurso</label>
+
+                    <div class="col-lg-10">
+                        <input id="cconcurso" class="form-control" type="text" ng-model="materia.concurso"
+                               placeholder="Concurso">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <hr>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" ng-click="cancelarCriacao()" data-dismiss="modal">
+                Cancelar
+            </button>
+            <button type="button" class="btn btn-success" ng-click="confirmarCriacao()">
+                Salvar
+            </button>
+        </div>
+    </script>
+</div>

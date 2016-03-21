@@ -11,7 +11,7 @@ angular.module('estudos').controller('AssuntosController', ['$scope', '$rootScop
         };
 
         $scope.editar = function (assunto) {
-
+            $state.go('assunto',{id: assunto._id.$oid});
         };
 
         $scope.excluir = function (assunto) {

@@ -12,14 +12,17 @@
                                placeholder="Buscar pelo assunto" aria-describedby="basic-addon1">
                     </div>
                     <div class="list-group-item" ng-repeat="materia in materiasUnificadas | filter:searchFunc">
-                        <span class="list-group-item-heading materia-header" ng-click="setselectedrow($index)">
+                        <span class="list-group-item-heading" ng-click="setselectedrow($index)">
                             <b>{{materia.assunto}}</b>
+                            <span ng-show="materia.materias.length" class="label label-warning">
+                                {{materia.materias.length}} matérias
+                            </span>
                             &nbsp;&nbsp;
-                            <button class="btn btn-primary" ui-sref="editar(assunto)" tooltip="Editar">
+                            <button class="btn btn-primary" ng-click="editar(materia)" tooltip="Editar">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </button>
                             &nbsp;
-                            <button class="btn btn-danger" ui-sref="excluir(assunto)" tooltip="Excluir">
+                            <button class="btn btn-danger" ng-click="excluir(materia)" tooltip="Excluir">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </span>
@@ -27,5 +30,11 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="add-group-fab-container">
+        <button class="btn btn-danger btn-add-grp" ng-click="criarAssunto()" tooltip="Criar novo assunto">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
     </div>
 </div>
