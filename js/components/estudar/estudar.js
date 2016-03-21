@@ -32,6 +32,8 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
             angular.forEach(materias, function (materia, chaveMateria) {
                 //acha o assunto
                 if(materia._id.$oid === id) {
+                    //teste de relevancia.
+                    $scope.estudo.relevante = mudouId;
 
                     materia.materias[indice].datas.push($scope.estudo);
 
