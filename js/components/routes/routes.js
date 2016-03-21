@@ -21,5 +21,10 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             url: "/chart",
             templateUrl: "views/chart/chart.html",
             controller: 'ChartController'
+        })
+        .state('assuntos', {
+            url: "/assuntos",
+            templateUrl: "views/assuntos/assuntos.html",
+            controller: 'AssuntosController'
         });
 });

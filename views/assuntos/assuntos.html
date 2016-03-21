@@ -1,0 +1,31 @@
+<div ng-controller="AssuntosController" ng-init="assuntosInit();">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Home</a></li>
+        <li class="active">Controlar Assuntos</li>
+    </ol>
+    <div>
+        <div class="row lista-home">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="list-group">
+                    <div class="list-group-item active" style="z-index: 0">
+                        <input type="text" ng-model="searchtext" class="form-control busca-assunto"
+                               placeholder="Buscar pelo assunto" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="list-group-item" ng-repeat="materia in materiasUnificadas | filter:searchFunc">
+                        <span class="list-group-item-heading materia-header" ng-click="setselectedrow($index)">
+                            <b>{{materia.assunto}}</b>
+                            &nbsp;&nbsp;
+                            <button class="btn btn-primary" ui-sref="editar(assunto)" tooltip="Editar">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                            &nbsp;
+                            <button class="btn btn-danger" ui-sref="excluir(assunto)" tooltip="Excluir">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
