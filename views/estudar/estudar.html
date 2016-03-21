@@ -39,6 +39,16 @@
         </div>
 
         <div class="form-group">
+            <label class="col-lg-2 control-label">Status</label>
+
+            <div class="btn-group col-lg-10">
+                <label class="btn btn-default" ng-model="estudo.status" btn-radio="'incompleto'" uncheckable>incompleto</label>
+                <label class="btn btn-default" ng-model="estudo.status" btn-radio="'revisar'" uncheckable>revisar</label>
+                <label class="btn btn-default" ng-model="estudo.status" btn-radio="'completo'" uncheckable>completo</label>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label for="total" class="col-lg-2 control-label">Observações</label>
             <div class="col-lg-10">
                 <textarea class="form-control" ng-model="estudo.observacao" placeholder="Observação"></textarea>
