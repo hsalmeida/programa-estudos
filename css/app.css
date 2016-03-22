@@ -7,6 +7,10 @@ html, body {
     margin: 0;
 }
 
+.indice-zero {
+    z-index: 0;
+}
+
 .add-group-fab-container {
     position: fixed;
     bottom: 0;
