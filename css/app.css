@@ -8,7 +8,7 @@ html, body {
 }
 
 .indice-zero {
-    z-index: 0;
+    z-index: 0 !important;
 }
 
 .add-group-fab-container {
