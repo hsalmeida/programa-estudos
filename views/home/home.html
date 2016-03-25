@@ -74,9 +74,9 @@
                                 {{assunto.arrayStatus[0]}}% em aberto
                             </span>
                             <div class="pull-right">
-                                <button class="btn btn-primary" ng-show="assunto.datas.length > 0" tooltip="Mostrar detalhes" ng-click="verDetalhes(materia, assunto);">
+                                <a class="btn btn-primary" ng-show="assunto.datas.length > 0" tooltip="Mostrar detalhes" ui-sref="detalhes({'materia':materia._id.$oid, 'indice':materia.materias.indexOf(assunto)})">
                                     <span class="glyphicon glyphicon-search"></span>
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
