@@ -39,6 +39,43 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
             $state.go('detalhes', {materia: materiaId, indice: assuntoIndice});
         };
 
+        $scope.recalcular = function () {
+            for (var z = 0; z < $scope.materiasUnificadas.length; z++) {
+                var totalUnificada = 0;
+                var acertoUnificada = 0;
+                var aproveitamentoUnificada = 0;
+                for (var j = 0; j < $scope.materiasUnificadas[z].materias.length; j++) {
+                    var totalMateria = 0;
+                    var acertoMateria = 0;
+                    var aproveitamentoMateria = 0;
+                    if($scope.materiasUnificadas[z].materias[j].datas.length > 0 ) {
+                        for (var a = 0; a < $scope.materiasUnificadas[z].materias[j].datas.length; a++) {
+                            $scope.materiasUnificadas[z].materias[j].datas[a].relevante = true;
+                            totalMateria += $scope.materiasUnificadas[z].materias[j].datas[a].total;
+                            acertoMateria += $scope.materiasUnificadas[z].materias[j].datas[a].acerto;
+                        }
+                        aproveitamentoMateria = totalMateria !== 0 ? Math.round((acertoMateria / totalMateria) * 100) : 0;
+                        $scope.materiasUnificadas[z].materias[j].geral = {
+                            "total": totalMateria,
+                            "acertos": acertoMateria,
+                            "aproveitamento": aproveitamentoMateria
+                        };
+                    }
+                    totalUnificada += $scope.materiasUnificadas[z].materias[j].geral.total;
+                    acertoUnificada += $scope.materiasUnificadas[z].materias[j].geral.acertos;
+                }
+                aproveitamentoUnificada = totalUnificada !== 0 ? Math.round((acertoUnificada / totalUnificada) * 100) : 0;
+                $scope.materiasUnificadas[z].geral = {
+                    "total": totalUnificada,
+                    "acertos": acertoUnificada,
+                    "aproveitamento": aproveitamentoUnificada
+                };
+                $scope.materiasUnificadas[z].$saveOrUpdate().then(function (materia) {
+                    console.log("salvo: " + materia.assunto);
+                });
+            }
+        };
+
         $scope.initHome = function () {
 
             waitingDialog.show();

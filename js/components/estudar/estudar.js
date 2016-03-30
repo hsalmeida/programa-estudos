@@ -33,9 +33,11 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
                 //acha o assunto
                 if(materia._id.$oid === id) {
                     //teste de relevancia.
-                    $scope.estudo.relevante = mudouId;
 
-                    materia.materias[indice].datas.push($scope.estudo);
+                    var dataObj = {};
+                    dataObj = angular.merge(dataObj, $scope.estudo);
+                    dataObj.relevante = mudouId;
+                    materia.materias[indice].datas.push(dataObj);
 
                     materia.materias[indice].geral.total += $scope.estudo.total;
                     materia.materias[indice].geral.acertos += $scope.estudo.acerto;
@@ -59,7 +61,7 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
             materia.$saveOrUpdate().then(function () {
                 salvos++;
                 console.log("save");
-                if(arraySelecionados.length == salvos) {
+                if(materias.length === salvos) {
                     $scope.$close(true);
                 }
             });
