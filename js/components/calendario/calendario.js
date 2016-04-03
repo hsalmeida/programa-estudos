@@ -27,7 +27,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                             fimData.setHours(23);
 
                             var evento = {
-                                title: '• Matéria: ' + materia.topico + ' • Assunto: ' + materia.texto + ' (' + textStatus + ')',
+                                title: '•' + materia.topico + ': •' + materia.texto + ' (' + textStatus + ')',
                                 type: status,
                                 startsAt: inicioData,
                                 endsAt: fimData,

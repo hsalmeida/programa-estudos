@@ -118,7 +118,7 @@
                     <label for="total" class="col-lg-2 control-label">Total de Questões</label>
 
                     <div class="col-lg-10">
-                        <input id="total" class="form-control" type="number" min="1" ng-model="estudo.total"
+                        <input id="total" class="form-control" type="number" min="0" ng-model="estudo.total"
                                placeholder="Total">
                     </div>
                 </div>
@@ -136,7 +136,7 @@
                     <label for="acertos" class="col-lg-2 control-label">Aproveitamento</label>
 
                     <div class="col-lg-10 text-center">
-                        <span class="h3">{{Math.floor((estudo.acerto / estudo.total) * 100)}}%</span>
+                        <span class="h3">{{estudo.total !== 0 ? Math.floor((estudo.acerto / estudo.total) * 100) : 0}}%</span>
                     </div>
                 </div>
 

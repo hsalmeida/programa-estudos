@@ -3,7 +3,7 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
     $scope.initEstudar = function () {
 
         $scope.estudo = {
-            total: 1,
+            total: 0,
             acerto: 0,
             data: new Date(),
             tempo: 0,
@@ -15,7 +15,10 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
     };
 
     $scope.confirmarEstudo = function () {
-        $scope.estudo.aproveitamento = Math.floor(($scope.estudo.acerto / $scope.estudo.total) * 100);
+        $scope.estudo.aproveitamento = 0;
+        if($scope.estudo.total !== 0) {
+            $scope.estudo.aproveitamento = Math.floor(($scope.estudo.acerto / $scope.estudo.total) * 100);
+        }
         var idAnterior = "";
         angular.forEach(arraySelecionados, function (selecionado, chaveSelection) {
             var mudouId = false;
@@ -41,15 +44,20 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
 
                     materia.materias[indice].geral.total += $scope.estudo.total;
                     materia.materias[indice].geral.acertos += $scope.estudo.acerto;
-                    materia.materias[indice].geral.aproveitamento =
-                        Math.floor((materia.materias[indice].geral.acertos / materia.materias[indice].geral.total) * 100);
+                    materia.materias[indice].geral.aproveitamento = 0;
+                    if(materia.materias[indice].geral.total !== 0) {
+                        materia.materias[indice].geral.aproveitamento =
+                            Math.floor((materia.materias[indice].geral.acertos / materia.materias[indice].geral.total) * 100);
+                    }
 
                     if(mudouId) {
                         materia.geral.total += materia.materias[indice].geral.total;
                         materia.geral.acertos += materia.materias[indice].geral.acertos;
-                        materia.geral.aproveitamento =
-                            Math.floor((materia.geral.acertos / materia.geral.total) * 100);
-
+                        materia.geral.aproveitamento = 0;
+                        if(materia.geral.total !== 0) {
+                            materia.geral.aproveitamento =
+                                Math.floor((materia.geral.acertos / materia.geral.total) * 100);
+                        }
                     }
                     idAnterior = id;
                 }
