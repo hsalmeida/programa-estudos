@@ -58,4 +58,42 @@
             on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
             cell-is-open="true">
     </mwl-calendar>
+
+
+    <script type="text/ng-template" id="evt-detail.html">
+        <div class="modal-header text-center">
+            <h4 class="modal-title">Detalhes</h4>
+        </div>
+        <div class="modal-body" ng-init="initDetail()">
+            <p class="h5">{{event.topico}}&nbsp;
+                <span class="label label-as-badge label-primary" ng-show="event.statusMateria === 'completo'">
+                    completo
+                </span>
+                <span class="label label-as-badge label-success"
+                      ng-show="event.statusMateria === 'revisar'">
+                    revisar
+                </span>
+                <span class="label label-as-badge label-danger"
+                      ng-show="event.statusMateria === 'incompleto'">
+                    incompleto
+                </span>
+                <span class="label label-as-badge label-warning" ng-show="!event.statusMateria">
+                    em aberto
+                </span>
+            </p>
+            <p>{{event.texto}}</p>
+
+            <p>Total Questões: {{event.total}}</p>
+
+            <p>Acertos: {{event.acerto}}</p>
+
+            <p>Aproveitamento: {{event.aproveitamento}}%</p>
+
+            <p>Observação: {{event.obs}}</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" ng-click="fechar()" data-dismiss="modal">Fechar</button>
+        </div>
+    </script>
+
 </div>

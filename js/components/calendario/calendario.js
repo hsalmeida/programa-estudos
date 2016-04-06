@@ -1,5 +1,5 @@
-angular.module('estudos').controller('CalendarioController', ['$scope', '$rootScope', '$state', 'Assuntos',
-    function($scope, $rootScope, $state, Assuntos){
+angular.module('estudos').controller('CalendarioController', ['$scope', '$rootScope', '$state', 'Assuntos', '$modal',
+    function($scope, $rootScope, $state, Assuntos, $modal){
 
         $scope.initCalendar = function () {
             waitingDialog.show();
@@ -34,7 +34,14 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                                 editable: false,
                                 deletable: false,
                                 draggable: false,
-                                resizable: true
+                                resizable: true,
+                                topico: materia.topico,
+                                texto: materia.texto,
+                                statusMateria: data.status,
+                                total: data.total,
+                                acerto: data.acerto,
+                                aproveitamento: data.aproveitamento,
+                                obs: data.observacao
                             };
                             $scope.events.push(evento);
                         });
@@ -48,4 +55,23 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
 
             waitingDialog.hide();
         };
+
+        $scope.eventClicked = function (event) {
+            $modal
+                .open({
+                    templateUrl: 'evt-detail.html',
+                    controller: function ($scope, event) {
+                        $scope.initDetail = function () {
+                            console.log(event);
+                            $scope.event = event;
+                        };
+                    },
+                    resolve: {
+                        event: function () {
+                            return event;
+                        }
+                    }
+                }).result.then(function () {}, function () {});
+        };
+
     }]);
