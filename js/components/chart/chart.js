@@ -5,6 +5,10 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
             Assuntos.all({sort: {"assunto": 1}}).then(function (assuntos) {
                 var materiasUnificadas = assuntos;
                 $scope.labels = ["Em aberto", "Incompleto", "Revisar", "Completo"];
+                $scope.barlabels = [];
+
+                var dadosBar = [];
+                $scope.series = ['Horas'];
                 $scope.data = [0, 0, 0, 0];
 
                 for (var z = 0; z < materiasUnificadas.length; z++) {
@@ -12,7 +16,7 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
                         materiasUnificadas[z].status : '';
                     var arrayStatusMateriaMae = [0, 0, 0, 0];
                     materiasUnificadas[z].qtdMaterias = materiasUnificadas[z].materias.length;
-
+                    var totalHoras = 0;
                     for (var j = 0; j < materiasUnificadas[z].materias.length; j++) {
 
                         var arrayStatus = [0, 0, 0, 0];
@@ -24,6 +28,14 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
                                 arrayStatus[1]++ : materiasUnificadas[z].materias[j].datas[a].status === "revisar" ?
                                 arrayStatus[2]++ : materiasUnificadas[z].materias[j].datas[a].status === "completo" ?
                                 arrayStatus[3]++ : arrayStatus[0]++;
+                            var horas = new Date(materiasUnificadas[z].materias[j].datas[a].tempo).getHours();
+                            var minutos = new Date(materiasUnificadas[z].materias[j].datas[a].tempo).getMinutes();
+                            if(minutos > 0) {
+                                minutos = (minutos / 60);
+                                horas += minutos;
+                            }
+                            totalHoras += horas;
+
                         }
 
                         for (var i = 0; i < arrayStatus.length; i++) {
@@ -63,8 +75,10 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
                     for (var w = 0; w < materiasUnificadas[z].arrayStatus.length; w++) {
                         $scope.data[w] += materiasUnificadas[z].arrayStatus[w];
                     }
-
+                    dadosBar.push(totalHoras);
+                    $scope.barlabels.push(materiasUnificadas[z].assunto);
                 }
+                $scope.bardata = [dadosBar];
                 for (var q = 0; q < $scope.data.length; q++) {
                     $scope.data[q] = Math.round(($scope.data[q] / 2400) * 100);
                 }
