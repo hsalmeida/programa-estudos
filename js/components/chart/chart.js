@@ -4,86 +4,68 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
             waitingDialog.show();
             Assuntos.all({sort: {"assunto": 1}}).then(function (assuntos) {
                 var materiasUnificadas = assuntos;
-                $scope.labels = ["Em aberto", "Incompleto", "Revisar", "Completo"];
+
+                $scope.colours = ['#f20005','#1200d4', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
+
+                $scope.barlabels1 = [];
                 $scope.barlabels = [];
 
                 var dadosBar = [];
+                var dadosEstudos = [];
+                var dadosNaoEstudos = [];
                 $scope.series = ['Horas'];
-                $scope.data = [0, 0, 0, 0];
+                $scope.series1 = ['Não estudado', 'Estudado'];
+
 
                 for (var z = 0; z < materiasUnificadas.length; z++) {
-                    materiasUnificadas[z].status = materiasUnificadas[z].status ?
-                        materiasUnificadas[z].status : '';
-                    var arrayStatusMateriaMae = [0, 0, 0, 0];
-                    materiasUnificadas[z].qtdMaterias = materiasUnificadas[z].materias.length;
+
                     var totalHoras = 0;
+                    var totalEstudo = 0;
+                    var estudada = 0;
                     for (var j = 0; j < materiasUnificadas[z].materias.length; j++) {
-
-                        var arrayStatus = [0, 0, 0, 0];
-                        materiasUnificadas[z].materias[j].qtdDatas =
-                            materiasUnificadas[z].materias[j].datas.length;
-
+                        var parcialEstudo = 0;
+                        var parcialNaoEstudo = 0;
                         for (var a = 0; a < materiasUnificadas[z].materias[j].datas.length; a++) {
-                            materiasUnificadas[z].materias[j].datas[a].status === "incompleto" ?
-                                arrayStatus[1]++ : materiasUnificadas[z].materias[j].datas[a].status === "revisar" ?
-                                arrayStatus[2]++ : materiasUnificadas[z].materias[j].datas[a].status === "completo" ?
-                                arrayStatus[3]++ : arrayStatus[0]++;
+
+                            if (materiasUnificadas[z].materias[j].datas[a].status === "revisar" ||
+                                materiasUnificadas[z].materias[j].datas[a].status === "completo") {
+                                parcialEstudo++;
+                            } else {
+                                parcialNaoEstudo++;
+                            }
+
                             var horas = new Date(materiasUnificadas[z].materias[j].datas[a].tempo).getHours();
                             var minutos = new Date(materiasUnificadas[z].materias[j].datas[a].tempo).getMinutes();
-                            if(minutos > 0) {
+                            if (minutos > 0) {
                                 minutos = (minutos / 60);
                                 horas += minutos;
                             }
                             totalHoras += horas;
-
                         }
-
-                        for (var i = 0; i < arrayStatus.length; i++) {
-                            if (materiasUnificadas[z].materias[j].qtdDatas > 0) {
-                                arrayStatus[i] = Math.floor((arrayStatus[i] / materiasUnificadas[z].materias[j].qtdDatas) * 100);
+                        if (parcialEstudo > 0 && parcialEstudo == parcialNaoEstudo) {
+                            estudada++;
+                        } else {
+                            if (parcialEstudo > parcialNaoEstudo) {
+                                estudada++;
                             }
                         }
-
-                        if (materiasUnificadas[z].materias[j].qtdDatas === 0) {
-                            arrayStatus[0] = 100;
-                        }
-
-                        materiasUnificadas[z].materias[j].status = arrayStatus[3] === 100 ? "completo" :
-                            arrayStatus[2] === 100 ? "revisar" :
-                                arrayStatus[1] === 100 ? "incompleto" : "";
-                        materiasUnificadas[z].materias[j].arrayStatus = arrayStatus;
-
-                        materiasUnificadas[z].materias[j].status === "incompleto" ?
-                            arrayStatusMateriaMae[1]++ : materiasUnificadas[z].materias[j].status === "revisar" ?
-                            arrayStatusMateriaMae[2]++ : materiasUnificadas[z].materias[j].status === "completo" ?
-                            arrayStatusMateriaMae[3]++ : arrayStatusMateriaMae[0]++;
-
                     }
 
-                    for (var b = 0; b < arrayStatusMateriaMae.length; b++) {
-                        if (materiasUnificadas[z].qtdMaterias > 0) {
-                            arrayStatusMateriaMae[b] =
-                                Math.floor((arrayStatusMateriaMae[b] / materiasUnificadas[z].qtdMaterias) * 100);
-                        }
-                    }
-
-                    materiasUnificadas[z].status = arrayStatusMateriaMae[3] === 100 ? "completo" :
-                        arrayStatusMateriaMae[2] === 100 ? "revisar" :
-                            arrayStatusMateriaMae[1] === 100 ? "incompleto" : "";
-                    materiasUnificadas[z].arrayStatus = arrayStatusMateriaMae;
-
-                    for (var w = 0; w < materiasUnificadas[z].arrayStatus.length; w++) {
-                        $scope.data[w] += materiasUnificadas[z].arrayStatus[w];
-                    }
+                    totalEstudo = Math.round((estudada * 100) / materiasUnificadas[z].materias.length);
+                    dadosEstudos.push(totalEstudo);
+                    dadosNaoEstudos.push(100 - totalEstudo);
                     dadosBar.push(totalHoras);
+                    $scope.barlabels1.push(materiasUnificadas[z].assunto);
                     $scope.barlabels.push(materiasUnificadas[z].assunto);
                 }
+                $scope.bardata1 = [dadosNaoEstudos, dadosEstudos];
                 $scope.bardata = [dadosBar];
-                for (var q = 0; q < $scope.data.length; q++) {
-                    $scope.data[q] = Math.round(($scope.data[q] / 2400) * 100);
-                }
 
                 waitingDialog.hide();
+
+                if (!$scope.$$phase) {
+                    $scope.$apply();
+                }
             });
         };
     }]);

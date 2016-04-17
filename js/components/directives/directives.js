@@ -26,6 +26,9 @@ angular.module('estudos')
         }
     }
 )
+    .directive('chartStackedBar', function (ChartJsFactory) {
+        return new ChartJsFactory('StackedBar');
+    })
     .directive("checkboxGroup", function () {
         return {
             restrict: "A",
