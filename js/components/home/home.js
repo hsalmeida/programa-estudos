@@ -91,31 +91,34 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
 
                     for (var j = 0; j < $scope.materiasUnificadas[z].materias.length; j++) {
 
-                        var arrayStatus = [0, 0, 0, 0];
                         $scope.materiasUnificadas[z].materias[j].qtdDatas =
                             $scope.materiasUnificadas[z].materias[j].datas.length;
 
+                        var ultimoStatus = "";
+                        if($scope.materiasUnificadas[z].materias[j].qtdDatas > 0) {
+                            ultimoStatus = $scope.materiasUnificadas[z].materias[j].datas[($scope.materiasUnificadas[z].materias[j].qtdDatas - 1)].status;
+                        } else {
+                            ultimoStatus = "";
+                        }
+                        /*
                         for (var a = 0; a < $scope.materiasUnificadas[z].materias[j].datas.length; a++) {
+
                             $scope.materiasUnificadas[z].materias[j].datas[a].status === "incompleto" ?
                                 arrayStatus[1]++ : $scope.materiasUnificadas[z].materias[j].datas[a].status === "revisar" ?
                                 arrayStatus[2]++ : $scope.materiasUnificadas[z].materias[j].datas[a].status === "completo" ?
                                 arrayStatus[3]++ : arrayStatus[0]++;
                         }
-
                         for (var i = 0; i < arrayStatus.length; i++) {
                             if ($scope.materiasUnificadas[z].materias[j].qtdDatas > 0) {
                                 arrayStatus[i] = Math.floor((arrayStatus[i] / $scope.materiasUnificadas[z].materias[j].qtdDatas) * 100);
                             }
                         }
-
                         if ($scope.materiasUnificadas[z].materias[j].qtdDatas === 0) {
                             arrayStatus[0] = 100;
                         }
+                        */
 
-                        $scope.materiasUnificadas[z].materias[j].status = arrayStatus[3] === 100 ? "completo" :
-                            arrayStatus[2] === 100 ? "revisar" :
-                                arrayStatus[1] === 100 ? "incompleto" : "";
-                        $scope.materiasUnificadas[z].materias[j].arrayStatus = arrayStatus;
+                        $scope.materiasUnificadas[z].materias[j].status = ultimoStatus;
 
                         $scope.materiasUnificadas[z].materias[j].status === "incompleto" ?
                             arrayStatusMateriaMae[1]++ : $scope.materiasUnificadas[z].materias[j].status === "revisar" ?

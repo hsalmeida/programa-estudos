@@ -14,16 +14,16 @@
                              Acertos: {{assunto.geral.acertos}}
                              Aproveitamento: {{assunto.geral.aproveitamento}}%
                             <span class="label label-as-badge label-primary" ng-show="assunto.status === 'completo'">
-                                {{assunto.arrayStatus[3]}}% completo
+                                completo
                             </span>
                             <span class="label label-as-badge label-success" ng-show="assunto.status === 'revisar'">
-                                {{assunto.arrayStatus[2]}}% revisar
+                                revisar
                             </span>
                             <span class="label label-as-badge label-danger" ng-show="assunto.status === 'incompleto'">
-                                {{assunto.arrayStatus[1]}}% incompleto
+                                incompleto
                             </span>
                             <span class="label label-as-badge label-warning" ng-show="!assunto.status">
-                                {{assunto.arrayStatus[0]}}% em aberto
+                                em aberto
                             </span>
                         </span>
                     </div>

@@ -9,22 +9,12 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                 $scope.assunto = materia.materias[$stateParams.indice];
                 $scope.assunto.status = "";
                 $scope.assunto.qtdDatas = $scope.assunto.datas.length;
-                var arrayStatus = [0,0,0,0];
-                angular.forEach($scope.assunto.datas, function (data, dataIndex) {
-                    data.status === "incompleto" ?
-                        arrayStatus[1]++ : data.status === "revisar" ?
-                        arrayStatus[2]++ : data.status === "completo" ?
-                        arrayStatus[3]++ : arrayStatus[0]++;
-                });
-                for(var i = 0; i < arrayStatus.length; i++) {
-                    if($scope.assunto.qtdDatas > 0) {
-                        arrayStatus[i] = Math.floor((arrayStatus[i] / $scope.assunto.qtdDatas) * 100);
-                    }
+
+                var ultimoStatus = "";
+                if($scope.assunto.qtdDatas > 0) {
+                    ultimoStatus = $scope.assunto.datas[($scope.assunto.qtdDatas - 1)].status;
                 }
-                $scope.assunto.status = arrayStatus[3] === 100 ? "completo" :
-                    arrayStatus[2] === 100 ? "revisar" :
-                    arrayStatus[1] === 100 ? "incompleto" : "";
-                $scope.assunto.arrayStatus = arrayStatus;
+                $scope.assunto.status = ultimoStatus;
                 waitingDialog.hide();
             });
         };
