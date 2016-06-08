@@ -13,29 +13,38 @@
                         <input class="col-lg-11" type="text" ng-model="assunto.assunto" placeholder="Nome">
                     </div>
                 </form>
-                <div class="list-group">
-                    <div class="list-group-item active">
+                <ul class="list-group" dnd-list="assunto.materias">
+                    <li class="list-group-item active">
                         <span>Lista de Matérias do Assunto</span>
-                    </div>
-                    <div class="list-group-item active">
+                    </li>
+                    <li class="list-group-item active">
                         <input type="text" ng-model="searchtext.texto" class="form-control busca-assunto"
                                placeholder="Buscar pelo texto" aria-describedby="basic-addon1">
-                    </div>
-                    <div class="list-group-item" ng-repeat="materia in assunto.materias | filter:searchtext">
-                        <label>
-                            {{assunto.materias.indexOf(materia) + 1}}. {{materia.texto}} - <i>{{materia.concurso}}</i>
+                    </li>
+                    <li class="list-group-item" ng-repeat="materia in assunto.materias | filter:searchtext"
+                        dnd-draggable="materia"
+                        dnd-moved="assunto.materias.splice($index, 1)"
+                        dnd-effect-allowed="move"
+                        dnd-selected="models.selected = materia"
+                        ng-class="{'selected': models.selected === materia}">
+                        <dnd-nodrag>
+                            <div dnd-handle class="handle">:::</div>
+                            <label class="materia-lbl">
+                                {{assunto.materias.indexOf(materia) + 1}}. {{materia.texto}} -
+                                <i>{{materia.concurso}}</i>
                             <span class="label label-warning" ng-show="materia.datas.length > 0">
                                 possui {{materia.datas.length}} estudo(s) cadastrados.
                             </span>
-                        </label>
-                        <button class="btn btn-primary" ng-click="editar(materia, $index)" tooltip="Editar Matéria">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </button>
-                        <button class="btn btn-danger" ng-click="excluir($index)" tooltip="Excluir Matéria">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                    </div>
-                </div>
+                            </label>
+                            <button class="btn btn-primary" ng-click="editar(materia, $index)" tooltip="Editar Matéria">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                            <button class="btn btn-danger" ng-click="excluir($index)" tooltip="Excluir Matéria">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </dnd-nodrag>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

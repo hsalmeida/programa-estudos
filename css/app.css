@@ -92,3 +92,17 @@ html, body {
 .pe-menu {
     left: -80px;
 }
+
+ul[dnd-list], ul[dnd-list] > li {
+    position: relative;
+}
+
+.handle {
+    cursor: move;
+    position: absolute;
+    top: 14px;
+}
+
+.materia-lbl {
+    margin-left: 20px;
+}
