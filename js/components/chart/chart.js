@@ -1,7 +1,7 @@
 angular.module('estudos').controller('ChartController', ['$scope', '$rootScope', '$state', 'Assuntos',
     function ($scope, $rootScope, $state, Assuntos) {
         $scope.initChart = function () {
-            waitingDialog.show();
+            waitingDialog.show("Aguarde. Carregando gráfico");
             Assuntos.all({sort: {"assunto": 1}}).then(function (assuntos) {
                 var materiasUnificadas = assuntos;
 

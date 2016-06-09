@@ -78,7 +78,7 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
 
         $scope.initHome = function () {
 
-            waitingDialog.show();
+            waitingDialog.show("Aguarde. Carregando assuntos");
 
             Assuntos.all({sort: {"assunto": 1}}).then(function (assuntos) {
                 $scope.materiasUnificadas = assuntos;

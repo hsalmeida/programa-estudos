@@ -3,7 +3,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
     function ($scope, $rootScope, $state, $stateParams, Assuntos, $modal) {
         $scope.relevante = true;
         $scope.initDet = function () {
-            waitingDialog.show();
+            waitingDialog.show("Aguarde. Carregando detalhes");
             Assuntos.getById($stateParams.materia).then(function (materia) {
                 $scope.materiaMae = materia;
                 $scope.assunto = materia.materias[$stateParams.indice];

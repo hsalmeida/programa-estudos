@@ -2,7 +2,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
     function($scope, $rootScope, $state, Assuntos, $modal){
 
         $scope.initCalendar = function () {
-            waitingDialog.show();
+            waitingDialog.show("Aguarde. Carregando calendário");
             $scope.events = [];
             Assuntos.all().then(function (assuntos) {
                 angular.forEach(assuntos, function (assunto, assuntoIndex) {

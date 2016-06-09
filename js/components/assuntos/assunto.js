@@ -2,7 +2,7 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
     '$modal',
     function ($scope, $rootScope, $state, $stateParams, Assuntos, $modal) {
         $scope.assuntoInit = function () {
-            waitingDialog.show();
+            waitingDialog.show("Aguarde. Carregando Assunto");
             $scope.models = {selected : null};
             Assuntos.getById($stateParams.id).then(function (assunto) {
                 $scope.assunto = assunto;
