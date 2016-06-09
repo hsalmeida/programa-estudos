@@ -62,8 +62,10 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                     templateUrl: 'evt-detail.html',
                     controller: function ($scope, event) {
                         $scope.initDetail = function () {
-                            console.log(event);
                             $scope.event = event;
+                        };
+                        $scope.fechar = function () {
+                            $scope.$dismiss();
                         };
                     },
                     resolve: {
