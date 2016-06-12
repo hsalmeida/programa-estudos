@@ -1,0 +1,19 @@
+<div ng-controller="ChartDesController" ng-init="initChart();">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Home</a></li>
+        <li class="active">Gráficos</li>
+    </ol>
+    <div>
+        <h3 class="page-header">Gráfico de Desempenho</h3>
+        <div class="row lista-home">
+            <div class="col-md-10 col-md-offset-1">
+                <canvas id="bar2" class="chart chart-bar"
+                        chart-data="bardata" chart-labels="barlabels"
+                        chart-series="series" chart-colours="colours">
+                </canvas>
+            </div>
+        </div>
+
+    </div>
+
+</div>

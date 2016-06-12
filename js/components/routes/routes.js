@@ -17,10 +17,15 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: "views/calendario/calendario.html",
             controller: 'CalendarioController'
         })
-        .state('chart', {
+        .state('chartevo', {
             url: "/chart",
             templateUrl: "views/chart/chart.html",
             controller: 'ChartController'
+        })
+        .state('chartdes', {
+            url: "/chartdes",
+            templateUrl: "views/chart/chartdes.html",
+            controller: 'ChartDesController'
         })
         .state('assuntos', {
             url: "/assuntos",

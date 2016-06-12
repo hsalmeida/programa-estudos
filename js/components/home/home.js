@@ -41,35 +41,36 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
 
         $scope.recalcular = function () {
             for (var z = 0; z < $scope.materiasUnificadas.length; z++) {
-                var totalUnificada = 0;
-                var acertoUnificada = 0;
-                var aproveitamentoUnificada = 0;
-                for (var j = 0; j < $scope.materiasUnificadas[z].materias.length; j++) {
-                    var totalMateria = 0;
-                    var acertoMateria = 0;
-                    var aproveitamentoMateria = 0;
+                var acerto = 0;
+                var total = 0;
+                var lenMaterias = $scope.materiasUnificadas[z].materias.length;
+                for (var j = 0; j < lenMaterias; j++) {
                     if($scope.materiasUnificadas[z].materias[j].datas.length > 0 ) {
+                        var maiorAproveitamento = 0;
+                        var maiorAcerto = 0;
+                        var maiortotal = 0;
                         for (var a = 0; a < $scope.materiasUnificadas[z].materias[j].datas.length; a++) {
-                            $scope.materiasUnificadas[z].materias[j].datas[a].relevante = true;
-                            totalMateria += $scope.materiasUnificadas[z].materias[j].datas[a].total;
-                            acertoMateria += $scope.materiasUnificadas[z].materias[j].datas[a].acerto;
+                            var tempAproveitamento = 0;
+                            if($scope.materiasUnificadas[z].materias[j].datas[a].total !== 0) {
+                                tempAproveitamento = Math.round(($scope.materiasUnificadas[z].materias[j].datas[a].acerto
+                                    / $scope.materiasUnificadas[z].materias[j].datas[a].total) * 100);
+                                if(tempAproveitamento >= maiorAproveitamento) {
+                                    maiorAproveitamento = tempAproveitamento;
+                                    maiorAcerto = $scope.materiasUnificadas[z].materias[j].datas[a].acerto;
+                                    maiortotal = $scope.materiasUnificadas[z].materias[j].datas[a].total;
+                                }
+                            }
                         }
-                        aproveitamentoMateria = totalMateria !== 0 ? Math.round((acertoMateria / totalMateria) * 100) : 0;
-                        $scope.materiasUnificadas[z].materias[j].geral = {
-                            "total": totalMateria,
-                            "acertos": acertoMateria,
-                            "aproveitamento": aproveitamentoMateria
-                        };
+                        $scope.materiasUnificadas[z].materias[j].geral.aproveitamento = maiorAproveitamento;
+                        $scope.materiasUnificadas[z].materias[j].geral.acertos = maiorAcerto;
+                        $scope.materiasUnificadas[z].materias[j].geral.total = maiortotal;
                     }
-                    totalUnificada += $scope.materiasUnificadas[z].materias[j].geral.total;
-                    acertoUnificada += $scope.materiasUnificadas[z].materias[j].geral.acertos;
+                    acerto += $scope.materiasUnificadas[z].materias[j].geral.acertos;
+                    total += $scope.materiasUnificadas[z].materias[j].geral.total;
                 }
-                aproveitamentoUnificada = totalUnificada !== 0 ? Math.round((acertoUnificada / totalUnificada) * 100) : 0;
-                $scope.materiasUnificadas[z].geral = {
-                    "total": totalUnificada,
-                    "acertos": acertoUnificada,
-                    "aproveitamento": aproveitamentoUnificada
-                };
+                $scope.materiasUnificadas[z].geral.acertos = acerto;
+                $scope.materiasUnificadas[z].geral.total = total;
+                $scope.materiasUnificadas[z].geral.aproveitamento = total !== 0 ? Math.round((acerto / total) * 100) : 0;
                 $scope.materiasUnificadas[z].$saveOrUpdate().then(function (materia) {
                     console.log("salvo: " + materia.assunto);
                 });
