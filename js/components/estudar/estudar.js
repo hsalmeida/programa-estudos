@@ -42,13 +42,21 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
                     dataObj.relevante = mudouId;
                     materia.materias[indice].datas.push(dataObj);
 
-                    materia.materias[indice].geral.total += $scope.estudo.total;
-                    materia.materias[indice].geral.acertos += $scope.estudo.acerto;
-                    materia.materias[indice].geral.aproveitamento = 0;
-                    if(materia.materias[indice].geral.total !== 0) {
-                        materia.materias[indice].geral.aproveitamento =
-                            Math.floor((materia.materias[indice].geral.acertos / materia.materias[indice].geral.total) * 100);
-                    }
+                    //nova forma de calculo que tem que verificar o melhor desempenho.
+                    var melhorTotal = 0;
+                    var melhotAcerto = 0;
+                    var melhorAproveitamento = 0;
+                    angular.forEach(materia.materias[indice].datas, function (data, chaveData) {
+                        if(data.aproveitamento > melhorAproveitamento) {
+                            melhorAproveitamento = data.aproveitamento;
+                            melhorTotal = data.total;
+                            melhotAcerto = data.acerto;
+                        }
+                    });
+
+                    materia.materias[indice].geral.total = melhorTotal;
+                    materia.materias[indice].geral.acertos = melhotAcerto;
+                    materia.materias[indice].geral.aproveitamento = melhorAproveitamento;
 
                     if(mudouId) {
                         materia.geral.total += materia.materias[indice].geral.total;
