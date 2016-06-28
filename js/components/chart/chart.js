@@ -5,7 +5,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
             Assuntos.all({sort: {"assunto": 1}}).then(function (assuntos) {
                 var materiasUnificadas = assuntos;
 
-                $scope.colours = ['#0004f2','#21f200', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
+                $scope.colours = ['#0004f2', '#21f200', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
 
                 $scope.barlabels = [];
 
@@ -47,6 +47,50 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                     $scope.$apply();
                 }
             });
+            $scope.$on('create', function (event, chart) {
+                if (chart.datasets[1]) {
+                    if (chart.datasets[1].bars) {
+                        angular.forEach(chart.datasets[1].bars, function (bar, barKey) {
+
+                            if (bar.value && bar.value <= 60) {
+
+                                bar._saved.fillColor = "rgba(242,0,0,0.5)";
+                                bar._saved.strokeColor = "rgba(242,0,0,1)";
+                                bar._saved.highlightFill = "rgba(242,0,0,0.6)";
+                                bar._saved.highlightStroke = "rgba(242,0,0,1)";
+
+                                bar.fillColor = "rgba(242,0,0,0.5)";
+                                bar.strokeColor = "rgba(242,0,0,1)";
+                                bar.highlightFill = "rgba(242,0,0,0.6)";
+                                bar.highlightStroke = "rgba(242,0,0,1)";
+
+                            }
+                            if (bar.value && bar.value > 60) {
+                                bar._saved.fillColor = "rgba(0,0,242,0.5)";
+                                bar._saved.strokeColor = "rgba(0,0,242,1)";
+                                bar._saved.highlightFill = "rgba(0,0,242,0.6)";
+                                bar._saved.highlightStroke = "rgba(0,0,242,1)";
+
+                                bar.fillColor = "rgba(0,0,242,0.5)";
+                                bar.strokeColor = "rgba(0,0,242,1)";
+                                bar.highlightFill = "rgba(0,0,242,0.6)";
+                                bar.highlightStroke = "rgba(0,0,242,1)";
+                            }
+                            if (bar.value && bar.value > 80) {
+                                bar._saved.fillColor = "rgba(33,242,0,0.5)";
+                                bar._saved.strokeColor = "rgba(33,242,0,1)";
+                                bar._saved.highlightFill = "rgba(33,242,0,0.6)";
+                                bar._saved.highlightStroke = "rgba(33,242,0,1)";
+
+                                bar.fillColor = "rgba(33,242,0,0.5)";
+                                bar.strokeColor = "rgba(33,242,0,1)";
+                                bar.highlightFill = "rgba(33,242,0,0.6)";
+                                bar.highlightStroke = "rgba(33,242,0,1)";
+                            }
+                        });
+                    }
+                }
+            });
         };
     }]);
 
@@ -57,7 +101,7 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
             Assuntos.all({sort: {"assunto": 1}}).then(function (assuntos) {
                 var materiasUnificadas = assuntos;
 
-                $scope.colours = ['#f20005','#1200d4', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
+                $scope.colours = ['#f20005', '#1200d4', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
 
                 $scope.barlabels1 = [];
                 $scope.barlabels = [];
