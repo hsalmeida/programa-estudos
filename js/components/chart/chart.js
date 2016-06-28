@@ -52,7 +52,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                     if (chart.datasets[1].bars) {
                         angular.forEach(chart.datasets[1].bars, function (bar, barKey) {
 
-                            if (bar.value && bar.value <= 60) {
+                            if (bar.value && bar.value <= 70) {
 
                                 bar._saved.fillColor = "rgba(242,0,0,0.5)";
                                 bar._saved.strokeColor = "rgba(242,0,0,1)";
@@ -65,7 +65,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                                 bar.highlightStroke = "rgba(242,0,0,1)";
 
                             }
-                            if (bar.value && bar.value > 60) {
+                            if (bar.value && bar.value > 70) {
                                 bar._saved.fillColor = "rgba(0,0,242,0.5)";
                                 bar._saved.strokeColor = "rgba(0,0,242,1)";
                                 bar._saved.highlightFill = "rgba(0,0,242,0.6)";
