@@ -19,7 +19,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                                 status = "warning";
                             if(data.status === "incompleto")
                                 status = "important";
-                            var MILLISECS_PER_HOUR = 60 /* min/hour */ * 60 /* sec/min */ * 1000 /* ms/s */;
+
                             var tempoData = new Date(data.tempo).getHours();
                             var inicioData = new Date(data.data);
                             inicioData.setTime(inicioData.getTime() - (tempoData * 60 * 60 * 1000));
