@@ -2,8 +2,8 @@ var dataCacheName = 'programaEstudos-v1';
 var cacheName = 'programaEstudos-1';
 var filesToCache = [
     '/programa-estudos/',
-    '/programa-estudos/views/chart.html',
-    '/programa-estudos/views/chartdes.html',
+    '/programa-estudos/chart.html',
+    '/programa-estudos/chartdes.html',
     '/programa-estudos/index.html',
     '/programa-estudos/js/estudos.js',
     '/programa-estudos/css/app.css',
