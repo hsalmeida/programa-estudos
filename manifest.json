@@ -1,0 +1,16 @@
+{
+  "name": "Programa de Estudos",
+  "short_name": "Estudos",
+  "version" : "1",
+  "manifest_version" : 1,
+  "icons": [
+    {
+      "src": "ic_school_48pt_3x.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#FFFFFF"
+}
