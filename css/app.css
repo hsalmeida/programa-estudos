@@ -106,3 +106,7 @@ ul[dnd-list], ul[dnd-list] > li {
 .materia-lbl {
     margin-left: 20px;
 }
+
+.pe-navbar {
+    height: 64px;
+}
