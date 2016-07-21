@@ -38,45 +38,68 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                             dataSelecionada.data = new Date(dataSelecionada.data);
                             dataSelecionada.tempo = new Date(dataSelecionada.tempo);
                         };
-                        $scope.confirmarEditar = function () {
-                            //separo o orginal para testes.
-                            var dataOriginal = parentScope.materiaMae.materias[indiceMateria].datas[indiceData];
-                            //atualizo no objeto o aproveitamento.
-                            $scope.estudo.aproveitamento = 0;
-                            if($scope.estudo.total !== 0) {
-                                $scope.estudo.aproveitamento = Math.floor(($scope.estudo.acerto / $scope.estudo.total) * 100);
-                            }
-                            //verifico se houve modificações do original para o novo
-                            var dif = checkDiffs($scope.estudo, dataOriginal,
-                                ['total','acerto','data','tempo','observacao','status','relevante']);
 
-                            if(dif) {
-                                if($scope.estudo.relevante) {
-                                    //atualizo o valor da materia.
-                                    var geralMateria = parentScope.materiaMae.materias[indiceMateria].geral;
-                                    geralMateria.acertos = (geralMateria.acertos - dataOriginal.acerto) + $scope.estudo.acerto;
-                                    geralMateria.total = (geralMateria.total - dataOriginal.total) + $scope.estudo.total;
-                                    geralMateria.aproveitamento = 0;
-                                    if(geralMateria.total !== 0) {
-                                        geralMateria.aproveitamento = Math.floor((geralMateria.acertos / geralMateria.total) * 100);
-                                    }
-                                    parentScope.materiaMae.materias[indiceMateria].geral = geralMateria;
-                                    //atualizo o valor do assunto.
-                                    var geralMae = parentScope.materiaMae.geral;
-                                    geralMae.acertos = (geralMae.acertos - dataOriginal.acerto) + $scope.estudo.acerto;
-                                    geralMae.total = (geralMae.total - dataOriginal.total) + $scope.estudo.total;
-                                    geralMae.aproveitamento = 0;
-                                    if(geralMae.total !== 0) {
-                                        geralMae.aproveitamento = Math.floor((geralMae.acertos / geralMae.total) * 100);
-                                    }
-                                    parentScope.materiaMae.geral = geralMae;
+                        function formValido() {
+                            $scope.dataError = "";
+                            $scope.tempoError = "";
+                            var valido = true;
+                            if(!$scope.estudo.data) {
+                                valido = false;
+                                $scope.dataError = "Data do estudo é obrigatória";
+                            }
+
+                            if(!$scope.estudo.tempo) {
+                                valido = false;
+                                $scope.tempoError = "Tempo de estudo é obrigatório";
+                            }
+
+                            return valido;
+                        }
+
+                        $scope.confirmarEditar = function () {
+
+                            if(formValido()) {
+
+                                //separo o orginal para testes.
+                                var dataOriginal = parentScope.materiaMae.materias[indiceMateria].datas[indiceData];
+                                //atualizo no objeto o aproveitamento.
+                                $scope.estudo.aproveitamento = 0;
+                                if ($scope.estudo.total !== 0) {
+                                    $scope.estudo.aproveitamento = Math.floor(($scope.estudo.acerto / $scope.estudo.total) * 100);
                                 }
-                                parentScope.materiaMae.materias[indiceMateria].datas[indiceData] = $scope.estudo;
-                                $scope.$close(true);
-                            } else {
-                                $scope.$dismiss();
+                                //verifico se houve modificações do original para o novo
+                                var dif = checkDiffs($scope.estudo, dataOriginal,
+                                    ['total', 'acerto', 'data', 'tempo', 'observacao', 'status', 'relevante']);
+
+                                if (dif) {
+                                    if ($scope.estudo.relevante) {
+                                        //atualizo o valor da materia.
+                                        var geralMateria = parentScope.materiaMae.materias[indiceMateria].geral;
+                                        geralMateria.acertos = (geralMateria.acertos - dataOriginal.acerto) + $scope.estudo.acerto;
+                                        geralMateria.total = (geralMateria.total - dataOriginal.total) + $scope.estudo.total;
+                                        geralMateria.aproveitamento = 0;
+                                        if (geralMateria.total !== 0) {
+                                            geralMateria.aproveitamento = Math.floor((geralMateria.acertos / geralMateria.total) * 100);
+                                        }
+                                        parentScope.materiaMae.materias[indiceMateria].geral = geralMateria;
+                                        //atualizo o valor do assunto.
+                                        var geralMae = parentScope.materiaMae.geral;
+                                        geralMae.acertos = (geralMae.acertos - dataOriginal.acerto) + $scope.estudo.acerto;
+                                        geralMae.total = (geralMae.total - dataOriginal.total) + $scope.estudo.total;
+                                        geralMae.aproveitamento = 0;
+                                        if (geralMae.total !== 0) {
+                                            geralMae.aproveitamento = Math.floor((geralMae.acertos / geralMae.total) * 100);
+                                        }
+                                        parentScope.materiaMae.geral = geralMae;
+                                    }
+                                    parentScope.materiaMae.materias[indiceMateria].datas[indiceData] = $scope.estudo;
+                                    $scope.$close(true);
+                                } else {
+                                    $scope.$dismiss();
+                                }
                             }
                         };
+
                         $scope.cancelarEditar = function () {
                             $scope.$dismiss();
                         };

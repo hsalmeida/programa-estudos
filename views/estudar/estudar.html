@@ -6,14 +6,16 @@
         <div class="form-group">
             <label for="data" class="col-lg-2 control-label">Data do Estudo</label>
             <div class="col-lg-10">
-                <input id="data" class="form-control" type="date" ng-model="estudo.data" placeholder="Data do Estudo">
+                <input id="data" class="form-control" type="datetime-local" ng-model="estudo.data" placeholder="Data do Estudo" required="required">
+                <span ng-show="dataError !== ''" class="text-danger">{{dataError}}</span>
             </div>
         </div>
 
         <div class="form-group">
             <label for="tempo" class="col-lg-2 control-label">Tempo de Estudo</label>
             <div class="col-lg-10">
-                <input id="tempo" class="form-control" type="time" ng-model="estudo.tempo" placeholder="Tempo de Estudo">
+                <input id="tempo" class="form-control" type="time" ng-model="estudo.tempo" placeholder="Tempo de Estudo" required="required">
+                <span ng-show="tempoError !== ''" class="text-danger">{{tempoError}}</span>
             </div>
         </div>
 
@@ -34,7 +36,7 @@
         <div class="form-group">
             <label for="acertos" class="col-lg-2 control-label">Aproveitamento</label>
             <div class="col-lg-10 text-center">
-                <span class="h3">{{Math.floor((estudo.acerto / estudo.total) * 100)}}%</span>
+                <span class="h3">{{estudo.total === 0 ? 0 : Math.floor((estudo.acerto / estudo.total) * 100)}}%</span>
             </div>
         </div>
 

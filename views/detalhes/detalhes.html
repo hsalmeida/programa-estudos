@@ -100,8 +100,9 @@
                     <label for="data" class="col-lg-2 control-label">Data do Estudo</label>
 
                     <div class="col-lg-10">
-                        <input id="data" class="form-control" type="date" ng-model="estudo.data"
+                        <input id="data" class="form-control" type="datetime-local" ng-model="estudo.data"
                                placeholder="Data do Estudo">
+                        <span ng-show="dataError !== ''" class="text-danger">{{dataError}}</span>
                     </div>
                 </div>
 
@@ -111,6 +112,7 @@
                     <div class="col-lg-10">
                         <input id="tempo" class="form-control" type="time" ng-model="estudo.tempo"
                                placeholder="Tempo de Estudo">
+                        <span ng-show="tempoError !== ''" class="text-danger">{{tempoError}}</span>
                     </div>
                 </div>
 
