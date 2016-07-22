@@ -12,7 +12,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                     }
                 };
 
-                $scope.colours = ['#0004f2', '#21f200', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
+                $scope.colours = ['#46BFBD', '#FDB45C', '#949FB1', '#4D5360', '#f20005', '#1200d4', '#DCDCDC'];
 
                 $scope.barlabels = [];
 
