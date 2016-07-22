@@ -19,7 +19,10 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                                 status = "warning";
                             if(data.status === "incompleto")
                                 status = "important";
-                            var tempoData = data.tempo === 0 ? 2 : new Date(data.tempo).getHours() + 2;
+                            var tempoData = data.tempo === 0 ? 2 : new Date(data.tempo).getHours();
+                            var minutoData = data.tempo === 0 ? 0 : new Date(data.tempo).getMinutes();
+                            minutoData = minutoData === 0 ? "" : minutoData;
+
                             var inicioData = new Date(data.data);
                             inicioData.setTime(inicioData.getTime() - (tempoData * 60 * 60 * 1000));
                             var fimData = new Date(inicioData);
@@ -40,7 +43,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                                 total: data.total,
                                 acerto: data.acerto,
                                 aproveitamento: data.aproveitamento,
-                                horas: tempoData,
+                                horas: tempoData + "h" + minutoData,
                                 obs: data.observacao
                             };
                             $scope.events.push(evento);

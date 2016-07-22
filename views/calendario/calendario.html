@@ -98,7 +98,7 @@
             <h4 class="modal-title">Detalhes</h4>
         </div>
         <div class="modal-body" ng-init="initDetail()">
-            <p class="h5">{{event.topico}}&nbsp;
+            <p class="h5">{{event.topico}}&nbsp;{{event.startsAt | date : "dd/MM"}}&nbsp;
                 <span class="label label-as-badge label-primary" ng-show="event.statusMateria === 'completo'">
                     completo
                 </span>
