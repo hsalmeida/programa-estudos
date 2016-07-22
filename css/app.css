@@ -110,3 +110,7 @@ ul[dnd-list], ul[dnd-list] > li {
 .pe-navbar {
     height: 64px;
 }
+
+.cal-day-box .day-event {
+    width: 300px;
+}
