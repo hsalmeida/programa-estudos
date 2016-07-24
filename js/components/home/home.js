@@ -45,6 +45,8 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                 var total = 0;
                 var lenMaterias = $scope.materiasUnificadas[z].materias.length;
                 for (var j = 0; j < lenMaterias; j++) {
+                    $scope.materiasUnificadas[z].materias[j].geral.totalAcertos = 0;
+                    $scope.materiasUnificadas[z].materias[j].geral.totalGeral = 0;
                     if($scope.materiasUnificadas[z].materias[j].datas.length > 0 ) {
                         var maiorAproveitamento = 0;
                         var maiorAcerto = 0;
@@ -52,6 +54,10 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                         for (var a = 0; a < $scope.materiasUnificadas[z].materias[j].datas.length; a++) {
                             var tempAproveitamento = 0;
                             if($scope.materiasUnificadas[z].materias[j].datas[a].total !== 0) {
+
+                                $scope.materiasUnificadas[z].materias[j].geral.totalAcertos += $scope.materiasUnificadas[z].materias[j].datas[a].acerto;
+                                $scope.materiasUnificadas[z].materias[j].geral.totalGeral += $scope.materiasUnificadas[z].materias[j].datas[a].total;
+
                                 tempAproveitamento = Math.round(($scope.materiasUnificadas[z].materias[j].datas[a].acerto
                                     / $scope.materiasUnificadas[z].materias[j].datas[a].total) * 100);
                                 if(tempAproveitamento >= maiorAproveitamento) {
@@ -65,8 +71,8 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                         $scope.materiasUnificadas[z].materias[j].geral.acertos = maiorAcerto;
                         $scope.materiasUnificadas[z].materias[j].geral.total = maiortotal;
                     }
-                    acerto += $scope.materiasUnificadas[z].materias[j].geral.acertos;
-                    total += $scope.materiasUnificadas[z].materias[j].geral.total;
+                    acerto += $scope.materiasUnificadas[z].materias[j].geral.totalAcertos;
+                    total += $scope.materiasUnificadas[z].materias[j].geral.totalGeral;
                 }
                 $scope.materiasUnificadas[z].geral.acertos = acerto;
                 $scope.materiasUnificadas[z].geral.total = total;
