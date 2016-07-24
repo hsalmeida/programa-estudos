@@ -11,7 +11,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                 $scope.assunto.qtdDatas = $scope.assunto.datas.length;
 
                 var ultimoStatus = "";
-                if($scope.assunto.qtdDatas > 0) {
+                if ($scope.assunto.qtdDatas > 0) {
                     ultimoStatus = $scope.assunto.datas[($scope.assunto.qtdDatas - 1)].status;
                 }
                 $scope.assunto.status = ultimoStatus;
@@ -43,12 +43,12 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                             $scope.dataError = "";
                             $scope.tempoError = "";
                             var valido = true;
-                            if(!$scope.estudo.data) {
+                            if (!$scope.estudo.data) {
                                 valido = false;
                                 $scope.dataError = "Data do estudo é obrigatória";
                             }
 
-                            if(!$scope.estudo.tempo) {
+                            if (!$scope.estudo.tempo) {
                                 valido = false;
                                 $scope.tempoError = "Tempo de estudo é obrigatório";
                             }
@@ -58,7 +58,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
 
                         $scope.confirmarEditar = function () {
 
-                            if(formValido()) {
+                            if (formValido()) {
 
                                 //separo o orginal para testes.
                                 var dataOriginal = parentScope.materiaMae.materias[indiceMateria].datas[indiceData];
@@ -139,25 +139,74 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
 
                         $scope.confirmarExclusao = function () {
                             parentScope.relevante = $scope.relevante;
-                            if($scope.relevante) {
-                                //atualizo o valor da materia.
-                                var geralMateria = parentScope.materiaMae.materias[indiceMateria].geral;
-                                geralMateria.acertos = (geralMateria.acertos - parentScope.materiaMae.materias[indiceMateria].datas[indice].acerto);
-                                geralMateria.total = (geralMateria.total - parentScope.materiaMae.materias[indiceMateria].datas[indice].total);
-                                geralMateria.aproveitamento = 0;
-                                if(geralMateria.total !== 0) {
-                                    geralMateria.aproveitamento = Math.floor((geralMateria.acertos / geralMateria.total) * 100);
+
+                            parentScope.materiaMae.materias[indiceMateria].datas.splice(indice, 1);
+
+                            if ($scope.relevante) {
+                                //refazer para saber quando mudou o aproveitamento.
+
+                                parentScope.materiaMae.materias[indiceMateria].geral.totalAcertos = 0;
+                                parentScope.materiaMae.materias[indiceMateria].geral.totalGeral = 0;
+                                if (parentScope.materiaMae.materias[indiceMateria].datas.length > 0) {
+                                    var maiorAproveitamento = 0;
+                                    var maiorAcerto = 0;
+                                    var maiortotal = 0;
+                                    for (var a = 0; a < parentScope.materiaMae.materias[indiceMateria].datas.length; a++) {
+                                        var tempAproveitamento = 0;
+                                        if (parentScope.materiaMae.materias[indiceMateria].datas[a].total !== 0) {
+
+                                            parentScope.materiaMae.materias[indiceMateria].geral.totalAcertos += parentScope.materiaMae.materias[indiceMateria].datas[a].acerto;
+                                            parentScope.materiaMae.materias[indiceMateria].geral.totalGeral += parentScope.materiaMae.materias[indiceMateria].datas[a].total;
+
+                                            tempAproveitamento = Math.round((parentScope.materiaMae.materias[indiceMateria].datas[a].acerto
+                                                / parentScope.materiaMae.materias[indiceMateria].datas[a].total) * 100);
+                                            if (tempAproveitamento >= maiorAproveitamento) {
+                                                maiorAproveitamento = tempAproveitamento;
+                                                maiorAcerto = parentScope.materiaMae.materias[indiceMateria].datas[a].acerto;
+                                                maiortotal = parentScope.materiaMae.materias[indiceMateria].datas[a].total;
+                                            }
+                                        }
+                                    }
+                                    parentScope.materiaMae.materias[indiceMateria].geral.aproveitamento = maiorAproveitamento;
+                                    parentScope.materiaMae.materias[indiceMateria].geral.acertos = maiorAcerto;
+                                    parentScope.materiaMae.materias[indiceMateria].geral.total = maiortotal;
                                 }
-                                parentScope.materiaMae.materias[indiceMateria].geral = geralMateria;
-                                //atualizo o valor do assunto.
-                                var geralMae = parentScope.materiaMae.geral;
-                                geralMae.acertos = (geralMae.acertos - parentScope.materiaMae.materias[indiceMateria].datas[indice].acerto);
-                                geralMae.total = (geralMae.total - parentScope.materiaMae.materias[indiceMateria].datas[indice].total);
-                                geralMae.aproveitamento = 0;
-                                if(geralMae.total !== 0) {
-                                    geralMae.aproveitamento = Math.floor((geralMae.acertos / geralMae.total) * 100);
+
+                                var acerto = 0;
+                                var total = 0;
+
+                                for(var i = 0; i < parentScope.materiaMae.materias.length; i++) {
+                                    acerto += parentScope.materiaMae.materias[i].geral.totalAcertos;
+                                    total += parentScope.materiaMae.materias[i].geral.totalGeral;
                                 }
-                                parentScope.materiaMae.geral = geralMae;
+
+                                parentScope.materiaMae.geral.acertos = acerto;
+                                parentScope.materiaMae.geral.total = total;
+                                parentScope.materiaMae.geral.aproveitamento = total !== 0 ? Math.round((acerto / total) * 100) : 0;
+
+                                /*
+                                 //atualizo o valor da materia.
+                                 var geralMateria = parentScope.materiaMae.materias[indiceMateria].geral;
+
+                                 geralMateria.acertos = (geralMateria.acertos - parentScope.materiaMae.materias[indiceMateria].datas[indice].acerto);
+                                 geralMateria.total = (geralMateria.total - parentScope.materiaMae.materias[indiceMateria].datas[indice].total);
+                                 geralMateria.aproveitamento = 0;
+                                 if(geralMateria.total !== 0) {
+                                 geralMateria.aproveitamento = Math.floor((geralMateria.acertos / geralMateria.total) * 100);
+                                 }
+                                 parentScope.materiaMae.materias[indiceMateria].geral = geralMateria;
+
+
+                                 //atualizo o valor do assunto.
+                                 var geralMae = parentScope.materiaMae.geral;
+                                 geralMae.acertos = (geralMae.acertos - parentScope.materiaMae.materias[indiceMateria].datas[indice].acerto);
+                                 geralMae.total = (geralMae.total - parentScope.materiaMae.materias[indiceMateria].datas[indice].total);
+                                 geralMae.aproveitamento = 0;
+                                 if(geralMae.total !== 0) {
+                                 geralMae.aproveitamento = Math.floor((geralMae.acertos / geralMae.total) * 100);
+                                 }
+                                 parentScope.materiaMae.geral = geralMae;
+                                 */
                             }
 
                             $scope.$close(true);
@@ -172,7 +221,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                         }
                     }
                 }).result.then(function () {
-                    $scope.materiaMae.materias[$stateParams.indice].datas.splice(indice, 1);
+                    //$scope.materiaMae.materias[$stateParams.indice].datas.splice(indice, 1);
                     $scope.materiaMae.$saveOrUpdate().then(function () {
                         $state.reload();
                     });
