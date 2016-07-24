@@ -9,6 +9,16 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                     legend : {
                         display: true,
                         position: 'top'
+                    },
+                    scales: {
+                        xAxes: [{
+                            type: "linear",
+                            ticks: {
+                                max: 100,
+                                min: 0,
+                                stepSize: 10
+                            }
+                        }]
                     }
                 };
 
@@ -55,6 +65,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                 }
             });
 
+            /*
             $scope.$on('chart-create', function (event, chart) {
                 createOrUpdateChart(event, chart);
             });
@@ -62,6 +73,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
             $scope.$on('chart-update', function (event, chart) {
                 createOrUpdateChart(event, chart);
             });
+            */
 
             function createOrUpdateChart(event, chart) {
                 var bgColors = [];
@@ -112,7 +124,13 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
                     },
                     scales: {
                         xAxes: [{
-                            stacked: true
+                            stacked: true,
+                            type: "linear",
+                            ticks: {
+                                max: 100,
+                                min: 0,
+                                stepSize: 5
+                            }
                         }],
                         yAxes: [{
                             stacked: true
