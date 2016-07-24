@@ -6,12 +6,13 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
             total: 0,
             acerto: 0,
             aproveitamento: 0,
-            data: null,
+            data: new Date(),
             tempo: null,
             observacao: "",
             status: "incompleto"
         };
-
+        $scope.classBtn = "";
+        $scope.nameBtn = "Confirmar Estudo";
         $scope.Math = window.Math;
     };
 
@@ -35,7 +36,8 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
     $scope.confirmarEstudo = function () {
 
         if(formValido()) {
-
+            $scope.nameBtn = "Salvando";
+            $scope.classBtn = "disabled";
             $scope.estudo.aproveitamento = 0;
             if ($scope.estudo.total !== 0) {
                 $scope.estudo.aproveitamento = Math.floor(($scope.estudo.acerto / $scope.estudo.total) * 100);
@@ -79,15 +81,6 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
                         materia.materias[indice].geral.acertos = melhotAcerto;
                         materia.materias[indice].geral.aproveitamento = melhorAproveitamento;
 
-                        if (mudouId) {
-                            materia.geral.total += materia.materias[indice].geral.total;
-                            materia.geral.acertos += materia.materias[indice].geral.acertos;
-                            materia.geral.aproveitamento = 0;
-                            if (materia.geral.total !== 0) {
-                                materia.geral.aproveitamento =
-                                    Math.floor((materia.geral.acertos / materia.geral.total) * 100);
-                            }
-                        }
                         idAnterior = id;
                     }
                 });

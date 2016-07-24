@@ -163,6 +163,7 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                                 }
                             }
                         }).result.then(function () {
+                            $scope.recalcular();
                             $scope.initHome();
                         }, function () {
                         });
