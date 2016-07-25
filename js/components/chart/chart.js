@@ -3,7 +3,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
         $scope.initChart = function () {
             waitingDialog.show("Aguarde. Carregando gráfico");
             var ativos = {
-                "ativos": true
+                "ativo": true
             };
             Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
                 var materiasUnificadas = assuntos;
