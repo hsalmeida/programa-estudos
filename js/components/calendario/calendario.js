@@ -6,7 +6,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
             $scope.events = [];
             $scope.assuntos = [];
             var ativos = {
-                "ativos": true
+                "ativo": true
             };
             Assuntos.query(ativos).then(function (assuntos) {
                 $scope.assuntos = assuntos;
