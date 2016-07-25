@@ -124,4 +124,5 @@ ul[dnd-list], ul[dnd-list] > li {
 
 .text-white {
     color: #ffffff;
+    font-weight: 500;
 }
