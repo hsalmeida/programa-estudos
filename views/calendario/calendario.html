@@ -103,7 +103,7 @@
             <div class="panel-heading">Horas de estudo</div>
             <div class="panel-body">
                 <div class="list-group">
-                    <div class="list-group-item" style="background-color: {{assunto.cor}};" ng-repeat="assunto in assuntos">
+                    <div class="list-group-item" style="background-color: {{assunto.cor}};" ng-repeat="assunto in assuntos | orderBy : 'assunto'">
                         <div class="row">
                             <div class="col-xs-8">{{assunto.assunto}}</div>
                             <div class="col-xs-4 text-right">{{assunto.horasTotal}}</div>
