@@ -1,11 +1,14 @@
 angular.module("estudos", [
     'ui.router', 'ngResource', 'mongolabResourceHttp', 'mwl.calendar',
     'ngCookies', 'ngAnimate', 'ui.bootstrap', 'chart.js', 'dndLists',
-    'colorpicker.module'
+    'colorpicker.module', 'ui.calendar'
 ])
     .constant('MONGOLAB_CONFIG', {API_KEY: 'YXgR-q92vuVCKlSm-ji3nplDTE7rHIQh', DB_NAME: 'ltdb'})
     .config(function (calendarConfig) {
         calendarConfig.dateFormatter = 'moment';
+        calendarConfig.allDateFormats.moment.title.week = 'Semana {week} de {year}';
+        calendarConfig.dateFormats.hour = 'HH:mm';
+        calendarConfig.allDateFormats.moment.date.datetime = 'DD MMM, HH:mm';
     });
 
 /**
