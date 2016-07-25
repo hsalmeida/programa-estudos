@@ -121,3 +121,7 @@ ul[dnd-list], ul[dnd-list] > li {
     vertical-align: text-top;
     width: 23px;
 }
+
+.text-white {
+    color: #ffffff;
+}
