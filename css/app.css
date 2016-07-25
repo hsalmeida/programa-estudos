@@ -114,3 +114,10 @@ ul[dnd-list], ul[dnd-list] > li {
 .cal-day-box .day-event {
     width: 300px;
 }
+
+.colorpicker-element .add-on i, .colorpicker-element .input-group-addon i {
+    display: inline-block;
+    height: 23px;
+    vertical-align: text-top;
+    width: 23px;
+}

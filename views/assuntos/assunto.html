@@ -3,7 +3,8 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#pe-navbar"
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#pe-navbar"
                             aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
@@ -20,16 +21,19 @@
                             <a ui-sref="home"><span class="glyphicon glyphicon-home"></span>&nbsp;Home</a>
                         </li>
                         <li>
-                            <a ui-sref="calendario"><span class="glyphicon glyphicon-calendar"></span>&nbsp;Calendario</a>
+                            <a ui-sref="calendario"><span
+                                    class="glyphicon glyphicon-calendar"></span>&nbsp;Calendario</a>
                         </li>
                         <li>
                             <a ui-sref="chartevo"><span class="glyphicon glyphicon-signal"></span>&nbsp;Gráfico Evolução</a>
                         </li>
                         <li>
-                            <a ui-sref="chartdes"><span class="glyphicon glyphicon-signal"></span>&nbsp;Gráfico Desempenho</a>
+                            <a ui-sref="chartdes"><span class="glyphicon glyphicon-signal"></span>&nbsp;Gráfico
+                                Desempenho</a>
                         </li>
                         <li>
-                            <a ui-sref="assuntos"><span class="glyphicon glyphicon-duplicate"></span>&nbsp;Editar Assuntos</a>
+                            <a ui-sref="assuntos"><span class="glyphicon glyphicon-duplicate"></span>&nbsp;Editar
+                                Assuntos</a>
                         </li>
                     </ul>
                 </div>
@@ -44,12 +48,23 @@
     <div>
         <div class="row lista-home">
             <div class="col-md-8 col-md-offset-2">
-                <form class="form-horizontal">
+                <form class="form-inline">
                     <div class="form-group">
-                        <label class="col-lg-1 text-right">Nome:</label>
-                        <input class="col-lg-11" type="text" ng-model="assunto.assunto" placeholder="Nome">
+                        <label class="control-label">Nome:</label>
+                        <input class="form-control" type="text" ng-model="assunto.assunto" placeholder="Nome">
+                    </div>
+                    &nbsp;
+                    <div class="form-group">
+                        <label class="control-label">Cor:</label>
+                        <div class="input-group colorpicker-element">
+                        <input colorpicker class="form-control" type="text" ng-model="assunto.cor">
+                            <span class="input-group-addon">
+                                <i style="background-color: {{assunto.cor}};"></i>
+                            </span>
+                        </div>
                     </div>
                 </form>
+                <br />
                 <ul class="list-group" dnd-list="assunto.materias">
                     <li class="list-group-item active">
                         <span>Lista de Matérias do Assunto</span>
@@ -72,7 +87,7 @@
                             <span class="label label-warning" ng-show="materia.datas.length > 0">
                                 possui {{materia.datas.length}} estudo(s) cadastrados.
                             </span>
-                            &nbsp;
+                                &nbsp;
                             <span ng-show="materia.ativo" class="label label-success">
                                 ATIVA
                             </span>
@@ -84,10 +99,12 @@
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </button>
 
-                            <button class="btn btn-success" ng-show="!materia.ativo" ng-click="ativar(materia)" tooltip="Exibir">
+                            <button class="btn btn-success" ng-show="!materia.ativo" ng-click="ativar(materia)"
+                                    tooltip="Exibir">
                                 <span class="glyphicon glyphicon-ok"></span>
                             </button>
-                            <button class="btn btn-info" ng-show="materia.ativo" ng-click="desativar(materia)" tooltip="Ocultar">
+                            <button class="btn btn-info" ng-show="materia.ativo" ng-click="desativar(materia)"
+                                    tooltip="Ocultar">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
 
