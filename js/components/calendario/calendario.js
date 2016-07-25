@@ -5,7 +5,10 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
             waitingDialog.show("Aguarde. Carregando calendário");
             $scope.events = [];
             $scope.assuntos = [];
-            Assuntos.all().then(function (assuntos) {
+            var ativos = {
+                "ativos": true
+            };
+            Assuntos.query(ativos).then(function (assuntos) {
                 $scope.assuntos = assuntos;
                 angular.forEach(assuntos, function (assunto, assuntoIndex) {
                     assunto.horasTotal = 0;

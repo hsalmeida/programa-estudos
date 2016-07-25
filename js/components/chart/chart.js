@@ -2,7 +2,10 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
     function ($scope, $rootScope, $state, Assuntos) {
         $scope.initChart = function () {
             waitingDialog.show("Aguarde. Carregando gráfico");
-            Assuntos.all({sort: {"assunto": 1}}).then(function (assuntos) {
+            var ativos = {
+                "ativos": true
+            };
+            Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
                 var materiasUnificadas = assuntos;
 
                 $scope.chartoptions = {
@@ -112,7 +115,10 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
     function ($scope, $rootScope, $state, Assuntos) {
         $scope.initChart = function () {
             waitingDialog.show("Aguarde. Carregando gráfico");
-            Assuntos.all({sort: {"assunto": 1}}).then(function (assuntos) {
+            var ativos = {
+                "ativo": true
+            };
+            Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
                 var materiasUnificadas = assuntos;
 
                 $scope.colours = ['#f20005', '#1200d4', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];

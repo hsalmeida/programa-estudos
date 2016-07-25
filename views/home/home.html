@@ -62,7 +62,7 @@
                         <div class="list-group-item active">
                             <span class="list-group-item-heading">Assuntos</span>
                         </div>
-                        <div class="list-group-item" ng-repeat="assunto in materia.materias | filter:subsearchFunc">
+                        <div class="list-group-item" ng-show="assunto.ativo === true" ng-repeat="assunto in materia.materias | filter:subsearchFunc">
                             <input type="checkbox" index="{{$index}}" id="assuntock{{$parent.$index}}{{$index}}" checkbox-group>
                             &nbsp;
                             <label for="assuntock{{$parent.$index}}{{$index}}" class="assunto-label">

@@ -9,6 +9,20 @@ angular.module('estudos').controller('AssuntosController', ['$scope', '$rootScop
             });
         };
 
+        $scope.ativar = function (assunto) {
+            assunto.ativo = true;
+            assunto.$saveOrUpdate().then(function () {
+                $state.reload();
+            });
+        };
+
+        $scope.desativar = function (assunto) {
+            assunto.ativo = false;
+            assunto.$saveOrUpdate().then(function () {
+                $state.reload();
+            });
+        };
+
         $scope.editar = function (assunto) {
             $state.go('assunto',{id: assunto._id.$oid});
         };

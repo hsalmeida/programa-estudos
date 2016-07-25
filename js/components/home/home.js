@@ -39,6 +39,25 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
             $state.go('detalhes', {materia: materiaId, indice: assuntoIndice});
         };
 
+        /*
+         funcao para criar atributo chamado ativo e deixar todos em true.
+         */
+        $scope.criarAtivo = function () {
+            for (var z = 0; z < $scope.materiasUnificadas.length; z++) {
+                var lenMaterias = $scope.materiasUnificadas[z].materias.length;
+                $scope.materiasUnificadas[z].ativo = true;
+                for (var j = 0; j < lenMaterias; j++) {
+                    $scope.materiasUnificadas[z].materias[j].ativo = true;
+                }
+                $scope.materiasUnificadas[z].$saveOrUpdate().then(function (materia) {
+                    console.log("atualizado: " + materia.assunto);
+                });
+            }
+        };
+
+        /*
+         recalcula todas as materias
+         */
         $scope.recalcular = function () {
             for (var z = 0; z < $scope.materiasUnificadas.length; z++) {
                 var acerto = 0;
@@ -47,20 +66,20 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                 for (var j = 0; j < lenMaterias; j++) {
                     $scope.materiasUnificadas[z].materias[j].geral.totalAcertos = 0;
                     $scope.materiasUnificadas[z].materias[j].geral.totalGeral = 0;
-                    if($scope.materiasUnificadas[z].materias[j].datas.length > 0 ) {
+                    if ($scope.materiasUnificadas[z].materias[j].datas.length > 0) {
                         var maiorAproveitamento = 0;
                         var maiorAcerto = 0;
                         var maiortotal = 0;
                         for (var a = 0; a < $scope.materiasUnificadas[z].materias[j].datas.length; a++) {
                             var tempAproveitamento = 0;
-                            if($scope.materiasUnificadas[z].materias[j].datas[a].total !== 0) {
+                            if ($scope.materiasUnificadas[z].materias[j].datas[a].total !== 0) {
 
                                 $scope.materiasUnificadas[z].materias[j].geral.totalAcertos += $scope.materiasUnificadas[z].materias[j].datas[a].acerto;
                                 $scope.materiasUnificadas[z].materias[j].geral.totalGeral += $scope.materiasUnificadas[z].materias[j].datas[a].total;
 
                                 tempAproveitamento = Math.round(($scope.materiasUnificadas[z].materias[j].datas[a].acerto
                                     / $scope.materiasUnificadas[z].materias[j].datas[a].total) * 100);
-                                if(tempAproveitamento >= maiorAproveitamento) {
+                                if (tempAproveitamento >= maiorAproveitamento) {
                                     maiorAproveitamento = tempAproveitamento;
                                     maiorAcerto = $scope.materiasUnificadas[z].materias[j].datas[a].acerto;
                                     maiortotal = $scope.materiasUnificadas[z].materias[j].datas[a].total;
@@ -86,11 +105,13 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
         $scope.initHome = function () {
 
             waitingDialog.show("Aguarde. Carregando assuntos");
-
-            Assuntos.all({sort: {"assunto": 1}}).then(function (assuntos) {
+            var ativos = {
+                "ativo": true
+            };
+            Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
                 $scope.materiasUnificadas = assuntos;
-
                 for (var z = 0; z < $scope.materiasUnificadas.length; z++) {
+                    //var materiasFilter = $filter('filter')($scope.materiasUnificadas[z].materias, {"ativo": true}, true);
                     $scope.materiasUnificadas[z].status = $scope.materiasUnificadas[z].status ?
                         $scope.materiasUnificadas[z].status : '';
                     var arrayStatusMateriaMae = [0, 0, 0, 0];
@@ -102,28 +123,28 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                             $scope.materiasUnificadas[z].materias[j].datas.length;
 
                         var ultimoStatus = "";
-                        if($scope.materiasUnificadas[z].materias[j].qtdDatas > 0) {
+                        if ($scope.materiasUnificadas[z].materias[j].qtdDatas > 0) {
                             ultimoStatus = $scope.materiasUnificadas[z].materias[j].datas[($scope.materiasUnificadas[z].materias[j].qtdDatas - 1)].status;
                         } else {
                             ultimoStatus = "";
                         }
                         /*
-                        for (var a = 0; a < $scope.materiasUnificadas[z].materias[j].datas.length; a++) {
+                         for (var a = 0; a < $scope.materiasUnificadas[z].materias[j].datas.length; a++) {
 
-                            $scope.materiasUnificadas[z].materias[j].datas[a].status === "incompleto" ?
-                                arrayStatus[1]++ : $scope.materiasUnificadas[z].materias[j].datas[a].status === "revisar" ?
-                                arrayStatus[2]++ : $scope.materiasUnificadas[z].materias[j].datas[a].status === "completo" ?
-                                arrayStatus[3]++ : arrayStatus[0]++;
-                        }
-                        for (var i = 0; i < arrayStatus.length; i++) {
-                            if ($scope.materiasUnificadas[z].materias[j].qtdDatas > 0) {
-                                arrayStatus[i] = Math.floor((arrayStatus[i] / $scope.materiasUnificadas[z].materias[j].qtdDatas) * 100);
-                            }
-                        }
-                        if ($scope.materiasUnificadas[z].materias[j].qtdDatas === 0) {
-                            arrayStatus[0] = 100;
-                        }
-                        */
+                         $scope.materiasUnificadas[z].materias[j].datas[a].status === "incompleto" ?
+                         arrayStatus[1]++ : $scope.materiasUnificadas[z].materias[j].datas[a].status === "revisar" ?
+                         arrayStatus[2]++ : $scope.materiasUnificadas[z].materias[j].datas[a].status === "completo" ?
+                         arrayStatus[3]++ : arrayStatus[0]++;
+                         }
+                         for (var i = 0; i < arrayStatus.length; i++) {
+                         if ($scope.materiasUnificadas[z].materias[j].qtdDatas > 0) {
+                         arrayStatus[i] = Math.floor((arrayStatus[i] / $scope.materiasUnificadas[z].materias[j].qtdDatas) * 100);
+                         }
+                         }
+                         if ($scope.materiasUnificadas[z].materias[j].qtdDatas === 0) {
+                         arrayStatus[0] = 100;
+                         }
+                         */
 
                         $scope.materiasUnificadas[z].materias[j].status = ultimoStatus;
 
