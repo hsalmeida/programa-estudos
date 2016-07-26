@@ -17,6 +17,11 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: "views/calendario/calendario.html",
             controller: 'CalendarioController'
         })
+        .state('calendario2', {
+            url: "/calendario2",
+            templateUrl: "views/calendario/calendario2.html",
+            controller: 'Calendario2Controller'
+        })
         .state('chartevo', {
             url: "/chart",
             templateUrl: "views/chart/chart.html",
