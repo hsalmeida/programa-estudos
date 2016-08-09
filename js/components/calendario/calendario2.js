@@ -10,11 +10,24 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                     height: '100%',
                     editable: true,
                     header: {
-                        left: 'year month agendaWeek agendaDay',
-                        center: 'title',
+                        left: 'month agendaWeek agendaDay',
+                        center: '',
                         right: 'today prev,next'
                     },
-                    prev: 'btn'
+                    views: {
+                        month: {
+                            titleFormat: 'MMM/YYYY'
+                        },
+                        agendaWeek: {
+                            titleFormat: 'DD/MM/YYYY'
+                        },
+                        agendaDay : {
+                            titleFormat: 'DD/MM/YYYY'
+                        }
+                    },
+                    viewRender: function (view, element) {
+                        $scope.calendar2Title = view.title;
+                    }
                 }
             };
             waitingDialog.show("Aguarde. Carregando calendário");
@@ -46,7 +59,7 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                             fimData.setTime(fimData.getTime() + (tempoData * 60 * 60 * 1000));
 
                             var evento = {
-                                title: '•' + materia.topico + ': •' + materia.texto + ' (' + textStatus + ')',
+                                title: materia.topico + ': ' + materia.texto + ' (' + textStatus + ')',
                                 start: inicioData,
                                 end: fimData,
                                 editable: false,
@@ -59,6 +72,7 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                 });
             });
             $scope.eventSources = [$scope.events];
+
             waitingDialog.hide();
         };
 

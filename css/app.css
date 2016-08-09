@@ -126,3 +126,7 @@ ul[dnd-list], ul[dnd-list] > li {
     color: #ffffff;
     font-weight: 500;
 }
+
+.fc-center h2 {
+    font-size: 24px;
+}
