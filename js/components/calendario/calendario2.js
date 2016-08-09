@@ -1,7 +1,9 @@
 angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootScope', '$state', 'Assuntos', '$modal',
-    function ($scope, $rootScope, $state, Assuntos, $modal) {
+    'uiCalendarConfig',
+    function ($scope, $rootScope, $state, Assuntos, $modal, uiCalendarConfig) {
 
-        $scope.eventSources = [];
+        $scope.events = [];
+        $scope.eventSources = [$scope.events];
 
         $scope.initCalendar = function () {
             $scope.uiConfig = {
@@ -21,16 +23,24 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                         agendaWeek: {
                             titleFormat: 'DD/MM/YYYY'
                         },
-                        agendaDay : {
+                        agendaDay: {
                             titleFormat: 'DD/MM/YYYY'
                         }
                     },
                     viewRender: function (view, element) {
                         $scope.calendar2Title = view.title;
+                        //getEvents();
                     }
                 }
             };
+
             waitingDialog.show("Aguarde. Carregando calendário");
+            getEvents();
+            waitingDialog.hide();
+
+        };
+
+        function getEvents() {
             $scope.events = [];
             $scope.assuntos = [];
             var ativos = {
@@ -41,9 +51,9 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                 angular.forEach(assuntos, function (assunto, assuntoIndex) {
                     assunto.horasTotal = 0;
                     assunto.minutosTotal = 0;
-                    angular.forEach(assunto.materias, function(materia, materiaIndex){
+                    angular.forEach(assunto.materias, function (materia, materiaIndex) {
 
-                        angular.forEach(materia.datas, function(data, dataIndex){
+                        angular.forEach(materia.datas, function (data, dataIndex) {
 
                             var textStatus = data.status ? data.status : "em andamento";
                             var tempoData = data.tempo === 0 ? 2 : new Date(data.tempo).getHours();
@@ -59,6 +69,7 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                             fimData.setTime(fimData.getTime() + (tempoData * 60 * 60 * 1000));
 
                             var evento = {
+                                id: dataIndex,
                                 title: materia.topico + ': ' + materia.texto + ' (' + textStatus + ')',
                                 start: inicioData,
                                 end: fimData,
@@ -72,8 +83,8 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                 });
             });
             $scope.eventSources = [$scope.events];
-
-            waitingDialog.hide();
-        };
+            $('#my-calendar').fullCalendar('removeEvents');
+            $('#my-calendar').fullCalendar('addEventSource',$scope.events);
+        }
 
     }]);
