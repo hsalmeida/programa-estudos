@@ -127,6 +127,6 @@ ul[dnd-list], ul[dnd-list] > li {
     font-weight: 500;
 }
 
-.fc-center h2 {
-    font-size: 24px;
+.container-calendar {
+    height: auto;
 }

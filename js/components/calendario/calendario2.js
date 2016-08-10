@@ -6,6 +6,9 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
         $scope.eventSources = [$scope.events];
 
         $scope.initCalendar = function () {
+            waitingDialog.show("Aguarde. Carregando calendário");
+            getEvents();
+            waitingDialog.hide();
             $scope.uiConfig = {
                 calendar: {
                     lang: 'pt-br',
@@ -30,13 +33,12 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                     viewRender: function (view, element) {
                         $scope.calendar2Title = view.title;
                         //getEvents();
-                    }
+                    },
+                    events: $scope.events
                 }
             };
 
-            waitingDialog.show("Aguarde. Carregando calendário");
-            getEvents();
-            waitingDialog.hide();
+
 
         };
 
@@ -83,8 +85,10 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                 });
             });
             $scope.eventSources = [$scope.events];
+            /*
             $('#my-calendar').fullCalendar('removeEvents');
             $('#my-calendar').fullCalendar('addEventSource',$scope.events);
+            */
         }
 
     }]);
