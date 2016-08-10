@@ -43,6 +43,8 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
         };
 
         $scope.eventoClicado = function (date, jsEvent, view) {
+            console.log(date);
+            console.log(jsEvent);
             $modal
                 .open({
                     templateUrl: 'evt-detail.html',
