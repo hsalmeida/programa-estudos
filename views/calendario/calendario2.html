@@ -42,4 +42,43 @@
     <div class="container-calendar">
     <div ui-calendar="uiConfig.calendar" class="calendar" id="my-calendar"></div>
     </div>
+
+    <script type="text/ng-template" id="evt-detail.html">
+        <div class="modal-header text-center">
+            <h4 class="modal-title">Detalhes</h4>
+        </div>
+        <div class="modal-body" ng-init="initDetail()">
+            <p class="h5">{{event.topico}}&nbsp;{{event.inicio | date : "dd/MM"}}&nbsp;
+                <span class="label label-as-badge label-primary" ng-show="event.statusMateria === 'completo'">
+                    completo
+                </span>
+                <span class="label label-as-badge label-success"
+                      ng-show="event.statusMateria === 'revisar'">
+                    revisar
+                </span>
+                <span class="label label-as-badge label-danger"
+                      ng-show="event.statusMateria === 'incompleto'">
+                    incompleto
+                </span>
+                <span class="label label-as-badge label-warning" ng-show="!event.statusMateria">
+                    em aberto
+                </span>
+            </p>
+            <p>{{event.texto}}</p>
+
+            <p>Total Questões: {{event.total}}</p>
+
+            <p>Acertos: {{event.acerto}}</p>
+
+            <p>Aproveitamento: {{event.aproveitamento}}%</p>
+
+            <p>Horas de estudo: {{event.horas}}</p>
+
+            <p>Observação: {{event.obs}}</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" ng-click="fechar()" data-dismiss="modal">Fechar</button>
+        </div>
+    </script>
+
 </div>

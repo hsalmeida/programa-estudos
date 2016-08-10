@@ -130,3 +130,7 @@ ul[dnd-list], ul[dnd-list] > li {
 .container-calendar {
     height: auto;
 }
+
+.fc-event {
+    cursor: pointer;
+}

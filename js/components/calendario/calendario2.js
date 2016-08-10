@@ -30,6 +30,7 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                             titleFormat: 'DD/MM/YYYY'
                         }
                     },
+                    eventClick: $scope.eventoClicado,
                     viewRender: function (view, element) {
                         $scope.calendar2Title = view.title;
                         //getEvents();
@@ -39,7 +40,26 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
             };
 
 
+        };
 
+        $scope.eventoClicado = function (date, jsEvent, view) {
+            $modal
+                .open({
+                    templateUrl: 'evt-detail.html',
+                    controller: function ($scope, event) {
+                        $scope.initDetail = function () {
+                            $scope.event = date;
+                        };
+                        $scope.fechar = function () {
+                            $scope.$dismiss();
+                        };
+                    },
+                    resolve: {
+                        event: function () {
+                            return event;
+                        }
+                    }
+                }).result.then(function () {}, function () {});
         };
 
         function getEvents() {
@@ -76,7 +96,16 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                                 start: inicioData,
                                 end: fimData,
                                 editable: false,
-                                color: assunto.cor
+                                color: assunto.cor,
+                                topico: materia.topico,
+                                texto: materia.texto,
+                                statusMateria: data.status,
+                                total: data.total,
+                                acerto: data.acerto,
+                                aproveitamento: data.aproveitamento,
+                                horas: tempoData + "h" + minutoData,
+                                obs: data.observacao,
+                                inicio: inicioData
                             };
                             $scope.events.push(evento);
                         });
@@ -86,9 +115,9 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
             });
             $scope.eventSources = [$scope.events];
             /*
-            $('#my-calendar').fullCalendar('removeEvents');
-            $('#my-calendar').fullCalendar('addEventSource',$scope.events);
-            */
+             $('#my-calendar').fullCalendar('removeEvents');
+             $('#my-calendar').fullCalendar('addEventSource',$scope.events);
+             */
         }
 
     }]);
