@@ -12,7 +12,7 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
             $scope.uiConfig = {
                 calendar: {
                     lang: 'pt-br',
-                    height: '100%',
+                    height: 'auto',
                     editable: true,
                     header: {
                         left: 'month agendaWeek agendaDay',
