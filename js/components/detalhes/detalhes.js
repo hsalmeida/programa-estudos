@@ -7,6 +7,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
             Assuntos.getById($stateParams.materia).then(function (materia) {
                 $scope.materiaMae = materia;
                 $scope.assunto = materia.materias[$stateParams.indice];
+
                 $scope.assunto.status = "";
                 $scope.assunto.qtdDatas = $scope.assunto.datas.length;
 

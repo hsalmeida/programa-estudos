@@ -43,8 +43,6 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
         };
 
         $scope.eventoClicado = function (date, jsEvent, view) {
-            console.log(date);
-            console.log(jsEvent);
             $modal
                 .open({
                     templateUrl: 'evt-detail.html',
@@ -61,7 +59,9 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                             return event;
                         }
                     }
-                }).result.then(function () {}, function () {});
+                }).result.then(function () {
+                }, function () {
+                });
         };
 
         function getEvents() {
@@ -80,12 +80,22 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                         angular.forEach(materia.datas, function (data, dataIndex) {
 
                             var textStatus = data.status ? data.status : "em andamento";
-                            var tempoData = data.tempo === 0 ? 2 : new Date(data.tempo).getHours();
-                            var minutoData = data.tempo === 0 ? 0 : new Date(data.tempo).getMinutes();
-                            minutoData = minutoData === 0 ? "" : minutoData;
+
+                            var tempoData = 2;
+                            var minutoData = 0;
+
+                            if (data.tempo && data.tempo !== 0) {
+                                var re = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T([0-9]{2}):([0-9]{2}):00\.000Z$/gm;
+                                var m = re.exec(data.tempo);
+                                tempoData = Number(m[1]);
+                                minutoData = Number(m[2]);
+                            } else {
+                                tempoData = 2;
+                                minutoData = 0;
+                            }
 
                             assunto.horasTotal += tempoData;
-                            assunto.minutosTotal += Number(minutoData);
+                            assunto.minutosTotal += minutoData;
 
                             var inicioData = new Date(data.data);
                             inicioData.setTime(inicioData.getTime() - (tempoData * 60 * 60 * 1000));
