@@ -25,12 +25,25 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                                 status = "warning";
                             if(data.status === "incompleto")
                                 status = "important";
-                            var tempoData = data.tempo === 0 ? 2 : new Date(data.tempo).getHours();
-                            var minutoData = data.tempo === 0 ? 0 : new Date(data.tempo).getMinutes();
-                            minutoData = minutoData === 0 ? "" : minutoData;
+
+                            var tempoData = 2;
+                            var minutoData = 0;
+
+                            if (data.tempo) {
+                                var re = /^([0-9]{2}):([0-9]{2})$/gm;
+                                var m = re.exec(data.tempo);
+                                tempoData = Number(m[1]);
+                                minutoData = Number(m[2]);
+                            } else {
+                                tempoData = 2;
+                                minutoData = 0;
+                            }
 
                             assunto.horasTotal += tempoData;
                             assunto.minutosTotal += Number(minutoData);
+                            if(minutoData === 0) {
+                                minutoData = "";
+                            }
 
                             var inicioData = new Date(data.data);
                             inicioData.setTime(inicioData.getTime() - (tempoData * 60 * 60 * 1000));

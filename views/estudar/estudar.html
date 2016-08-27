@@ -5,36 +5,44 @@
     <form class="form-horizontal">
         <div class="form-group">
             <label for="data" class="col-lg-2 control-label">Data do Estudo</label>
+
             <div class="col-lg-10">
-                <input id="data" class="form-control" type="datetime-local" ng-model="estudo.data" placeholder="Data do Estudo" required="required">
+                <input id="data" class="form-control" type="datetime-local" ng-model="estudo.data"
+                       placeholder="Data do Estudo" required="required">
                 <span ng-show="dataError !== ''" class="text-danger">{{dataError}}</span>
             </div>
         </div>
 
         <div class="form-group">
             <label for="tempo" class="col-lg-2 control-label">Tempo de Estudo</label>
-            <div class="col-lg-10">
-                <input id="tempo" class="form-control" type="time" ng-model="estudo.tempo" placeholder="Tempo de Estudo" required="required">
+            <div class="col-lg-2">
+                <select id="tempo" class="form-control" ng-model="estudo.tempo" ng-options="tempo for tempo in tempos">
+                </select>
                 <span ng-show="tempoError !== ''" class="text-danger">{{tempoError}}</span>
             </div>
         </div>
 
         <div class="form-group">
             <label for="total" class="col-lg-2 control-label">Total de Questões</label>
+
             <div class="col-lg-10">
-                <input id="total" class="form-control" type="number" min="0" ng-model="estudo.total" placeholder="Total">
+                <input id="total" class="form-control" type="number" min="0" ng-model="estudo.total"
+                       placeholder="Total">
             </div>
         </div>
 
         <div class="form-group">
             <label for="acertos" class="col-lg-2 control-label">Acertos</label>
+
             <div class="col-lg-10">
-                <input id="acertos" class="form-control" type="number" min="0" ng-model="estudo.acerto" placeholder="Acertos">
+                <input id="acertos" class="form-control" type="number" min="0" ng-model="estudo.acerto"
+                       placeholder="Acertos">
             </div>
         </div>
 
         <div class="form-group">
             <label for="acertos" class="col-lg-2 control-label">Aproveitamento</label>
+
             <div class="col-lg-10 text-center">
                 <span class="h3">{{estudo.total === 0 ? 0 : Math.floor((estudo.acerto / estudo.total) * 100)}}%</span>
             </div>
@@ -44,14 +52,18 @@
             <label class="col-lg-2 control-label">Status</label>
 
             <div class="btn-group col-lg-10">
-                <label class="btn btn-default" ng-model="estudo.status" btn-radio="'incompleto'" uncheckable>incompleto</label>
-                <label class="btn btn-default" ng-model="estudo.status" btn-radio="'revisar'" uncheckable>revisar</label>
-                <label class="btn btn-default" ng-model="estudo.status" btn-radio="'completo'" uncheckable>completo</label>
+                <label class="btn btn-default" ng-model="estudo.status" btn-radio="'incompleto'"
+                       uncheckable>incompleto</label>
+                <label class="btn btn-default" ng-model="estudo.status" btn-radio="'revisar'"
+                       uncheckable>revisar</label>
+                <label class="btn btn-default" ng-model="estudo.status" btn-radio="'completo'"
+                       uncheckable>completo</label>
             </div>
         </div>
 
         <div class="form-group">
             <label for="total" class="col-lg-2 control-label">Observações</label>
+
             <div class="col-lg-10">
                 <textarea class="form-control" ng-model="estudo.observacao" placeholder="Observação"></textarea>
             </div>
@@ -65,6 +77,8 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-warning" ng-class="classBtn" ng-click="cancelarEstudo()" data-dismiss="modal">Cancelar</button>
+    <button type="button" class="btn btn-warning" ng-class="classBtn" ng-click="cancelarEstudo()" data-dismiss="modal">
+        Cancelar
+    </button>
     <button type="button" class="btn btn-success" ng-class="classBtn" ng-click="confirmarEstudo()">{{nameBtn}}</button>
 </div>

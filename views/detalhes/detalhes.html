@@ -37,7 +37,7 @@
                             </button>
                         </div>
                         <p>{{data.data | date:'dd/MM/yyyy'}}
-                            - Tempo: {{data.tempo | date: 'HH:mm'}}
+                            - Tempo: {{data.tempo}}
                             Questões: {{data.total}}
                             Acertos: {{data.acerto}}
                             Aproveitamento: {{data.aproveitamento}}%
@@ -108,11 +108,12 @@
                 <div class="form-group">
                     <label for="tempo" class="col-lg-2 control-label">Tempo de Estudo</label>
 
-                    <div class="col-lg-10">
-                        <input id="tempo" class="form-control" type="time" ng-model="estudo.tempo"
-                               placeholder="Tempo de Estudo">
+                    <div class="col-lg-2">
+                        <select id="tempo" class="form-control" ng-model="estudo.tempo" ng-options="tempo for tempo in tempos">
+                        </select>
                         <span ng-show="tempoError !== ''" class="text-danger">{{tempoError}}</span>
                     </div>
+
                 </div>
 
                 <div class="form-group">

@@ -2,12 +2,18 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
 
     $scope.initEstudar = function () {
 
+        $scope.tempos = [
+            "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00",
+            "05:30", "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
+            "11:00", "11:30", "12:00"
+        ];
+
         $scope.estudo = {
             total: 0,
             acerto: 0,
             aproveitamento: 0,
             data: new Date(),
-            tempo: null,
+            tempo: "00:00",
             observacao: "",
             status: "incompleto"
         };
@@ -16,16 +22,16 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
         $scope.Math = window.Math;
     };
 
-    function formValido () {
+    function formValido() {
         $scope.dataError = "";
         $scope.tempoError = "";
         var valido = true;
-        if(!$scope.estudo.data) {
+        if (!$scope.estudo.data) {
             valido = false;
             $scope.dataError = "Data do estudo é obrigatória";
         }
 
-        if(!$scope.estudo.tempo) {
+        if ($scope.estudo.tempo === "00:00") {
             valido = false;
             $scope.tempoError = "Tempo de estudo é obrigatório";
         }
@@ -35,7 +41,7 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
 
     $scope.confirmarEstudo = function () {
 
-        if(formValido()) {
+        if (formValido()) {
             $scope.nameBtn = "Salvando";
             $scope.classBtn = "disabled";
             $scope.estudo.aproveitamento = 0;

@@ -84,8 +84,8 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                             var tempoData = 2;
                             var minutoData = 0;
 
-                            if (data.tempo && data.tempo !== 0) {
-                                var re = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T([0-9]{2}):([0-9]{2}):00\.000Z$/gm;
+                            if (data.tempo) {
+                                var re = /^([0-9]{2}):([0-9]{2})$/gm;
                                 var m = re.exec(data.tempo);
                                 tempoData = Number(m[1]);
                                 minutoData = Number(m[2]);
@@ -96,6 +96,9 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
 
                             assunto.horasTotal += tempoData;
                             assunto.minutosTotal += minutoData;
+                            if(minutoData === 0) {
+                                minutoData = "";
+                            }
 
                             var inicioData = new Date(data.data);
                             inicioData.setTime(inicioData.getTime() - (tempoData * 60 * 60 * 1000));
