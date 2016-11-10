@@ -13,16 +13,20 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
 
         $scope.ativar = function (materia) {
             materia.ativo = true;
+            /*
             $scope.assunto.$saveOrUpdate().then(function () {
                 $state.reload();
             });
+            */
         };
 
         $scope.desativar = function (materia) {
             materia.ativo = false;
+            /*
             $scope.assunto.$saveOrUpdate().then(function () {
                 $state.reload();
             });
+            */
         };
 
         $scope.editar = function (materia, indice) {
@@ -55,9 +59,11 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
                         }
                     }
                 }).result.then(function () {
+                    /*
                     $scope.assunto.$saveOrUpdate().then(function () {
                         $state.reload();
                     });
+                    */
                 }, function () {
 
                 });
@@ -78,9 +84,11 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
                     }
                 }).result.then(function () {
                     $scope.assunto.materias.splice(indice, 1);
+                    /*
                     $scope.assunto.$saveOrUpdate().then(function () {
                         $state.reload();
                     });
+                    */
                 }, function () {
 
                 });
@@ -138,9 +146,11 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
                         }
                     }
                 }).result.then(function () {
+                    /*
                     $scope.assunto.$saveOrUpdate().then(function () {
                         $state.reload();
                     });
+                    */
                 }, function () {
 
                 });
