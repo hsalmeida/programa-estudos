@@ -1,6 +1,9 @@
 angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope', '$state', '$stateParams', 'Assuntos',
     '$modal',
     function ($scope, $rootScope, $state, $stateParams, Assuntos, $modal) {
+        $scope.logout = function () {
+            $rootScope.$emit("logout", {});
+        };
         $scope.assuntoInit = function () {
             waitingDialog.show("Aguarde. Carregando Assunto");
             $scope.models = {selected : null};

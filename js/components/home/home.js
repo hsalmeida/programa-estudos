@@ -1,7 +1,9 @@
 angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', '$state', '$cookies', '$http', '$filter', '$modal',
     'Assuntos',
     function ($scope, $rootScope, $state, $cookies, $http, $filter, $modal, Assuntos) {
-
+        $scope.logout = function () {
+            $rootScope.$emit("logout", {});
+        };
         /*
          status:
          padrao "em aberto"
@@ -106,7 +108,8 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
 
             waitingDialog.show("Aguarde. Carregando assuntos");
             var ativos = {
-                "ativo": true
+                "ativo": true,
+                "usuario": $rootScope.usuarioLogado._id.$oid
             };
             Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
                 $scope.materiasUnificadas = assuntos;

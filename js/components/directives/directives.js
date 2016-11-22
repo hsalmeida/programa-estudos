@@ -32,7 +32,9 @@ angular.module('estudos')
             replace: true,
             templateUrl: 'views/directives/home-header.html',
             controller: ['$scope', '$rootScope', function ($scope, $rootScope) {
-
+                $scope.logout = function () {
+                    $rootScope.$emit("logout", {});
+                };
             }]
         };
     })

@@ -1,12 +1,15 @@
 angular.module('estudos').controller('CalendarioController', ['$scope', '$rootScope', '$state', 'Assuntos', '$modal',
     function($scope, $rootScope, $state, Assuntos, $modal){
-
+        $scope.logout = function () {
+            $rootScope.$emit("logout", {});
+        };
         $scope.initCalendar = function () {
             waitingDialog.show("Aguarde. Carregando calendário");
             $scope.events = [];
             $scope.assuntos = [];
             var ativos = {
-                "ativo": true
+                "ativo": true,
+                "usuario": $rootScope.usuarioLogado._id.$oid
             };
             Assuntos.query(ativos).then(function (assuntos) {
                 $scope.assuntos = assuntos;

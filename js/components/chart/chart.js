@@ -1,9 +1,13 @@
 angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScope', '$state', 'Assuntos',
     function ($scope, $rootScope, $state, Assuntos) {
+        $scope.logout = function () {
+            $rootScope.$emit("logout", {});
+        };
         $scope.initChart = function () {
             waitingDialog.show("Aguarde. Carregando gráfico");
             var ativos = {
-                "ativo": true
+                "ativo": true,
+                "usuario": $rootScope.usuarioLogado._id.$oid
             };
             Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
                 var materiasUnificadas = assuntos;
@@ -113,10 +117,14 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
 
 angular.module('estudos').controller('ChartController', ['$scope', '$rootScope', '$state', 'Assuntos',
     function ($scope, $rootScope, $state, Assuntos) {
+        $scope.logout = function () {
+            $rootScope.$emit("logout", {});
+        };
         $scope.initChart = function () {
             waitingDialog.show("Aguarde. Carregando gráfico");
             var ativos = {
-                "ativo": true
+                "ativo": true,
+                "usuario": $rootScope.usuarioLogado._id.$oid
             };
             Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
                 var materiasUnificadas = assuntos;

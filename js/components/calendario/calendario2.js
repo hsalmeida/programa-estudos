@@ -1,7 +1,9 @@
 angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootScope', '$state', 'Assuntos', '$modal',
     'uiCalendarConfig',
     function ($scope, $rootScope, $state, Assuntos, $modal, uiCalendarConfig) {
-
+        $scope.logout = function () {
+            $rootScope.$emit("logout", {});
+        };
         $scope.events = [];
         $scope.eventSources = [$scope.events];
 
@@ -68,7 +70,8 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
             $scope.events = [];
             $scope.assuntos = [];
             var ativos = {
-                "ativo": true
+                "ativo": true,
+                "usuario": $rootScope.usuarioLogado._id.$oid
             };
             Assuntos.query(ativos).then(function (assuntos) {
                 $scope.assuntos = assuntos;

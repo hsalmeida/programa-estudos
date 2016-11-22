@@ -1,9 +1,14 @@
 angular.module('estudos').controller('AssuntosController', ['$scope', '$rootScope', '$state', 'Assuntos', '$modal',
     function ($scope, $rootScope, $state, Assuntos, $modal) {
+        $scope.logout = function () {
+            $rootScope.$emit("logout", {});
+        };
         $scope.assuntosInit = function () {
             waitingDialog.show("Aguarde. Carregando assuntos");
-
-            Assuntos.all({sort: {"assunto": 1}}).then(function (assuntos) {
+            var assuntoQuery = {
+                "usuario": $rootScope.usuarioLogado._id.$oid
+            };
+            Assuntos.query(assuntoQuery, {sort: {"assunto": 1}}).then(function (assuntos) {
                 $scope.materiasUnificadas = assuntos;
                 waitingDialog.hide();
             });
@@ -58,6 +63,7 @@ angular.module('estudos').controller('AssuntosController', ['$scope', '$rootScop
                         $scope.initCriar = function () {
                             $scope.assunto = new assuntosDB();
                             $scope.assunto.assunto = "";
+                            $scope.assunto.usuario = $rootScope.usuarioLogado._id.$oid;
                             $scope.assunto.geral = {
                                 "total": 0,
                                 "acertos": 0,

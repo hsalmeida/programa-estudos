@@ -17,8 +17,19 @@ angular.module("estudos", [
             if (requireLogin && typeof currentUser === 'undefined') {
                 event.preventDefault();
                 $state.go('login');
+            } else {
+                $rootScope.usuarioLogado = currentUser;
             }
         });
+        $rootScope.$on("logout", function(){
+            logout();
+        });
+
+        function logout () {
+            $window.sessionStorage.removeItem('programaEstudosUsuarioLogado');
+            $rootScope.usuarioLogado = null;
+            $state.go('login');
+        }
     });
 
 /**
