@@ -23,6 +23,7 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                 $scope.labels = [];
                 $scope.data = [];
                 $scope.assuntos = [];
+
                 for (var z = 0; z < assuntos.length; z++) {
                     if (assuntos[z].horas) {
                         $scope.assuntos.push(assuntos[z]);
@@ -36,7 +37,6 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                         tempoData += minutoData;
                         $scope.labels.push(assuntos[z].assunto);
                         $scope.data.push(tempoData);
-
                     }
                 }
 
