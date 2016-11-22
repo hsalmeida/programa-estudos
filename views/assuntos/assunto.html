@@ -1,49 +1,6 @@
 <div ng-controller="AssuntoController" ng-init="assuntoInit();">
     <div class="pe-navbar">
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                            data-target="#pe-navbar"
-                            aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand pe-brand" ui-sref="assunto">
-                        Editar Assunto
-                    </a>
-                </div>
-                <div class="collapse navbar-collapse" id="pe-navbar">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a ui-sref="home"><span class="glyphicon glyphicon-home"></span>&nbsp;Home</a>
-                        </li>
-                        <li>
-                            <a ui-sref="calendario"><span
-                                    class="glyphicon glyphicon-calendar"></span>&nbsp;Calendario</a>
-                        </li>
-                        <li>
-                            <a ui-sref="calendario2"><span class="glyphicon glyphicon-calendar"></span>&nbsp;Calendario
-                                2</a>
-                        </li>
-                        <li>
-                            <a ui-sref="chartevo"><span class="glyphicon glyphicon-signal"></span>&nbsp;Evolução</a>
-                        </li>
-                        <li>
-                            <a ui-sref="chartdes"><span class="glyphicon glyphicon-signal"></span>&nbsp;Desempenho</a>
-                        </li>
-                        <li>
-                            <a ui-sref="assuntos"><span class="glyphicon glyphicon-duplicate"></span>&nbsp;Editar</a>
-                        </li>
-                        <li>
-                            <a class="materia-header" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Sair</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <nav header></nav>
     </div>
     <ol class="breadcrumb">
         <li><a ui-sref="home">Home</a></li>

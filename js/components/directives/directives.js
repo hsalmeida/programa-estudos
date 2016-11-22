@@ -43,8 +43,13 @@ angular.module('estudos')
             restrict: 'A',
             replace: true,
             templateUrl: 'views/directives/header.html',
-            controller: ['$scope', '$rootScope', function ($scope, $rootScope) {
-
+            controller: ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
+                if($state.current.data.tituloPagina) {
+                    $scope.tituloPagina = $state.current.data.tituloPagina;
+                }
+                $scope.logout = function () {
+                    $rootScope.$emit("logout", {});
+                };
             }]
         };
     })

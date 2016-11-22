@@ -1,0 +1,29 @@
+<div ng-controller="CicloEstudoController" ng-init="initChart();">
+    <div class="pe-navbar">
+        <nav header></nav>
+    </div>
+    <div>
+        <div class="row lista-home">
+            <div class="col-md-4">
+                <button class="btn btn-danger"><i class="glyphicon glyphicon-plus"></i>&nbsp;Adicionar +1 máteria</button>
+                    <ul>
+                        <li ng-repeat="assunto in assuntos">
+                            {{assunto.assunto}}
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-8">
+                    <div class="row lista-home">
+                        <div class="col-md-12">
+                            <canvas id="bar1" class="chart chart-doughnut"
+                                    chart-data="data" chart-labels="labels" chart-options="chartoptions">
+                            </canvas>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+
+
+    </div>
+
+</div>

@@ -34,7 +34,7 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                     },
                     eventClick: $scope.eventoClicado,
                     viewRender: function (view, element) {
-                        $scope.calendar2Title = view.title;
+                        $scope.tituloPagina = view.title;
                         //getEvents();
                     },
                     events: $scope.events

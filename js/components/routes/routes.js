@@ -24,7 +24,8 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: "views/detalhes/detalhes.html",
             controller: 'DetalhesController',
             data: {
-                requiredlogin: true
+                requiredlogin: true,
+                tituloPagina: "Detalhes"
             }
         })
         .state('calendario', {
@@ -32,7 +33,8 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: "views/calendario/calendario.html",
             controller: 'CalendarioController',
             data: {
-                requiredlogin: true
+                requiredlogin: true,
+                tituloPagina: "Calendário"
             }
         })
         .state('calendario2', {
@@ -48,7 +50,8 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: "views/chart/chart.html",
             controller: 'ChartController',
             data: {
-                requiredlogin: true
+                requiredlogin: true,
+                tituloPagina: "Gráfico de Evolução"
             }
         })
         .state('chartdes', {
@@ -56,7 +59,8 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: "views/chart/chartdes.html",
             controller: 'ChartDesController',
             data: {
-                requiredlogin: true
+                requiredlogin: true,
+                tituloPagina: "Gráfico de Desempenho"
             }
         })
         .state('assuntos', {
@@ -64,7 +68,8 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: "views/assuntos/assuntos.html",
             controller: 'AssuntosController',
             data: {
-                requiredlogin: true
+                requiredlogin: true,
+                tituloPagina: "Editar Assuntos"
             }
         })
         .state('assunto', {
@@ -72,7 +77,17 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: "views/assuntos/assunto.html",
             controller: 'AssuntoController',
             data: {
-                requiredlogin: true
+                requiredlogin: true,
+                tituloPagina: "Editar Assunto"
+            }
+        })
+        .state('ciclo', {
+            url: "/ciclo-estudo",
+            templateUrl: "views/chart/ciclo-estudo.html",
+            controller: 'CicloEstudoController',
+            data: {
+                requiredlogin: true,
+                tituloPagina: "Ciclo de Estudo"
             }
         });
 });
