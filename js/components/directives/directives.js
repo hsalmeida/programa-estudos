@@ -36,6 +36,16 @@ angular.module('estudos')
             }]
         };
     })
+    .directive('header', function () {
+        return {
+            restrict: 'A',
+            replace: true,
+            templateUrl: 'views/directives/header.html',
+            controller: ['$scope', '$rootScope', function ($scope, $rootScope) {
+
+            }]
+        };
+    })
     .directive('chartStackedBar', function (ChartJsFactory) {
         return new ChartJsFactory('StackedBar');
     })
