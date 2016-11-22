@@ -57,14 +57,14 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                                 "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00"
                             ];
                             var listaAssuntos = [];
-                            for(var e = 0; e < assuntosAdicionados.length; e++) {
-                                listaAssuntos.push({"$oid" : assuntosAdicionados[e]._id.$oid});
+                            for (var e = 0; e < assuntosAdicionados.length; e++) {
+                                listaAssuntos.push({"$oid": assuntosAdicionados[e]._id.$oid});
                             }
                             var ativos = {
                                 "ativo": true,
                                 "usuario": $rootScope.usuarioLogado._id.$oid,
-                                "_id" : {
-                                    "$nin" : listaAssuntos
+                                "_id": {
+                                    "$nin": listaAssuntos
                                 }
                             };
                             Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
@@ -75,8 +75,9 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                         $scope.confirmarAdicao = function () {
                             $scope.assuntoError = "";
                             $scope.tempoError = "";
-                            if($scope.assuntoAdicao.assunto) {
-                                if($scope.assuntoAdicao.horas) {
+                            if ($scope.assuntoAdicao.assunto) {
+                                if ($scope.assuntoAdicao.horas) {
+                                    $scope.classBtn = "disabled";
                                     $scope.assuntoAdicao.$saveOrUpdate().then(function () {
                                         $scope.$close(true);
                                     });
@@ -100,6 +101,73 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                     $state.reload();
                 }, function () {
 
+                });
+        };
+
+        $scope.editarTempo = function (assunto) {
+            $modal
+                .open({
+                    templateUrl: 'editar.html',
+                    controller: function ($scope, assuntoEdicao) {
+
+                        $scope.initEditar = function () {
+                            $scope.classBtn = "";
+                            $scope.assuntoEdicao = assuntoEdicao;
+                            $scope.tempos = [
+                                "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00"
+                            ];
+                        };
+                        $scope.confirmarEdicao = function () {
+                            $scope.tempoError = "";
+                            if ($scope.assuntoEdicao.horas) {
+                                $scope.classBtn = "disabled";
+                                $scope.assuntoEdicao.$saveOrUpdate().then(function () {
+                                    $scope.$close(true);
+                                });
+                            } else {
+                                $scope.tempoError = "Selecione o tempo no ciclo.";
+                            }
+                        };
+                        $scope.cancelarAdicao = function () {
+                            $scope.$dismiss();
+                        };
+                    },
+                    resolve: {
+                        assuntoEdicao: function () {
+                            return assunto;
+                        }
+                    }
+                }).result.then(function () {
+                    $state.reload();
+                }, function () {
+
+                });
+        };
+
+        $scope.removerTempo = function (assunto) {
+            $modal
+                .open({
+                    templateUrl: 'exclusao.html',
+                    controller: function ($scope) {
+                        $scope.cancelarRemover = function () {
+                            $scope.$dismiss();
+                        };
+
+                        $scope.confirmarRemover = function () {
+                            $scope.$close(true);
+                        };
+                    },
+                    resolve: {
+                        assuntoRemocao: function () {
+                            return assunto;
+                        }
+                    }
+                }).result.then(function () {
+                    delete assunto.horas;
+                    assunto.$saveOrUpdate().then(function () {
+                        $state.reload();
+                    });
+                }, function () {
                 });
         };
     }]);
