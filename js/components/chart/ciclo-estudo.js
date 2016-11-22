@@ -1,5 +1,6 @@
 angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootScope', '$state', 'Assuntos',
-    function ($scope, $rootScope, $state, Assuntos) {
+    '$modal',
+    function ($scope, $rootScope, $state, Assuntos, $modal) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
@@ -28,7 +29,7 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                         var m = re.exec(assuntos[z].horas);
                         var tempoData = Number(m[1]);
                         var minutoData = Number(m[2]);
-                        if(minutoData !== 0) {
+                        if (minutoData !== 0) {
                             minutoData = minutoData / 60
                         }
                         tempoData += minutoData;
@@ -43,5 +44,62 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                     $scope.$apply();
                 }
             });
+        };
+
+        $scope.adicionarMateria = function () {
+            $modal
+                .open({
+                    templateUrl: 'adicionar.html',
+                    controller: function ($scope, assuntosAdicionados) {
+                        $scope.assuntoAdicao = {};
+                        $scope.initCriar = function () {
+                            $scope.tempos = [
+                                "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00"
+                            ];
+                            var listaAssuntos = [];
+                            for(var e = 0; e < assuntosAdicionados.length; e++) {
+                                listaAssuntos.push({"$oid" : assuntosAdicionados[e]._id.$oid});
+                            }
+                            var ativos = {
+                                "ativo": true,
+                                "usuario": $rootScope.usuarioLogado._id.$oid,
+                                "_id" : {
+                                    "$nin" : listaAssuntos
+                                }
+                            };
+                            Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
+                                $scope.assuntosSelecionaveis = assuntos;
+                            });
+
+                        };
+                        $scope.confirmarAdicao = function () {
+                            $scope.assuntoError = "";
+                            $scope.tempoError = "";
+                            if($scope.assuntoAdicao.assunto) {
+                                if($scope.assuntoAdicao.horas) {
+                                    $scope.assuntoAdicao.$saveOrUpdate().then(function () {
+                                        $scope.$close(true);
+                                    });
+                                } else {
+                                    $scope.tempoError = "Selecione o tempo no ciclo.";
+                                }
+                            } else {
+                                $scope.assuntoError = "Selecione pelo menos uma matéria.";
+                            }
+                        };
+                        $scope.cancelarAdicao = function () {
+                            $scope.$dismiss();
+                        };
+                    },
+                    resolve: {
+                        assuntosAdicionados: function () {
+                            return $scope.assuntos;
+                        }
+                    }
+                }).result.then(function () {
+                    $state.reload();
+                }, function () {
+
+                });
         };
     }]);

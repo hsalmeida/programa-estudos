@@ -139,3 +139,7 @@ ul[dnd-list], ul[dnd-list] > li {
     padding: 10% 20% 20%;
     text-align: center;
 }
+
+.space-top {
+    padding-top: 5px;
+}
