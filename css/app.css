@@ -134,3 +134,8 @@ ul[dnd-list], ul[dnd-list] > li {
 .fc-event {
     cursor: pointer;
 }
+
+.page-content {
+    padding: 10% 20% 20%;
+    text-align: center;
+}

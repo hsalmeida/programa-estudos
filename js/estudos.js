@@ -9,6 +9,16 @@ angular.module("estudos", [
         calendarConfig.allDateFormats.moment.title.week = 'Semana {week} de {year}';
         calendarConfig.dateFormats.hour = 'HH:mm';
         calendarConfig.allDateFormats.moment.date.datetime = 'DD MMM, HH:mm';
+    })
+    .run(function ($rootScope, $state, $window) {
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+            var requireLogin = toState.data.requiredlogin;
+            var currentUser = angular.fromJson($window.sessionStorage.getItem('programaEstudosUsuarioLogado'));
+            if (requireLogin && typeof currentUser === 'undefined') {
+                event.preventDefault();
+                $state.go('login');
+            }
+        });
     });
 
 /**
