@@ -16,7 +16,8 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                     legend: {
                         display: true,
                         position: 'right'
-                    }
+                    },
+                    showLabel: true
                 };
 
                 $scope.labels = [];
@@ -35,6 +36,7 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                         tempoData += minutoData;
                         $scope.labels.push(assuntos[z].assunto);
                         $scope.data.push(tempoData);
+
                     }
                 }
 
