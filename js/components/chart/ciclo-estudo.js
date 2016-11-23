@@ -56,7 +56,8 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                         $scope.assuntoAdicao = {};
                         $scope.initCriar = function () {
                             $scope.tempos = [
-                                "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00"
+                                "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00",
+                                "02:15", "02:30", "02:45", "03:00", "03:15", "03:30", "03:45", "04:00"
                             ];
                             var listaAssuntos = [];
                             for (var e = 0; e < assuntosAdicionados.length; e++) {
