@@ -138,7 +138,7 @@
                     <label for="acertos" class="col-lg-2 control-label">Aproveitamento</label>
 
                     <div class="col-lg-10 text-center">
-                        <span class="h3">{{estudo.total !== 0 ? Math.floor((estudo.acerto / estudo.total) * 100) : 0}}%</span>
+                        <span class="h3">{{estudo.total !== 0 ? Math.round((estudo.acerto / estudo.total) * 100) : 0}}%</span>
                     </div>
                 </div>
 

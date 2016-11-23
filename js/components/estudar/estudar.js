@@ -46,7 +46,7 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
             $scope.classBtn = "disabled";
             $scope.estudo.aproveitamento = 0;
             if ($scope.estudo.total !== 0) {
-                $scope.estudo.aproveitamento = Math.floor(($scope.estudo.acerto / $scope.estudo.total) * 100);
+                $scope.estudo.aproveitamento = Math.round(($scope.estudo.acerto / $scope.estudo.total) * 100);
             }
             var idAnterior = "";
             angular.forEach(arraySelecionados, function (selecionado, chaveSelection) {

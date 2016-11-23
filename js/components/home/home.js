@@ -161,7 +161,7 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                     for (var b = 0; b < arrayStatusMateriaMae.length; b++) {
                         if ($scope.materiasUnificadas[z].qtdMaterias > 0) {
                             arrayStatusMateriaMae[b] =
-                                Math.floor((arrayStatusMateriaMae[b] / $scope.materiasUnificadas[z].qtdMaterias) * 100);
+                                Math.round((arrayStatusMateriaMae[b] / $scope.materiasUnificadas[z].qtdMaterias) * 100);
                         }
                     }
 

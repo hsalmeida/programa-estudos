@@ -72,7 +72,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                                 //atualizo no objeto o aproveitamento.
                                 $scope.estudo.aproveitamento = 0;
                                 if ($scope.estudo.total !== 0) {
-                                    $scope.estudo.aproveitamento = Math.floor(($scope.estudo.acerto / $scope.estudo.total) * 100);
+                                    $scope.estudo.aproveitamento = Math.round(($scope.estudo.acerto / $scope.estudo.total) * 100);
                                 }
                                 //verifico se houve modificações do original para o novo
                                 var dif = checkDiffs($scope.estudo, dataOriginal,
@@ -86,7 +86,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                                         geralMateria.total = (geralMateria.total - dataOriginal.total) + $scope.estudo.total;
                                         geralMateria.aproveitamento = 0;
                                         if (geralMateria.total !== 0) {
-                                            geralMateria.aproveitamento = Math.floor((geralMateria.acertos / geralMateria.total) * 100);
+                                            geralMateria.aproveitamento = Math.round((geralMateria.acertos / geralMateria.total) * 100);
                                         }
                                         parentScope.materiaMae.materias[indiceMateria].geral = geralMateria;
                                         //atualizo o valor do assunto.
@@ -95,7 +95,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                                         geralMae.total = (geralMae.total - dataOriginal.total) + $scope.estudo.total;
                                         geralMae.aproveitamento = 0;
                                         if (geralMae.total !== 0) {
-                                            geralMae.aproveitamento = Math.floor((geralMae.acertos / geralMae.total) * 100);
+                                            geralMae.aproveitamento = Math.round((geralMae.acertos / geralMae.total) * 100);
                                         }
                                         parentScope.materiaMae.geral = geralMae;
                                     }
