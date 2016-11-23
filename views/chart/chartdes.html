@@ -4,14 +4,22 @@
     </div>
     <div>
         <div class="row lista-home">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="form-group">
-                    <label for="assunto">Selecione um Assunto</label>
-                    <select id="assunto" class="form-control" ng-model="assuntoSelecionado"
-                            ng-options="assunto.assunto for assunto in assuntos"
-                            ng-change="criarGraficoDesempenho()">
-
-                    </select>
+            <div class="col-md-6 col-md-offset-3">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label for="assunto">Selecione um Assunto</label>
+                        <select id="assunto" class="form-control" ng-model="assuntoSelecionado"
+                                ng-options="assunto.assunto for assunto in assuntos"
+                                ng-change="criarGraficoDesempenho()">
+                            <option value="">Todos</option>
+                        </select>
+                        <div class="checkbox" ng-class="assuntoSelecionado._id == null ? 'disabled' : ''">
+                            <label>
+                                <input ng-model="detalhado" type="checkbox"
+                                       ng-disabled="assuntoSelecionado._id == null ? true : false">
+                                Detalhado?</label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -3,8 +3,10 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
+        $scope.detalhado = false;
         $scope.assuntoSelecionado = {};
         $scope.initChart = function () {
+            $scope.detalhado = false;
             waitingDialog.show("Aguarde. Carregando assuntos");
             var ativos = {
                 "ativo": true,
@@ -88,7 +90,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
         };
 
         $scope.criarGraficoDesempenho = function () {
-            if($scope.assuntoSelecionado._id) {
+            if($scope.assuntoSelecionado && $scope.assuntoSelecionado._id) {
                 waitingDialog.show("Aguarde. Carregando gráfico");
 
                 var total = [];
