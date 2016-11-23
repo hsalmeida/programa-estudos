@@ -3,14 +3,16 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
+        $scope.assuntoSelecionado = {};
         $scope.initChart = function () {
-            waitingDialog.show("Aguarde. Carregando gráfico");
+            waitingDialog.show("Aguarde. Carregando assuntos");
             var ativos = {
                 "ativo": true,
                 "usuario": $rootScope.usuarioLogado._id.$oid
             };
             Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
                 var materiasUnificadas = assuntos;
+                $scope.assuntos = assuntos;
 
                 $scope.chartoptions = {
                     legend : {
@@ -30,39 +32,10 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                 };
 
                 $scope.colours = ['#46BFBD', '#FDB45C', '#949FB1', '#4D5360', '#f20005', '#1200d4', '#DCDCDC'];
-
                 $scope.barlabels = [];
-
+                $scope.series = ['Total', 'Melhor'];
                 var total = [];
                 var melhor = [];
-
-                $scope.series = ['Total', 'Melhor'];
-
-                for (var z = 0; z < materiasUnificadas.length; z++) {
-
-                    var totalUnificado = 0;
-                    var acertoUnificado = 0;
-
-                    for (var j = 0; j < materiasUnificadas[z].materias.length; j++) {
-
-                        var acertoMateriaTemp = 0;
-                        var totalMateriaTemp = 0;
-
-                        for (var a = 0; a < materiasUnificadas[z].materias[j].datas.length; a++) {
-
-                            totalMateriaTemp += materiasUnificadas[z].materias[j].datas[a].total;
-                            acertoMateriaTemp += materiasUnificadas[z].materias[j].datas[a].acerto;
-                        }
-
-                        totalUnificado += totalMateriaTemp;
-                        acertoUnificado += acertoMateriaTemp;
-                    }
-                    var aproveitamentoTotal = totalUnificado !== 0 ? Math.round((acertoUnificado / totalUnificado) * 100) : 0;
-                    total.push(aproveitamentoTotal);
-                    melhor.push(materiasUnificadas[z].geral.aproveitamento);
-                    $scope.barlabels.push(materiasUnificadas[z].assunto);
-                }
-
                 $scope.bardata = [total, melhor];
 
                 waitingDialog.hide();
@@ -111,6 +84,46 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                         chart.config.data.datasets[1].borderColor = borderColors;
                     }
                 }
+            }
+        };
+
+        $scope.criarGraficoDesempenho = function () {
+            if($scope.assuntoSelecionado._id) {
+                waitingDialog.show("Aguarde. Carregando gráfico");
+
+                var total = [];
+                var melhor = [];
+                $scope.bardata = [total, melhor];
+                $scope.barlabels = [];
+
+                Assuntos.getById($scope.assuntoSelecionado._id.$oid).then(function (assunto) {
+                    for (var j = 0; j < assunto.materias.length; j++) {
+
+                        var acertoMateriaTemp = 0;
+                        var totalMateriaTemp = 0;
+                        var aproveitamentoTotal = 0;
+
+                        for (var a = 0; a < assunto.materias[j].datas.length; a++) {
+
+                            totalMateriaTemp += assunto.materias[j].datas[a].total;
+                            acertoMateriaTemp += assunto.materias[j].datas[a].acerto;
+                        }
+
+                        if(totalMateriaTemp !== 0) {
+                            aproveitamentoTotal = Math.round((acertoMateriaTemp / totalMateriaTemp) * 100);
+                        }
+                        var texto = assunto.materias[j].texto;
+                        if(assunto.materias[j].texto.length > 50) {
+                            texto = texto.substring(0, 50) + "...";
+                        }
+
+                        $scope.barlabels.push(texto);
+                        total.push(aproveitamentoTotal);
+                        melhor.push(assunto.materias[j].geral.aproveitamento);
+                    }
+                    $scope.bardata = [total, melhor];
+                    waitingDialog.hide();
+                });
             }
         };
     }]);
