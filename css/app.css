@@ -97,6 +97,16 @@ ul[dnd-list], ul[dnd-list] > li {
     position: relative;
 }
 
+ul[dnd-list] .dndPlaceholder {
+    display: block;
+    background-color: #ddd;
+    min-height: 67px;
+}
+
+ul[dnd-list] .dndDraggingSource {
+    display: none;
+}
+
 .handle {
     cursor: move;
     position: absolute;

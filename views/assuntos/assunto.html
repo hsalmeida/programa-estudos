@@ -27,7 +27,7 @@
                     </div>
                 </form>
                 <br />
-                <ul class="list-group" dnd-list="assunto.materias">
+                <ul class="list-group">
                     <li class="list-group-item active">
                         <span>Lista de Matérias do Assunto</span>
                     </li>
@@ -35,11 +35,13 @@
                         <input type="text" ng-model="searchtext.texto" class="form-control busca-assunto"
                                placeholder="Buscar pelo texto" aria-describedby="basic-addon1">
                     </li>
+                </ul>
+                <ul class="list-group" dnd-list="assunto.materias">
+
                     <li class="list-group-item" ng-repeat="materia in assunto.materias | filter:searchtext"
                         dnd-draggable="materia"
                         dnd-moved="assunto.materias.splice($index, 1)"
                         dnd-effect-allowed="move"
-                        dnd-selected="models.selected = materia"
                         ng-class="{'selected': models.selected === materia}">
                         <dnd-nodrag>
                             <div dnd-handle class="handle">:::</div>
@@ -74,6 +76,9 @@
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </dnd-nodrag>
+                    </li>
+                    <li class="dndPlaceholder">
+
                     </li>
                 </ul>
             </div>
