@@ -13,11 +13,10 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                 "usuario": $rootScope.usuarioLogado._id.$oid
             };
             Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
-                var materiasUnificadas = assuntos;
                 $scope.assuntos = assuntos;
 
                 $scope.chartoptions = {
-                    legend : {
+                    legend: {
                         display: true,
                         position: 'top'
                     },
@@ -32,65 +31,44 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                         }]
                     }
                 };
-
                 $scope.colours = ['#46BFBD', '#FDB45C', '#949FB1', '#4D5360', '#f20005', '#1200d4', '#DCDCDC'];
-                $scope.barlabels = [];
-                $scope.series = ['Total', 'Melhor'];
-                var total = [];
-                var melhor = [];
-                $scope.bardata = [total, melhor];
-
+                gerarGraficoPadrao(assuntos);
                 waitingDialog.hide();
 
                 if (!$scope.$$phase) {
                     $scope.$apply();
                 }
             });
+        };
 
-            /*
-            $scope.$on('chart-create', function (event, chart) {
-                createOrUpdateChart(event, chart);
-            });
-
-            $scope.$on('chart-update', function (event, chart) {
-                createOrUpdateChart(event, chart);
-            });
-            */
-
-            function createOrUpdateChart(event, chart) {
-                var bgColors = [];
-                var borderColors = [];
-                if (chart.config.data.datasets[1]) {
-                    if (chart.config.data.datasets[1].data) {
-
-                        for(var i = 0; i < chart.config.data.datasets[1].data.length; i++) {
-                            var bar = chart.config.data.datasets[1].data[i];
-                            if (bar && bar <= 70) {
-
-                                bgColors.push('rgba(242,0,0,0.5)');
-                                borderColors.push('rgba(242,0,0,1)');
-                            }
-                            if (bar && bar > 70) {
-
-                                bgColors.push('rgba(0,0,242,0.5)');
-                                borderColors.push('rgba(0,0,242,1)');
-                            }
-                            if (bar && bar > 80) {
-
-                                bgColors.push('rgba(33,242,0,0.5)');
-                                borderColors.push('rgba(33,242,0,1)');
+        function gerarGraficoPadrao(assuntos) {
+            $scope.barlabels = [];
+            $scope.series = ['Total', 'Melhor'];
+            var total = [];
+            var melhor = [];
+            for (var a = 0; a < assuntos.length; a++) {
+                if (assuntos[a]) {
+                    var assunto = assuntos[a];
+                    if (assunto) {
+                        var melhorTemp = 0;
+                        for (var j = 0; j < assunto.materias.length; j++) {
+                            if (assunto.materias[j].geral.aproveitamento > melhorTemp) {
+                                melhorTemp = assunto.materias[j].geral.aproveitamento;
                             }
                         }
-
-                        chart.config.data.datasets[1].backgroundColor = bgColors;
-                        chart.config.data.datasets[1].borderColor = borderColors;
+                        if (!$scope.detalhado) {
+                            $scope.barlabels.push(assunto.assunto);
+                            total.push(assunto.geral.aproveitamento);
+                            melhor.push(melhorTemp);
+                        }
                     }
                 }
             }
-        };
+            $scope.bardata = [total, melhor];
+        }
 
         $scope.criarGraficoDesempenho = function () {
-            if($scope.assuntoSelecionado && $scope.assuntoSelecionado._id) {
+            if ($scope.assuntoSelecionado && $scope.assuntoSelecionado._id) {
                 waitingDialog.show("Aguarde. Carregando gráfico");
 
                 var total = [];
@@ -99,35 +77,85 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                 $scope.barlabels = [];
 
                 Assuntos.getById($scope.assuntoSelecionado._id.$oid).then(function (assunto) {
-                    for (var j = 0; j < assunto.materias.length; j++) {
 
-                        var acertoMateriaTemp = 0;
-                        var totalMateriaTemp = 0;
-                        var aproveitamentoTotal = 0;
-
-                        for (var a = 0; a < assunto.materias[j].datas.length; a++) {
-
-                            totalMateriaTemp += assunto.materias[j].datas[a].total;
-                            acertoMateriaTemp += assunto.materias[j].datas[a].acerto;
+                    if (!$scope.detalhado) {
+                        var melhorTemp = 0;
+                        for (var q = 0; q < assunto.materias.length; q++) {
+                            if (assunto.materias[q].geral.aproveitamento > melhorTemp) {
+                                melhorTemp = assunto.materias[q].geral.aproveitamento;
+                            }
                         }
+                        total.push(assunto.geral.aproveitamento);
+                        melhor.push(melhorTemp);
+                        $scope.barlabels.push(assunto.assunto);
+                    } else {
+                        for (var j = 0; j < assunto.materias.length; j++) {
+                            var totalAproveitamentoTemp = 0;
+                            if(assunto.materias[j].geral.totalGeral !== 0) {
+                                totalAproveitamentoTemp =
+                                    Math.round((assunto.materias[j].geral.totalAcertos
+                                        / assunto.materias[j].geral.totalGeral) * 100);
+                            }
 
-                        if(totalMateriaTemp !== 0) {
-                            aproveitamentoTotal = Math.round((acertoMateriaTemp / totalMateriaTemp) * 100);
+                            var texto = assunto.materias[j].texto;
+                            if (assunto.materias[j].texto.length > 50) {
+                                texto = texto.substring(0, 50) + "...";
+                            }
+                            $scope.barlabels.push(texto);
+                            total.push(totalAproveitamentoTemp);
+                            melhor.push(assunto.materias[j].geral.aproveitamento);
                         }
-                        var texto = assunto.materias[j].texto;
-                        if(assunto.materias[j].texto.length > 50) {
-                            texto = texto.substring(0, 50) + "...";
-                        }
-
-                        $scope.barlabels.push(texto);
-                        total.push(aproveitamentoTotal);
-                        melhor.push(assunto.materias[j].geral.aproveitamento);
                     }
+
                     $scope.bardata = [total, melhor];
                     waitingDialog.hide();
                 });
+            } else {
+                $scope.detalhado = false;
+                gerarGraficoPadrao($scope.assuntos);
             }
         };
+
+        /*
+         $scope.$on('chart-create', function (event, chart) {
+         createOrUpdateChart(event, chart);
+         });
+
+         $scope.$on('chart-update', function (event, chart) {
+         createOrUpdateChart(event, chart);
+         });
+         function createOrUpdateChart(event, chart) {
+         var bgColors = [];
+         var borderColors = [];
+         if (chart.config.data.datasets[1]) {
+         if (chart.config.data.datasets[1].data) {
+
+         for(var i = 0; i < chart.config.data.datasets[1].data.length; i++) {
+         var bar = chart.config.data.datasets[1].data[i];
+         if (bar && bar <= 70) {
+
+         bgColors.push('rgba(242,0,0,0.5)');
+         borderColors.push('rgba(242,0,0,1)');
+         }
+         if (bar && bar > 70) {
+
+         bgColors.push('rgba(0,0,242,0.5)');
+         borderColors.push('rgba(0,0,242,1)');
+         }
+         if (bar && bar > 80) {
+
+         bgColors.push('rgba(33,242,0,0.5)');
+         borderColors.push('rgba(33,242,0,1)');
+         }
+         }
+
+         chart.config.data.datasets[1].backgroundColor = bgColors;
+         chart.config.data.datasets[1].borderColor = borderColors;
+         }
+         }
+         }
+         */
+
     }]);
 
 angular.module('estudos').controller('ChartController', ['$scope', '$rootScope', '$state', 'Assuntos',
@@ -147,7 +175,7 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
                 $scope.colours = ['#f20005', '#1200d4', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
 
                 $scope.chartoptions = {
-                    legend : {
+                    legend: {
                         display: true,
                         position: 'top'
                     },

@@ -16,7 +16,8 @@
                         <div class="checkbox" ng-class="assuntoSelecionado._id == null ? 'disabled' : ''">
                             <label>
                                 <input ng-model="detalhado" type="checkbox"
-                                       ng-disabled="assuntoSelecionado._id == null ? true : false">
+                                       ng-disabled="assuntoSelecionado._id == null ? true : false"
+                                       ng-change="criarGraficoDesempenho()">
                                 Detalhado?</label>
                         </div>
                     </div>
