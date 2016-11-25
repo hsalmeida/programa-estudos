@@ -5,18 +5,31 @@
     <div>
         <div class="row lista-home space-top">
             <div class="col-md-4">
-                <button ng-click="adicionarMateria();" class="btn btn-danger"><i class="glyphicon glyphicon-plus"></i>&nbsp;Adicionar +1 máteria
+                <button ng-click="adicionarMateria();" class="btn btn-danger">
+                    <i class="glyphicon glyphicon-plus"></i>&nbsp;Adicionar
+                    +1 máteria
                 </button>
-                <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="assunto in assuntos">
-                        {{assunto.assunto}} - <strong>{{assunto.horas}}</strong>
-                        &nbsp;
-                        <button class="btn btn-primary" ng-click="editarTempo(assunto)" tooltip="Editar Tempo">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </button>
-                        <button class="btn btn-danger" ng-click="removerTempo(assunto)" tooltip="Remover Materia">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
+                <button class="btn btn-success" ng-click="atualizarCiclo();">
+                    <i class="glyphicon glyphicon-refresh"></i>&nbsp;Atualizar Ciclo
+                </button>
+                <ul class="list-group" dnd-list="assuntos">
+                    <li class="list-group-item" ng-repeat="assunto in assuntos"
+                        dnd-draggable="assunto"
+                        dnd-moved="assuntos.splice($index, 1)"
+                        dnd-effect-allowed="move">
+                        <dnd-nodrag>
+                            <div dnd-handle class="handle">:::</div>
+                            <label class="materia-lbl">
+                                {{assunto.assunto}} - <strong>{{assunto.horas}}</strong>
+                                &nbsp;
+                            </label>
+                            <button class="btn btn-primary" ng-click="editarTempo(assunto)" tooltip="Editar Tempo">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                            <button class="btn btn-danger" ng-click="removerTempo(assunto)" tooltip="Remover Materia">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </dnd-nodrag>
                     </li>
                 </ul>
             </div>
@@ -50,7 +63,8 @@
                     <label for="etempo" class="col-lg-2 control-label">Horas</label>
 
                     <div class="col-lg-10">
-                        <select id="etempo" class="form-control" ng-model="assuntoEdicao.horas" ng-options="tempo for tempo in tempos"
+                        <select id="etempo" class="form-control" ng-model="assuntoEdicao.horas"
+                                ng-options="tempo for tempo in tempos"
                                 ng-focus="tempoError = ''">
                         </select>
                         <span ng-show="tempoError !== ''" class="text-danger">{{tempoError}}</span>
@@ -108,7 +122,8 @@
 
                     <div class="col-lg-10">
                         <select id="ctexto" class="form-control"
-                                ng-model="assuntoAdicao" ng-options="assunto.assunto for assunto in assuntosSelecionaveis"
+                                ng-model="assuntoAdicao"
+                                ng-options="assunto.assunto for assunto in assuntosSelecionaveis"
                                 ng-focus="assuntoError = ''">
                         </select>
                         <span ng-show="assuntoError !== ''" class="text-danger">{{assuntoError}}</span>
@@ -119,7 +134,8 @@
                     <label for="tempo" class="col-lg-2 control-label">Horas</label>
 
                     <div class="col-lg-10">
-                        <select id="tempo" class="form-control" ng-model="assuntoAdicao.horas" ng-options="tempo for tempo in tempos"
+                        <select id="tempo" class="form-control" ng-model="assuntoAdicao.horas"
+                                ng-options="tempo for tempo in tempos"
                                 ng-focus="tempoError = ''">
                         </select>
                         <span ng-show="tempoError !== ''" class="text-danger">{{tempoError}}</span>

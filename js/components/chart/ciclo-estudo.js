@@ -1,16 +1,17 @@
 angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootScope', '$state', 'Assuntos',
-    '$modal',
-    function ($scope, $rootScope, $state, Assuntos, $modal) {
+    '$modal', '$q',
+    function ($scope, $rootScope, $state, Assuntos, $modal, $q) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
+        $scope.models = {selected : null};
         $scope.initChart = function () {
             waitingDialog.show("Aguarde. Carregando gráfico");
             var ativos = {
                 "ativo": true,
                 "usuario": $rootScope.usuarioLogado._id.$oid
             };
-            Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
+            Assuntos.query(ativos, {sort: {"ordem": 1}}).then(function (assuntos) {
 
                 $scope.chartoptions = {
                     legend: {
@@ -46,6 +47,22 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                     $scope.$apply();
                 }
             });
+        };
+
+        $scope.atualizarCiclo = function () {
+            if($scope.assuntos) {
+                var promisses = [];
+                waitingDialog.show("Atualizando ordens. Aguarde.");
+                for (var i = 0; i < $scope.assuntos.length; i++) {
+                    $scope.assuntos[i].ordem = i;
+                    var assunto = new Assuntos($scope.assuntos[i]);
+                    promisses.push(assunto.$saveOrUpdate().then(function () {}));
+                }
+                $q.all(promisses).then(function () {
+                    waitingDialog.hide();
+                    $state.reload();
+                });
+            }
         };
 
         $scope.adicionarMateria = function () {
