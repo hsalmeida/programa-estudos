@@ -59,7 +59,6 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                     promisses.push(assunto.$saveOrUpdate().then(function () {}));
                 }
                 $q.all(promisses).then(function () {
-                    waitingDialog.hide();
                     $state.reload();
                 });
             }
