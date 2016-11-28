@@ -8,11 +8,15 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
             "11:00", "11:30", "12:00"
         ];
 
+        var date = new Date();
+        date.setMilliseconds(0);
+        date.setSeconds(0);
+
         $scope.estudo = {
             total: 0,
             acerto: 0,
             aproveitamento: 0,
-            data: new Date(),
+            data: date,
             tempo: "00:00",
             observacao: "",
             status: "incompleto"
