@@ -34,16 +34,20 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                             ];
 
                             $scope.Math = window.Math;
+                            var data = new Date(dataSelecionada.data);
+                            data.setMilliseconds(0);
+                            data.setSeconds(0);
+
                             $scope.estudo = {
                                 total: dataSelecionada.total,
                                 acerto: dataSelecionada.acerto,
-                                data: new Date(dataSelecionada.data),
+                                data: data,
                                 tempo: dataSelecionada.tempo,
                                 observacao: dataSelecionada.observacao,
                                 status: dataSelecionada.status ? dataSelecionada.status : "incompleto",
                                 relevante: dataSelecionada.relevante ? dataSelecionada.relevante : false
                             };
-                            dataSelecionada.data = new Date(dataSelecionada.data);
+                            dataSelecionada.data = data;
                         };
 
                         function formValido() {

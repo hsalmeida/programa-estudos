@@ -198,22 +198,25 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
                 };
 
                 $scope.barlabels1 = [];
-                $scope.barlabels = [];
 
-                var dadosBar = [];
                 var dadosEstudos = [];
                 var dadosNaoEstudos = [];
                 $scope.series = ['Horas'];
                 $scope.series1 = ['Não estudado', 'Estudado'];
 
-
                 for (var z = 0; z < materiasUnificadas.length; z++) {
-
-                    var totalHoras = 0;
                     var totalEstudo = 0;
                     var estudada = 0;
+                    var lenAtiva = 0;
                     for (var j = 0; j < materiasUnificadas[z].materias.length; j++) {
                         if(materiasUnificadas[z].materias[j].ativo) {
+                            lenAtiva++;
+
+                            if (materiasUnificadas[z].materias[j].status === "revisar" ||
+                                materiasUnificadas[z].materias[j].status === "completo") {
+                                estudada++;
+                            }
+                            /*
                             var parcialEstudo = 0;
                             var parcialNaoEstudo = 0;
                             for (var a = 0; a < materiasUnificadas[z].materias[j].datas.length; a++) {
@@ -224,14 +227,6 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
                                 } else {
                                     parcialNaoEstudo++;
                                 }
-
-                                var horas = new Date(materiasUnificadas[z].materias[j].datas[a].tempo).getHours();
-                                var minutos = new Date(materiasUnificadas[z].materias[j].datas[a].tempo).getMinutes();
-                                if (minutos > 0) {
-                                    minutos = (minutos / 60);
-                                    horas += minutos;
-                                }
-                                totalHoras += horas;
                             }
                             if (parcialEstudo > 0 && parcialEstudo == parcialNaoEstudo) {
                                 estudada++;
@@ -240,18 +235,16 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
                                     estudada++;
                                 }
                             }
+                            */
                         }
                     }
-
-                    totalEstudo = Math.round((estudada * 100) / materiasUnificadas[z].materias.length);
+                    totalEstudo = Math.round((estudada / lenAtiva) * 100);
                     dadosEstudos.push(totalEstudo);
                     dadosNaoEstudos.push(100 - totalEstudo);
-                    dadosBar.push(totalHoras);
+
                     $scope.barlabels1.push(materiasUnificadas[z].assunto);
-                    $scope.barlabels.push(materiasUnificadas[z].assunto);
                 }
                 $scope.bardata1 = [dadosNaoEstudos, dadosEstudos];
-                $scope.bardata = [dadosBar];
 
                 waitingDialog.hide();
 
