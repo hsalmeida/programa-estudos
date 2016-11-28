@@ -52,7 +52,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                     if (assunto) {
                         var melhorTemp = 0;
                         for (var j = 0; j < assunto.materias.length; j++) {
-                            if (assunto.materias[j].geral.aproveitamento > melhorTemp) {
+                            if (assunto.materias[j].ativo && assunto.materias[j].geral.aproveitamento > melhorTemp) {
                                 melhorTemp = assunto.materias[j].geral.aproveitamento;
                             }
                         }
@@ -81,7 +81,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                     if (!$scope.detalhado) {
                         var melhorTemp = 0;
                         for (var q = 0; q < assunto.materias.length; q++) {
-                            if (assunto.materias[q].geral.aproveitamento > melhorTemp) {
+                            if (assunto.materias[q].ativo && assunto.materias[q].geral.aproveitamento > melhorTemp) {
                                 melhorTemp = assunto.materias[q].geral.aproveitamento;
                             }
                         }
@@ -91,19 +91,21 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                     } else {
                         for (var j = 0; j < assunto.materias.length; j++) {
                             var totalAproveitamentoTemp = 0;
-                            if(assunto.materias[j].geral.totalGeral !== 0) {
-                                totalAproveitamentoTemp =
-                                    Math.round((assunto.materias[j].geral.totalAcertos
-                                        / assunto.materias[j].geral.totalGeral) * 100);
-                            }
+                            if(assunto.materias[j].ativo) {
+                                if (assunto.materias[j].geral.totalGeral !== 0) {
+                                    totalAproveitamentoTemp =
+                                        Math.round((assunto.materias[j].geral.totalAcertos
+                                            / assunto.materias[j].geral.totalGeral) * 100);
+                                }
 
-                            var texto = assunto.materias[j].texto;
-                            if (assunto.materias[j].texto.length > 50) {
-                                texto = texto.substring(0, 50) + "...";
+                                var texto = assunto.materias[j].texto;
+                                if (assunto.materias[j].texto.length > 50) {
+                                    texto = texto.substring(0, 50) + "...";
+                                }
+                                $scope.barlabels.push(texto);
+                                total.push(totalAproveitamentoTemp);
+                                melhor.push(assunto.materias[j].geral.aproveitamento);
                             }
-                            $scope.barlabels.push(texto);
-                            total.push(totalAproveitamentoTemp);
-                            melhor.push(assunto.materias[j].geral.aproveitamento);
                         }
                     }
 
