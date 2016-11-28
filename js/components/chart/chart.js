@@ -213,30 +213,32 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
                     var totalEstudo = 0;
                     var estudada = 0;
                     for (var j = 0; j < materiasUnificadas[z].materias.length; j++) {
-                        var parcialEstudo = 0;
-                        var parcialNaoEstudo = 0;
-                        for (var a = 0; a < materiasUnificadas[z].materias[j].datas.length; a++) {
+                        if(materiasUnificadas[z].materias[j].ativo) {
+                            var parcialEstudo = 0;
+                            var parcialNaoEstudo = 0;
+                            for (var a = 0; a < materiasUnificadas[z].materias[j].datas.length; a++) {
 
-                            if (materiasUnificadas[z].materias[j].datas[a].status === "revisar" ||
-                                materiasUnificadas[z].materias[j].datas[a].status === "completo") {
-                                parcialEstudo++;
-                            } else {
-                                parcialNaoEstudo++;
-                            }
+                                if (materiasUnificadas[z].materias[j].datas[a].status === "revisar" ||
+                                    materiasUnificadas[z].materias[j].datas[a].status === "completo") {
+                                    parcialEstudo++;
+                                } else {
+                                    parcialNaoEstudo++;
+                                }
 
-                            var horas = new Date(materiasUnificadas[z].materias[j].datas[a].tempo).getHours();
-                            var minutos = new Date(materiasUnificadas[z].materias[j].datas[a].tempo).getMinutes();
-                            if (minutos > 0) {
-                                minutos = (minutos / 60);
-                                horas += minutos;
+                                var horas = new Date(materiasUnificadas[z].materias[j].datas[a].tempo).getHours();
+                                var minutos = new Date(materiasUnificadas[z].materias[j].datas[a].tempo).getMinutes();
+                                if (minutos > 0) {
+                                    minutos = (minutos / 60);
+                                    horas += minutos;
+                                }
+                                totalHoras += horas;
                             }
-                            totalHoras += horas;
-                        }
-                        if (parcialEstudo > 0 && parcialEstudo == parcialNaoEstudo) {
-                            estudada++;
-                        } else {
-                            if (parcialEstudo > parcialNaoEstudo) {
+                            if (parcialEstudo > 0 && parcialEstudo == parcialNaoEstudo) {
                                 estudada++;
+                            } else {
+                                if (parcialEstudo > parcialNaoEstudo) {
+                                    estudada++;
+                                }
                             }
                         }
                     }
