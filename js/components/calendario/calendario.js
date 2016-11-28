@@ -49,8 +49,8 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                             }
 
                             var inicioData = new Date(data.data);
-                            inicioData.setTime(inicioData.getTime() - (tempoData * 60 * 60 * 1000));
-                            var fimData = new Date(inicioData);
+                            //inicioData.setTime(inicioData.getTime() - (tempoData * 60 * 60 * 1000));
+                            var fimData = new Date(inicioData.getTime());
                             fimData.setTime(fimData.getTime() + (tempoData * 60 * 60 * 1000));
 
                             var evento = {
