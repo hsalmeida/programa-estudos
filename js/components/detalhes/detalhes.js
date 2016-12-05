@@ -45,7 +45,10 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                                 tempo: dataSelecionada.tempo,
                                 observacao: dataSelecionada.observacao,
                                 status: dataSelecionada.status ? dataSelecionada.status : "incompleto",
-                                relevante: dataSelecionada.relevante ? dataSelecionada.relevante : false
+                                relevante: dataSelecionada.relevante ? dataSelecionada.relevante : false,
+                                _24h: dataSelecionada._24h,
+                                _7dh: dataSelecionada._7dh,
+                                _30d: dataSelecionada._30d
                             };
                             dataSelecionada.data = data;
                         };
@@ -80,7 +83,8 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                                 }
                                 //verifico se houve modificações do original para o novo
                                 var dif = checkDiffs($scope.estudo, dataOriginal,
-                                    ['total', 'acerto', 'data', 'tempo', 'observacao', 'status', 'relevante']);
+                                    ['total', 'acerto', 'data', 'tempo', 'observacao', 'status', 'relevante',
+                                        '_24h', '_7d', '_30d']);
 
                                 if (dif) {
                                     if ($scope.estudo.relevante) {
@@ -89,6 +93,12 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                                         geralMateria.acertos = (geralMateria.acertos - dataOriginal.acerto) + $scope.estudo.acerto;
                                         geralMateria.total = (geralMateria.total - dataOriginal.total) + $scope.estudo.total;
                                         geralMateria.aproveitamento = 0;
+
+                                        geralMateria._24h = $scope.estudo._24h;
+                                        geralMateria._7d = $scope.estudo._7d;
+                                        geralMateria._30d = $scope.estudo._30d;
+
+
                                         if (geralMateria.total !== 0) {
                                             geralMateria.aproveitamento = Math.round((geralMateria.acertos / geralMateria.total) * 100);
                                         }

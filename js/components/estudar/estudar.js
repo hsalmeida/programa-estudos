@@ -1,4 +1,4 @@
-angular.module('estudos').controller('EstudarController', function ($scope, assuntosDB, arraySelecionados, materias) {
+angular.module('estudos').controller('EstudarController', function ($scope, assuntosDB, arraySelecionados, materias, $q) {
 
     $scope.initEstudar = function () {
 
@@ -19,7 +19,10 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
             data: date,
             tempo: "00:00",
             observacao: "",
-            status: "incompleto"
+            status: "incompleto",
+            _24h: false,
+            _7d: false,
+            _30d: false
         };
         $scope.classBtn = "";
         $scope.nameBtn = "Confirmar Estudo";
@@ -87,6 +90,10 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
                             }
                         });
 
+                        materia.materias[indice].geral._24h = false;
+                        materia.materias[indice].geral._7d = false;
+                        materia.materias[indice].geral._30d = false;
+
                         materia.materias[indice].geral.total = melhorTotal;
                         materia.materias[indice].geral.acertos = melhotAcerto;
                         materia.materias[indice].geral.aproveitamento = melhorAproveitamento;
@@ -96,16 +103,11 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
                 });
             });
 
-            var salvos = 0;
+            var promisses = [];
             angular.forEach(materias, function (materia, chaveMateria) {
-                materia.$saveOrUpdate().then(function () {
-                    salvos++;
-                    console.log("save");
-                    if (materias.length === salvos) {
-                        $scope.$close(true);
-                    }
-                });
+                promisses.push(materia.$saveOrUpdate().then(function () {}));
             });
+            $q.all(promisses).then(function () { console.log('salvar'); $scope.$close(true); });
         }
     };
     $scope.cancelarEstudo = function () {

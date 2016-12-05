@@ -47,6 +47,10 @@
                             <span class="label label-as-badge label-danger" ng-show="data.status === 'incompleto'">incompleto</span>
                             <span class="label label-as-badge label-warning" ng-show="!data.status">em aberto</span>
                             <span class="label label-as-badge label-default" ng-show="data.relevante">relevante</span>
+                            &nbsp;&nbsp;
+                            <span class="label" ng-class="data._24h ? 'label-success' : 'label-default'">24h</span>
+                            <span class="label" ng-class="data._7d ? 'label-success' : 'label-default'">7d</span>
+                            <span class="label" ng-class="data._30d ? 'label-success' : 'label-default'">30d</span>
                         </p>
                         <label>Observação:</label>
 
@@ -114,9 +118,9 @@
                         <span ng-show="tempoError !== ''" class="text-danger">{{tempoError}}</span>
                     </div>
                     <span class="control-label">Revisão:</span>
-                    <label for="24h">24h&nbsp;<input id="24h" type="checkbox"></label>
-                    <label for="7d">7d&nbsp;<input id="7d" type="checkbox"></label>
-                    <label for="30d">30d&nbsp;<input id="30d" type="checkbox"></label>
+                    <label for="24h">24h&nbsp;<input ng-model="estudo._24h" id="24h" type="checkbox"></label>
+                    <label for="7d">7d&nbsp;<input ng-model="estudo._7d" id="7d" type="checkbox"></label>
+                    <label for="30d">30d&nbsp;<input ng-model="estudo._30d" id="30d" type="checkbox"></label>
 
                 </div>
 

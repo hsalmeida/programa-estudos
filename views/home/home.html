@@ -47,9 +47,9 @@
                                 em aberto
                             </span>
                             &nbsp;&nbsp;
-                            <span class="label label-success">24h</span>
-                            <span class="label label-default">7d</span>
-                            <span class="label label-default">30d</span>
+                            <span class="label" ng-class="assunto.geral._24h ? 'label-success' : 'label-default'">24h</span>
+                            <span class="label" ng-class="assunto.geral._7d ? 'label-success' : 'label-default'">7d</span>
+                            <span class="label" ng-class="assunto.geral._30d ? 'label-success' : 'label-default'">30d</span>
                             <div class="pull-right">
                                 <a class="btn btn-primary" ng-show="assunto.datas.length > 0" target="_blank" tooltip="Mostrar detalhes" ui-sref="detalhes({'materia':materia._id.$oid, 'indice':materia.materias.indexOf(assunto)})">
                                     <span class="glyphicon glyphicon-search"></span>
