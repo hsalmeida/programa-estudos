@@ -1,5 +1,6 @@
 angular.module('estudos').controller('CalendarioController', ['$scope', '$rootScope', '$state', 'Assuntos', '$modal',
-    function ($scope, $rootScope, $state, Assuntos, $modal) {
+    'calendarConfig',
+    function ($scope, $rootScope, $state, Assuntos, $modal, calendarConfig) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
@@ -8,12 +9,14 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
 
             var tempoTotal = 0;
             var minutosTotal = 0;
-            for (var i = 0; i < cell.events.length; i++) {
-                if (cell.events[i].horas) {
-                    var re = /^([0-9]{2}):([0-9]{2})$/gm;
-                    var m = re.exec(cell.events[i].tempo);
-                    tempoTotal += Number(m[1]);
-                    minutosTotal += Number(m[2]);
+            if(cell.events) {
+                for (var i = 0; i < cell.events.length; i++) {
+                    if (cell.events[i].horas) {
+                        var re = /^([0-9]{2}):([0-9]{2})$/gm;
+                        var m = re.exec(cell.events[i].tempo);
+                        tempoTotal += Number(m[1]);
+                        minutosTotal += Number(m[2]);
+                    }
                 }
             }
             tempoTotal += minutosTotal !== 0 ? minutosTotal / 60 : 0;
@@ -28,6 +31,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                 "ativo": true,
                 "usuario": $rootScope.usuarioLogado._id.$oid
             };
+            console.log(calendarConfig.colorTypes);
             Assuntos.query(ativos).then(function (assuntos) {
                 $scope.assuntos = assuntos;
                 angular.forEach(assuntos, function (assunto, assuntoIndex) {
@@ -37,14 +41,14 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
 
                         angular.forEach(materia.datas, function (data, dataIndex) {
 
-                            var status = "info";
+                            var status = calendarConfig.colorTypes.info;
                             var textStatus = data.status ? data.status : "em andamento";
                             if (data.status === "completo")
-                                status = "success";
+                                status = calendarConfig.colorTypes.success;
                             if (data.status === "revisar")
-                                status = "warning";
+                                status = calendarConfig.colorTypes.warning;
                             if (data.status === "incompleto")
-                                status = "important";
+                                status = calendarConfig.colorTypes.important;
 
                             var tempoData = 2;
                             var minutoData = 0;
@@ -75,7 +79,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
 
                             var evento = {
                                 title: '•' + materia.topico + ': •' + materia.texto + ' (' + textStatus + ')',
-                                type: status,
+                                color: status,
                                 startsAt: inicioData,
                                 endsAt: fimData,
                                 editable: false,
