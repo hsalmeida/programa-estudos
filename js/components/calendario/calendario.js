@@ -31,7 +31,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                 "ativo": true,
                 "usuario": $rootScope.usuarioLogado._id.$oid
             };
-            console.log(calendarConfig.colorTypes);
+
             Assuntos.query(ativos).then(function (assuntos) {
                 $scope.assuntos = assuntos;
                 angular.forEach(assuntos, function (assunto, assuntoIndex) {
