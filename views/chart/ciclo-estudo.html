@@ -125,6 +125,7 @@
                                 ng-model="assuntoAdicao"
                                 ng-options="assunto.assunto for assunto in assuntosSelecionaveis"
                                 ng-focus="assuntoError = ''">
+                            <option value="">Selecione uma matéria</option>
                         </select>
                         <span ng-show="assuntoError !== ''" class="text-danger">{{assuntoError}}</span>
                     </div>
@@ -137,6 +138,7 @@
                         <select id="tempo" class="form-control" ng-model="assuntoAdicao.horas"
                                 ng-options="tempo for tempo in tempos"
                                 ng-focus="tempoError = ''">
+                            <option value="">Selecione o tempo de estudo</option>
                         </select>
                         <span ng-show="tempoError !== ''" class="text-danger">{{tempoError}}</span>
                     </div>

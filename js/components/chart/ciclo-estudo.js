@@ -1,6 +1,6 @@
 angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootScope', '$state', 'Assuntos',
-    '$modal', '$q',
-    function ($scope, $rootScope, $state, Assuntos, $modal, $q) {
+    '$modal', '$q', 'ChartJsFactory',
+    function ($scope, $rootScope, $state, Assuntos, $modal, $q, ChartJsFactory) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
