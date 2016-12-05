@@ -5,7 +5,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
         };
 
         $scope.cellModifier = function (cell) {
-            console.log(cell);
+
             var tempoTotal = 0;
             var minutosTotal = 0;
             for (var i = 0; i < cell.events.length; i++) {
