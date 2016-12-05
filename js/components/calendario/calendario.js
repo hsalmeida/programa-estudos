@@ -1,8 +1,25 @@
 angular.module('estudos').controller('CalendarioController', ['$scope', '$rootScope', '$state', 'Assuntos', '$modal',
-    function($scope, $rootScope, $state, Assuntos, $modal){
+    function ($scope, $rootScope, $state, Assuntos, $modal) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
+
+        $scope.cellModifier = function (cell) {
+            console.log(cell);
+            var tempoTotal = 0;
+            var minutosTotal = 0;
+            for (var i = 0; i < cell.events.length; i++) {
+                if (cell.events[i].horas) {
+                    var re = /^([0-9]{2}):([0-9]{2})$/gm;
+                    var m = re.exec(cell.events[i].tempo);
+                    tempoTotal += Number(m[1]);
+                    minutosTotal += Number(m[2]);
+                }
+            }
+            tempoTotal += minutosTotal !== 0 ? minutosTotal / 60 : 0;
+            cell.badgeTotal = tempoTotal;
+        };
+
         $scope.initCalendar = function () {
             waitingDialog.show("Aguarde. Carregando calendário");
             $scope.events = [];
@@ -16,17 +33,17 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                 angular.forEach(assuntos, function (assunto, assuntoIndex) {
                     assunto.horasTotal = 0;
                     assunto.minutosTotal = 0;
-                    angular.forEach(assunto.materias, function(materia, materiaIndex){
+                    angular.forEach(assunto.materias, function (materia, materiaIndex) {
 
-                        angular.forEach(materia.datas, function(data, dataIndex){
+                        angular.forEach(materia.datas, function (data, dataIndex) {
 
                             var status = "info";
                             var textStatus = data.status ? data.status : "em andamento";
-                            if(data.status === "completo")
+                            if (data.status === "completo")
                                 status = "success";
-                            if(data.status === "revisar")
+                            if (data.status === "revisar")
                                 status = "warning";
-                            if(data.status === "incompleto")
+                            if (data.status === "incompleto")
                                 status = "important";
 
                             var tempoData = 2;
@@ -44,12 +61,12 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
 
                             assunto.horasTotal += tempoData;
                             assunto.minutosTotal += Number(minutoData);
-                            if(minutoData === 0) {
+                            if (minutoData === 0) {
                                 minutoData = "";
                             }
 
                             var inicioData = new Date(data.data);
-                            if($rootScope.usuarioLogado.estudaDepois) {
+                            if ($rootScope.usuarioLogado.estudaDepois) {
                                 inicioData.setTime(inicioData.getTime() - (tempoData * 60 * 60 * 1000));
                             }
 
@@ -72,6 +89,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                                 acerto: data.acerto,
                                 aproveitamento: data.aproveitamento,
                                 horas: tempoData + "h" + minutoData,
+                                tempo: data.tempo,
                                 obs: data.observacao
                             };
                             $scope.events.push(evento);
@@ -106,7 +124,9 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                             return event;
                         }
                     }
-                }).result.then(function () {}, function () {});
+                }).result.then(function () {
+                }, function () {
+                });
         };
 
     }]);
