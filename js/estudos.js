@@ -9,6 +9,15 @@ angular.module("estudos", [
         calendarConfig.allDateFormats.moment.title.week = 'Semana {week} de {year}';
         calendarConfig.dateFormats.hour = 'HH:mm';
         calendarConfig.allDateFormats.moment.date.datetime = 'DD MMM, HH:mm';
+    }).filter('index', function () {
+        return function (array, index) {
+            if (!index)
+                index = 'index';
+            for (var i = 0; i < array.length; ++i) {
+                array[i][index] = i;
+            }
+            return array;
+        };
     })
     .run(function ($rootScope, $state, $window) {
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {

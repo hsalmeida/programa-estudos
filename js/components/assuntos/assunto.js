@@ -6,8 +6,13 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
         };
         $scope.assuntoInit = function () {
             waitingDialog.show("Aguarde. Carregando Assunto");
-            $scope.models = {selected : null};
             Assuntos.getById($stateParams.id).then(function (assunto) {
+                for (var i = 0; i < assunto.materias.length; i++) {
+                    if(!assunto.materias[i].listaordem) {
+                        assunto.materias[i].listaordem = (i + 1);
+                    }
+
+                }
                 $scope.assunto = assunto;
                 waitingDialog.hide();
             });

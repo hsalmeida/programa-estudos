@@ -153,3 +153,7 @@ ul[dnd-list] .dndDraggingSource {
 .space-top {
     padding-top: 5px;
 }
+
+.lista-ordem {
+    width: 40px;
+}

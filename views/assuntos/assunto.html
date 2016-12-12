@@ -36,49 +36,39 @@
                                placeholder="Buscar pelo texto" aria-describedby="basic-addon1">
                     </li>
                 </ul>
-                <ul class="list-group" dnd-list="assunto.materias">
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="materia in assunto.materias | orderBy: 'listaordem' | filter:searchtext ">
+                        <label>
+                            <input type="number" step="1" min="1" max="999" ng-model="materia.listaordem" class="lista-ordem">
+                            .&nbsp;{{materia.texto}} -
+                            <i>{{materia.concurso}}</i>
+                        <span class="label label-warning" ng-show="materia.datas.length > 0">
+                            possui {{materia.datas.length}} estudo(s) cadastrados.
+                        </span>
+                            &nbsp;
+                        <span ng-show="materia.ativo" class="label label-success">
+                            ATIVA
+                        </span>
+                        <span ng-show="!materia.ativo" class="label label-danger">
+                            INATIVA
+                        </span>
+                        </label>
+                        <button class="btn btn-primary" ng-click="editar(materia, $index)" tooltip="Editar Matéria">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
 
-                    <li class="list-group-item" ng-repeat="materia in assunto.materias | filter:searchtext"
-                        dnd-draggable="materia"
-                        dnd-moved="assunto.materias.splice($index, 1)"
-                        dnd-effect-allowed="move"
-                        ng-class="{'selected': models.selected === materia}">
-                        <dnd-nodrag>
-                            <div dnd-handle class="handle">:::</div>
-                            <label class="materia-lbl">
-                                {{assunto.materias.indexOf(materia) + 1}}. {{materia.texto}} -
-                                <i>{{materia.concurso}}</i>
-                            <span class="label label-warning" ng-show="materia.datas.length > 0">
-                                possui {{materia.datas.length}} estudo(s) cadastrados.
-                            </span>
-                                &nbsp;
-                            <span ng-show="materia.ativo" class="label label-success">
-                                ATIVA
-                            </span>
-                            <span ng-show="!materia.ativo" class="label label-danger">
-                                INATIVA
-                            </span>
-                            </label>
-                            <button class="btn btn-primary" ng-click="editar(materia, $index)" tooltip="Editar Matéria">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                            </button>
+                        <button class="btn btn-success" ng-show="!materia.ativo" ng-click="ativar(materia)"
+                                tooltip="Exibir">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                        <button class="btn btn-info" ng-show="materia.ativo" ng-click="desativar(materia)"
+                                tooltip="Ocultar">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
 
-                            <button class="btn btn-success" ng-show="!materia.ativo" ng-click="ativar(materia)"
-                                    tooltip="Exibir">
-                                <span class="glyphicon glyphicon-ok"></span>
-                            </button>
-                            <button class="btn btn-info" ng-show="materia.ativo" ng-click="desativar(materia)"
-                                    tooltip="Ocultar">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </button>
-
-                            <button class="btn btn-danger" ng-click="excluir($index)" tooltip="Excluir Matéria">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                        </dnd-nodrag>
-                    </li>
-                    <li class="dndPlaceholder">
-
+                        <button class="btn btn-danger" ng-click="excluir($index)" tooltip="Excluir Matéria">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
                     </li>
                 </ul>
             </div>

@@ -122,6 +122,10 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
 
                     for (var j = 0; j < $scope.materiasUnificadas[z].materias.length; j++) {
 
+                        if(!$scope.materiasUnificadas[z].materias[j].listaordem) {
+                            $scope.materiasUnificadas[z].materias[j].listaordem = (j + 1);
+                        }
+
                         $scope.materiasUnificadas[z].materias[j].qtdDatas =
                             $scope.materiasUnificadas[z].materias[j].datas.length;
 
