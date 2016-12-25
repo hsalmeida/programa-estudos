@@ -142,7 +142,7 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                     $scope.materiasUnificadas[z].status = $scope.materiasUnificadas[z].status ?
                         $scope.materiasUnificadas[z].status : '';
                     var arrayStatusMateriaMae = [0, 0, 0, 0];
-                    $scope.materiasUnificadas[z].qtdMaterias = $scope.materiasUnificadas[z].materias.length;
+                    $scope.materiasUnificadas[z].qtdMaterias = 0;
 
                     for (var j = 0; j < $scope.materiasUnificadas[z].materias.length; j++) {
 
@@ -179,11 +179,13 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
 
                         $scope.materiasUnificadas[z].materias[j].status = ultimoStatus;
 
-                        $scope.materiasUnificadas[z].materias[j].status === "incompleto" ?
-                            arrayStatusMateriaMae[1]++ : $scope.materiasUnificadas[z].materias[j].status === "revisar" ?
-                            arrayStatusMateriaMae[2]++ : $scope.materiasUnificadas[z].materias[j].status === "completo" ?
-                            arrayStatusMateriaMae[3]++ : arrayStatusMateriaMae[0]++;
-
+                        if($scope.materiasUnificadas[z].materias[j].ativo) {
+                            $scope.materiasUnificadas[z].materias[j].status === "incompleto" ?
+                                arrayStatusMateriaMae[1]++ : $scope.materiasUnificadas[z].materias[j].status === "revisar" ?
+                                arrayStatusMateriaMae[2]++ : $scope.materiasUnificadas[z].materias[j].status === "completo" ?
+                                arrayStatusMateriaMae[3]++ : arrayStatusMateriaMae[0]++;
+                            $scope.materiasUnificadas[z].qtdMaterias++;
+                        }
                     }
 
                     for (var b = 0; b < arrayStatusMateriaMae.length; b++) {
