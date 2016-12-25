@@ -114,6 +114,17 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                                         parentScope.materiaMae.geral = geralMae;
                                     }
                                     parentScope.materiaMae.materias[indiceMateria].datas[indiceData] = $scope.estudo;
+
+                                    var ultimoStatus = "";
+                                    parentScope.materiaMae.materias[indiceMateria].qtdDatas =
+                                        parentScope.materiaMae.materias[indiceMateria].datas.length;
+                                    if (parentScope.materiaMae.materias[indiceMateria].qtdDatas > 0) {
+                                        ultimoStatus = parentScope.materiaMae.materias[indiceMateria].datas[(parentScope.materiaMae.materias[indiceMateria].qtdDatas - 1)].status;
+                                    } else {
+                                        ultimoStatus = "";
+                                    }
+                                    parentScope.materiaMae.materias[indiceMateria].status = ultimoStatus;
+
                                     $scope.$close(true);
                                 } else {
                                     $scope.$dismiss();

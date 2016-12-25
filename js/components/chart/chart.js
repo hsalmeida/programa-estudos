@@ -211,7 +211,6 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
                     for (var j = 0; j < materiasUnificadas[z].materias.length; j++) {
                         if(materiasUnificadas[z].materias[j].ativo) {
                             lenAtiva++;
-
                             if (materiasUnificadas[z].materias[j].status === "revisar" ||
                                 materiasUnificadas[z].materias[j].status === "completo") {
                                 estudada++;
