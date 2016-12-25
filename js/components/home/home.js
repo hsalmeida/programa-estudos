@@ -57,6 +57,30 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
             }
         };
 
+        $scope.ajustarStatus = function () {
+            for (var z = 0; z < $scope.materiasUnificadas.length; z++) {
+
+                var lenMaterias = $scope.materiasUnificadas[z].materias.length;
+                for (var j = 0; j < lenMaterias; j++) {
+
+                    $scope.materiasUnificadas[z].materias[j].qtdDatas =
+                        $scope.materiasUnificadas[z].materias[j].datas.length;
+
+                    var ultimoStatus = "";
+                    if ($scope.materiasUnificadas[z].materias[j].qtdDatas > 0) {
+                        ultimoStatus = $scope.materiasUnificadas[z].materias[j].datas[($scope.materiasUnificadas[z].materias[j].qtdDatas - 1)].status;
+                    } else {
+                        ultimoStatus = "";
+                    }
+                    $scope.materiasUnificadas[z].materias[j].status = ultimoStatus;
+                }
+
+                $scope.materiasUnificadas[z].$saveOrUpdate().then(function (materia) {
+                    console.log("salvo: " + materia.assunto);
+                });
+            }
+        };
+
         /*
          recalcula todas as materias
          */
