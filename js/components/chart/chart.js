@@ -79,6 +79,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                 Assuntos.getById($scope.assuntoSelecionado._id.$oid).then(function (assunto) {
 
                     if (!$scope.detalhado) {
+                        $scope.series[1] = "Melhor";
                         var melhorTemp = 0;
                         for (var q = 0; q < assunto.materias.length; q++) {
                             if (assunto.materias[q].ativo && assunto.materias[q].geral.aproveitamento > melhorTemp) {
@@ -89,6 +90,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                         melhor.push(melhorTemp);
                         $scope.barlabels.push(assunto.assunto);
                     } else {
+                        $scope.series[1] = $rootScope.usuarioLogado.calculoDesempenho === "melhor" ? "Melhor" : "Último";
                         for (var j = 0; j < assunto.materias.length; j++) {
                             var totalAproveitamentoTemp = 0;
                             if(assunto.materias[j].ativo) {

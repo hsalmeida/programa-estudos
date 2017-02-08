@@ -1,6 +1,6 @@
 angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', '$state', '$cookies', '$http', '$filter', '$modal',
-    'Assuntos',
-    function ($scope, $rootScope, $state, $cookies, $http, $filter, $modal, Assuntos) {
+    'Usuario', 'Assuntos', '$q',
+    function ($scope, $rootScope, $state, $cookies, $http, $filter, $modal, Usuario, Assuntos, $q) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
@@ -82,6 +82,42 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
         };
 
         /*
+        recacular desempenho
+         */
+        $scope.recalcularDesempenhoGlobal = function () {
+            Assuntos.all().then(function (assuntos) {
+                waitingDialog.show('and here we go');
+                var allProm = [];
+                allProm.push(angular.forEach(assuntos, function (assunto) {
+                    Usuario.getById(assunto.usuario).then(function (usuario) {
+                        //vou consertar somente os que calcula ultimo.
+                        //forma do melhor. ver estudar.js
+                        if(usuario.calculoDesempenho === "ultimo") {
+                            var prom = [];
+                            prom.push(angular.forEach(assunto.materias, function (materia) {
+                                if(materia.datas && materia.datas.length > 0) {
+                                    var lastlen = (materia.datas.length - 1);
+                                    materia.geral.total = materia.datas[lastlen].total;
+                                    materia.geral.acertos = materia.datas[lastlen].acerto;
+                                    materia.geral.aproveitamento = materia.datas[lastlen].aproveitamento;
+                                }
+                            }));
+                            $q.all(prom).then(function () {
+                                assunto.$saveOrUpdate().then(function (assunto) {
+                                    console.log('salvo ' + assunto.assunto);
+                                })
+                            });
+                        }
+                    });
+                }));
+                $q.all(allProm).then(function () {
+                    waitingDialog.hide();
+                });
+            });
+        };
+        
+        
+        /*
          recalcula todas as materias
          */
         $scope.recalcular = function () {
@@ -96,6 +132,7 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                         var maiorAproveitamento = 0;
                         var maiorAcerto = 0;
                         var maiortotal = 0;
+
                         for (var a = 0; a < $scope.materiasUnificadas[z].materias[j].datas.length; a++) {
                             var tempAproveitamento = 0;
                             if ($scope.materiasUnificadas[z].materias[j].datas[a].total !== 0) {
@@ -103,15 +140,27 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                                 $scope.materiasUnificadas[z].materias[j].geral.totalAcertos += $scope.materiasUnificadas[z].materias[j].datas[a].acerto;
                                 $scope.materiasUnificadas[z].materias[j].geral.totalGeral += $scope.materiasUnificadas[z].materias[j].datas[a].total;
 
-                                tempAproveitamento = Math.round(($scope.materiasUnificadas[z].materias[j].datas[a].acerto
-                                    / $scope.materiasUnificadas[z].materias[j].datas[a].total) * 100);
-                                if (tempAproveitamento >= maiorAproveitamento) {
-                                    maiorAproveitamento = tempAproveitamento;
-                                    maiorAcerto = $scope.materiasUnificadas[z].materias[j].datas[a].acerto;
-                                    maiortotal = $scope.materiasUnificadas[z].materias[j].datas[a].total;
+                                if($rootScope.usuarioLogado.calculoDesempenho === "melhor") {
+                                    tempAproveitamento = Math.round(($scope.materiasUnificadas[z].materias[j].datas[a].acerto
+                                        / $scope.materiasUnificadas[z].materias[j].datas[a].total) * 100);
+                                    if (tempAproveitamento >= maiorAproveitamento) {
+                                        maiorAproveitamento = tempAproveitamento;
+                                        maiorAcerto = $scope.materiasUnificadas[z].materias[j].datas[a].acerto;
+                                        maiortotal = $scope.materiasUnificadas[z].materias[j].datas[a].total;
+                                    }
+                                } else {
+                                    //ultimo
+                                    if(a === ($scope.materiasUnificadas[z].materias[j].datas.length - 1)) {
+                                        //garanto o ultimo
+                                        maiorAproveitamento = $scope.materiasUnificadas[z].materias[j].datas[a].aproveitamento;
+                                        maiorAcerto = $scope.materiasUnificadas[z].materias[j].datas[a].acerto;
+                                        maiortotal = $scope.materiasUnificadas[z].materias[j].datas[a].total;
+                                    }
                                 }
                             }
                         }
+
+
                         $scope.materiasUnificadas[z].materias[j].geral.aproveitamento = maiorAproveitamento;
                         $scope.materiasUnificadas[z].materias[j].geral.acertos = maiorAcerto;
                         $scope.materiasUnificadas[z].materias[j].geral.total = maiortotal;

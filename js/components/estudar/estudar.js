@@ -1,4 +1,5 @@
-angular.module('estudos').controller('EstudarController', function ($scope, assuntosDB, arraySelecionados, materias, $q) {
+angular.module('estudos').controller('EstudarController', function ($scope, assuntosDB, arraySelecionados, materias, $q,
+                                                                    $rootScope) {
 
     $scope.initEstudar = function () {
 
@@ -27,6 +28,7 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
         $scope.classBtn = "";
         $scope.nameBtn = "Confirmar Estudo";
         $scope.Math = window.Math;
+        $scope.usuario = $rootScope.usuarioLogado;
     };
 
     function formValido() {
@@ -72,23 +74,31 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
                     //acha o assunto
                     if (materia._id.$oid === id) {
                         //teste de relevancia.
-
                         var dataObj = {};
                         dataObj = angular.merge(dataObj, $scope.estudo);
                         dataObj.relevante = mudouId;
                         materia.materias[indice].datas.push(dataObj);
 
                         //nova forma de calculo que tem que verificar o melhor desempenho.
-                        var melhorTotal = 0;
-                        var melhotAcerto = 0;
-                        var melhorAproveitamento = 0;
-                        angular.forEach(materia.materias[indice].datas, function (data, chaveData) {
-                            if (data.aproveitamento > melhorAproveitamento) {
-                                melhorAproveitamento = data.aproveitamento;
-                                melhorTotal = data.total;
-                                melhotAcerto = data.acerto;
-                            }
-                        });
+                        //forma de persistir se é por melhor ou ultimo é decidido pelo usuário.
+                        if ($scope.usuario.calculoDesempenho === "melhor") {
+                            //melhor
+                            var melhorTotal = 0;
+                            var melhotAcerto = 0;
+                            var melhorAproveitamento = 0;
+                            angular.forEach(materia.materias[indice].datas, function (data, chaveData) {
+                                if (data.aproveitamento > melhorAproveitamento) {
+                                    melhorAproveitamento = data.aproveitamento;
+                                    melhorTotal = data.total;
+                                    melhotAcerto = data.acerto;
+                                }
+                            });
+                        } else {
+                            //ultimo
+                            melhorAproveitamento = dataObj.aproveitamento;
+                            melhorTotal = dataObj.total;
+                            melhotAcerto = dataObj.acerto;
+                        }
 
                         materia.materias[indice].geral._24h = false;
                         materia.materias[indice].geral._7d = false;
@@ -105,9 +115,13 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
 
             var promisses = [];
             angular.forEach(materias, function (materia, chaveMateria) {
-                promisses.push(materia.$saveOrUpdate().then(function () {}));
+                promisses.push(materia.$saveOrUpdate().then(function () {
+                }));
             });
-            $q.all(promisses).then(function () { console.log('salvar'); $scope.$close(true); });
+            $q.all(promisses).then(function () {
+                console.log('salvar');
+                $scope.$close(true);
+            });
         }
     };
     $scope.cancelarEstudo = function () {
