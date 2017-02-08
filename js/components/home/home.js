@@ -180,6 +180,7 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
         $scope.initHome = function () {
 
             waitingDialog.show("Aguarde. Carregando assuntos");
+            $scope.usuario = $rootScope.usuarioLogado;
             var ativos = {
                 "ativo": true,
                 "usuario": $rootScope.usuarioLogado._id.$oid

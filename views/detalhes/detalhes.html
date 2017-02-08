@@ -12,7 +12,8 @@
                         <br/>
                         <span>Total de Questões: {{assunto.geral.total}}
                              Acertos: {{assunto.geral.acertos}}
-                             Maior aproveitamento: {{assunto.geral.aproveitamento}}%
+                            <span ng-show="usuario.calculoDesempenho == 'ultimo'">Último</span>
+                            <span ng-show="usuario.calculoDesempenho != 'ultimo'">Maior&nbsp;</span>aproveitamento: {{assunto.geral.aproveitamento}}%
                             <span class="label label-as-badge label-primary" ng-show="assunto.status === 'completo'">
                                 completo
                             </span>

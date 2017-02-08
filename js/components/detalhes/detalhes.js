@@ -4,6 +4,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
         $scope.relevante = true;
         $scope.initDet = function () {
             waitingDialog.show("Aguarde. Carregando detalhes");
+            $scope.usuario = $rootScope.usuarioLogado;
             Assuntos.getById($stateParams.materia).then(function (materia) {
                 $scope.materiaMae = materia;
                 $scope.assunto = materia.materias[$stateParams.indice];
@@ -28,9 +29,9 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                         $scope.initEditar = function () {
 
                             $scope.tempos = [
-                                "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00",
-                                "05:30", "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
-                                "11:00", "11:30", "12:00"
+                                "00:00", "00:15", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00",
+                                "04:30", "05:00", "05:30", "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00",
+                                "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"
                             ];
 
                             $scope.Math = window.Math;
@@ -190,12 +191,23 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                                             parentScope.materiaMae.materias[indiceMateria].geral.totalAcertos += parentScope.materiaMae.materias[indiceMateria].datas[a].acerto;
                                             parentScope.materiaMae.materias[indiceMateria].geral.totalGeral += parentScope.materiaMae.materias[indiceMateria].datas[a].total;
 
-                                            tempAproveitamento = Math.round((parentScope.materiaMae.materias[indiceMateria].datas[a].acerto
-                                                / parentScope.materiaMae.materias[indiceMateria].datas[a].total) * 100);
-                                            if (tempAproveitamento >= maiorAproveitamento) {
-                                                maiorAproveitamento = tempAproveitamento;
-                                                maiorAcerto = parentScope.materiaMae.materias[indiceMateria].datas[a].acerto;
-                                                maiortotal = parentScope.materiaMae.materias[indiceMateria].datas[a].total;
+                                            if(parentScope.usuario.calculoDesempenho === "melhor") {
+                                                //melhor
+                                                tempAproveitamento = Math.round((parentScope.materiaMae.materias[indiceMateria].datas[a].acerto
+                                                    / parentScope.materiaMae.materias[indiceMateria].datas[a].total) * 100);
+                                                if (tempAproveitamento >= maiorAproveitamento) {
+                                                    maiorAproveitamento = tempAproveitamento;
+                                                    maiorAcerto = parentScope.materiaMae.materias[indiceMateria].datas[a].acerto;
+                                                    maiortotal = parentScope.materiaMae.materias[indiceMateria].datas[a].total;
+                                                }
+                                            } else {
+                                                //ultimo
+                                                if(a === (parentScope.materiaMae.materias[j].datas.length - 1)) {
+                                                    //garanto o ultimo
+                                                    maiorAproveitamento = parentScope.materiaMae.materias[indiceMateria].datas[a].aproveitamento;
+                                                    maiorAcerto = parentScope.materiaMae.materias[indiceMateria].datas[a].acerto;
+                                                    maiortotal = parentScope.materiaMae.materias[indiceMateria].datas[a].total;
+                                                }
                                             }
                                         }
                                     }
