@@ -43,7 +43,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
 
         function gerarGraficoPadrao(assuntos) {
             $scope.barlabels = [];
-            $scope.series = ['Total', 'Melhor'];
+            $scope.series = ['Média', 'Melhor'];
             var total = [];
             var melhor = [];
             for (var a = 0; a < assuntos.length; a++) {
