@@ -159,11 +159,11 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                                 }
                             }
                         }
-
-
-                        $scope.materiasUnificadas[z].materias[j].geral.aproveitamento = maiorAproveitamento;
-                        $scope.materiasUnificadas[z].materias[j].geral.acertos = maiorAcerto;
-                        $scope.materiasUnificadas[z].materias[j].geral.total = maiortotal;
+                        if(maiortotal > 0) {
+                            $scope.materiasUnificadas[z].materias[j].geral.aproveitamento = maiorAproveitamento;
+                            $scope.materiasUnificadas[z].materias[j].geral.acertos = maiorAcerto;
+                            $scope.materiasUnificadas[z].materias[j].geral.total = maiortotal;
+                        }
                     }
                     acerto += $scope.materiasUnificadas[z].materias[j].geral.totalAcertos;
                     total += $scope.materiasUnificadas[z].materias[j].geral.totalGeral;

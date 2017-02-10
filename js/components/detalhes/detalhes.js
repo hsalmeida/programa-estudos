@@ -211,9 +211,11 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                                             }
                                         }
                                     }
-                                    parentScope.materiaMae.materias[indiceMateria].geral.aproveitamento = maiorAproveitamento;
-                                    parentScope.materiaMae.materias[indiceMateria].geral.acertos = maiorAcerto;
-                                    parentScope.materiaMae.materias[indiceMateria].geral.total = maiortotal;
+                                    if(maiortotal > 0) {
+                                        parentScope.materiaMae.materias[indiceMateria].geral.aproveitamento = maiorAproveitamento;
+                                        parentScope.materiaMae.materias[indiceMateria].geral.acertos = maiorAcerto;
+                                        parentScope.materiaMae.materias[indiceMateria].geral.total = maiortotal;
+                                    }
                                 }
 
                                 var acerto = 0;

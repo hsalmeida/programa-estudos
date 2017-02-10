@@ -104,9 +104,11 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
                         materia.materias[indice].geral._7d = false;
                         materia.materias[indice].geral._30d = false;
 
-                        materia.materias[indice].geral.total = melhorTotal;
-                        materia.materias[indice].geral.acertos = melhotAcerto;
-                        materia.materias[indice].geral.aproveitamento = melhorAproveitamento;
+                        if(melhorTotal > 0) {
+                            materia.materias[indice].geral.total = melhorTotal;
+                            materia.materias[indice].geral.acertos = melhotAcerto;
+                            materia.materias[indice].geral.aproveitamento = melhorAproveitamento;
+                        }
 
                         idAnterior = id;
                     }
