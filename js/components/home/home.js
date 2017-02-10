@@ -96,10 +96,23 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                             var prom = [];
                             prom.push(angular.forEach(assunto.materias, function (materia) {
                                 if(materia.datas && materia.datas.length > 0) {
+
                                     var lastlen = (materia.datas.length - 1);
-                                    materia.geral.total = materia.datas[lastlen].total;
-                                    materia.geral.acertos = materia.datas[lastlen].acerto;
-                                    materia.geral.aproveitamento = materia.datas[lastlen].aproveitamento;
+                                    var total = 0;
+                                    var acerto = 0;
+                                    var aproveitamento = 0;
+                                    //verificar qual a ultima data que tem valor no total.
+                                    for(var last = lastlen; last > 0; last--){
+                                        if(materia.datas[last].total > 0) {
+                                            total = materia.datas[last].total;
+                                            acerto = materia.datas[last].acerto;
+                                            aproveitamento = materia.datas[last].aproveitamento;
+                                        }
+                                    }
+
+                                    materia.geral.total = total;
+                                    materia.geral.acertos = acerto;
+                                    materia.geral.aproveitamento = aproveitamento;
                                 }
                             }));
                             $q.all(prom).then(function () {
