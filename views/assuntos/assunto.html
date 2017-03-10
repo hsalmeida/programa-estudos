@@ -39,7 +39,7 @@
                 <ul class="list-group">
                     <li class="list-group-item" ng-repeat="materia in assunto.materias | orderBy: 'listaordem' | filter:searchtext ">
                         <label>
-                            <input type="number" step="1" min="1" max="999" ng-model="materia.listaordem" class="lista-ordem">
+                            <input type="number" step="1" min="1" max="999" ng-model="materia.listaordemTmp" class="lista-ordem">
                             .&nbsp;{{materia.texto}} -
                             <i>{{materia.concurso}}</i>
                         <span class="label label-warning" ng-show="materia.datas.length > 0">

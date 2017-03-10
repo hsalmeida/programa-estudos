@@ -10,8 +10,10 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
                 for (var i = 0; i < assunto.materias.length; i++) {
                     if(!assunto.materias[i].listaordem) {
                         assunto.materias[i].listaordem = (i + 1);
+                        assunto.materias[i].listaordemTmp = assunto.materias[i].listaordem;
+                    } else {
+                        assunto.materias[i].listaordemTmp = assunto.materias[i].listaordem;
                     }
-
                 }
                 $scope.assunto = assunto;
                 waitingDialog.hide();
@@ -104,7 +106,14 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
 
         $scope.salvar = function () {
             if($scope.assunto.assunto) {
+                waitingDialog.show('Salvando Assunto. Aguarde.');
+                for (var i = 0; i < $scope.assunto.materias.length; i++) {
+                    if(!$scope.assunto.materias[i].listaordem) {
+                        $scope.assunto.materias[i].listaordem = assunto.materias[i].listaordemTmp;
+                    }
+                }
                 $scope.assunto.$saveOrUpdate().then(function () {
+                    waitingDialog.hide();
                     $state.reload();
                 });
             }
