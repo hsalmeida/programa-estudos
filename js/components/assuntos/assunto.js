@@ -106,14 +106,12 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
 
         $scope.salvar = function () {
             if($scope.assunto.assunto) {
-                waitingDialog.show('Salvando Assunto. Aguarde.');
+                waitingDialog.show("Salvando assunto. Aguarde.");
                 for (var i = 0; i < $scope.assunto.materias.length; i++) {
-                    if(!$scope.assunto.materias[i].listaordem) {
-                        $scope.assunto.materias[i].listaordem = assunto.materias[i].listaordemTmp;
-                    }
+                    $scope.assunto.materias[i].listaordem = $scope.assunto.materias[i].listaordemTmp;
                 }
+                waitingDialog.hide();
                 $scope.assunto.$saveOrUpdate().then(function () {
-                    waitingDialog.hide();
                     $state.reload();
                 });
             }
