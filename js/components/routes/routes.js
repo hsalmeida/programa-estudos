@@ -12,7 +12,7 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('home', {
             url: "/home",
-            templateUrl: "views/home/home.html",
+            templateUrl: "views/home/home-2.html",
             controller: 'HomeController',
             data: {
                 requiredlogin: true
@@ -88,6 +88,15 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             data: {
                 requiredlogin: true,
                 tituloPagina: "Ciclo de Estudo"
+            }
+        })
+        .state('planejamento', {
+            url: "/planejamento",
+            templateUrl: "views/planejamento/planejamento.html",
+            controller: 'PlanejamentoController',
+            data: {
+                requiredlogin: true,
+                tituloPagina: "Planejamento de Estudos"
             }
         });
 });

@@ -157,3 +157,13 @@ ul[dnd-list] .dndDraggingSource {
 .lista-ordem {
     width: 40px;
 }
+
+.home-cards {
+    height: 220px;
+}
+
+@media (min-width: 768px) {
+    .home-cards {
+        height: 256px;
+    }
+}

@@ -1,0 +1,75 @@
+<div ng-controller="HomeController" ng-init="initHome()">
+    <div class="pe-navbar">
+        <nav home-header></nav>
+    </div>
+    <div class="row lista-home">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="list-group">
+                <div class="list-group-item active indice-zero">
+                    <input type="text" ng-model="searchtext" class="form-control busca-assunto" placeholder="Buscar pelo assunto, texto ou concurso" aria-describedby="basic-addon1">
+                </div>
+            </div>
+
+            <div class="row">
+            <div class="col-md-3 col-sm-12 home-cards" ng-repeat="materia in materiasUnificadas | filter:searchFunc">
+            <div class="panel"
+                 ng-class="{'panel-warning' : materia.maiorStatus == 0,
+                 'panel-danger' : materia.maiorStatus == 1,
+                 'panel-success' : materia.maiorStatus == 2,
+                 'panel-primary' : materia.maiorStatus == 3}">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        {{materia.assunto}}
+                    </div>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-xs-4">Questões</div>
+                        <div class="col-xs-4">Acertos</div>
+                        <div class="col-xs-4">Aprov.</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">{{materia.geral.total}}</div>
+                        <div class="col-xs-4">{{materia.geral.acertos}}</div>
+                        <div class="col-xs-4">{{materia.geral.aproveitamento}}%</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span class="label label-as-badge label-primary" ng-show="materia.arrayStatus[3] > 0">
+                                {{materia.arrayStatus[3]}}% completo
+                            </span>
+                            <span class="label label-as-badge label-success" ng-show="materia.arrayStatus[2] > 0">
+                                {{materia.arrayStatus[2]}}% revisar
+                            </span>
+                            <span class="label label-as-badge label-danger" ng-show="materia.arrayStatus[1] > 0">
+                                {{materia.arrayStatus[1]}}% incompleto
+                            </span>
+                            <span class="label label-as-badge label-warning" ng-show="materia.arrayStatus[0] > 0">
+                                {{materia.arrayStatus[0]}}% em aberto
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer clearfix">
+                    <div class="pull-right">
+                        <button class="btn btn-primary" type="button" ng-click="verMaterias(materia);">
+                            <i class="glyphicon glyphicon-book"></i>&nbsp;
+                            Ver Materias
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!--div class="add-group-fab-container">
+        <button class="btn btn-danger btn-add-grp" ng-click="estudar()" tooltip="Iniciar Estudo">
+            <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+    </div-->
+</div>

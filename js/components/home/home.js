@@ -193,6 +193,7 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
         $scope.initHome = function () {
 
             waitingDialog.show("Aguarde. Carregando assuntos");
+
             $scope.usuario = $rootScope.usuarioLogado;
             var ativos = {
                 "ativo": true,
@@ -261,12 +262,39 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                     $scope.materiasUnificadas[z].status = arrayStatusMateriaMae[3] === 100 ? "completo" :
                         arrayStatusMateriaMae[2] === 100 ? "revisar" :
                             arrayStatusMateriaMae[1] === 100 ? "incompleto" : "";
+                    $scope.materiasUnificadas[z].maiorStatus =
+                        $scope.materiasUnificadas[z].arrayStatus.indexOf(Math.max.apply(Math, $scope.materiasUnificadas[z].arrayStatus));
                     $scope.materiasUnificadas[z].arrayStatus = arrayStatusMateriaMae;
 
                 }
 
                 waitingDialog.hide();
             });
+
+            $scope.verMaterias = function (materia) {
+                console.log(materia);
+                if(materia) {
+                    $modal
+                        .open({
+                            templateUrl: 'views/home/ver-materias.html',
+                            controller: 'VerMateriasController',
+                            resolve: {
+                                assuntosDB: function () {
+                                    return Assuntos;
+                                },
+                                materia: function () {
+                                    return materia;
+                                }
+                            }
+                        }).result.then(function () {
+                            /*
+                            $scope.recalcular();
+                            $scope.initHome();
+                             */
+                        }, function () {
+                        });
+                }
+            };
 
             $scope.estudar = function () {
                 if ($scope.array && $scope.array.length > 0) {
