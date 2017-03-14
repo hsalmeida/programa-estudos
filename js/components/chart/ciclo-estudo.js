@@ -18,7 +18,9 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                         display: true,
                         position: 'right'
                     },
-                    showLabel: true
+                    showLabel: true,
+                    responsive: true,
+                    maintainAspectRatio: false
                 };
 
                 $scope.labels = [];
