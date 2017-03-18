@@ -1,0 +1,51 @@
+<div ng-controller="PlanejamentoController" ng-init="initPlanejamento();">
+    <div class="pe-navbar">
+        <nav header></nav>
+    </div>
+    <div>
+        <div class="row lista-home">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="list-group">
+                    <div class="list-group-item active" style="z-index: 0">
+                        <input type="text" ng-model="searchtext" class="form-control busca-assunto"
+                               placeholder="Buscar pelo nome" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="list-group-item" ng-repeat="planejamento in planejamentos | filter:searchFunc">
+                        <span class="list-group-item-heading" ng-click="setselectedrow($index)">
+                            <b>
+                                {{planejamento.nome}} prova dia {{planejamento.prova | date: "dd/MM/yy"}}
+                                 faltam {{planejamento.prova | amDifference : null : 'days'}} dias.
+                            </b>
+                            <span ng-show="materia.materias.length" class="label label-warning">
+                                {{planejamento.materias.length}} matérias
+                            </span>
+                            &nbsp;
+                            <span ng-show="planejamento.ativo" class="label label-success">
+                                ATIVO
+                            </span>
+                            <span ng-show="!planejamento.ativo" class="label label-danger">
+                                INATIVO
+                            </span>
+                            &nbsp;&nbsp;
+                            <button class="btn btn-primary" ng-click="editar(planejamento)" tooltip="Editar">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+
+                            <button class="btn btn-success" ng-show="!planejamento.ativo" ng-click="ativar(planejamento)" tooltip="Exibir">
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button class="btn btn-info" ng-show="planejamento.ativo" ng-click="desativar(planejamento)" tooltip="Desativar">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+
+                            <button class="btn btn-danger" ng-click="excluir(planejamento)" tooltip="Excluir">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

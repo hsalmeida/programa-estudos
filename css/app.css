@@ -158,10 +158,20 @@ ul[dnd-list] .dndDraggingSource {
     width: 40px;
 }
 
+.home-cards {
+    height: 220px;
+}
+
+@media (min-width: 768px) {
+    .home-cards {
+        height: 256px;
+  }
+}
 .lista-ciclo {
     width: 30px;
     height: 12px;
     float: left;
     margin-top: 5px;
     margin-right: 5px;
+
 }

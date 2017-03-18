@@ -1,0 +1,56 @@
+<div class="modal-header text-center">
+    <h4 class="modal-title">{{materia.assunto}}</h4>
+</div>
+<div class="modal-body" ng-init="initVerMaterias()">
+    <div class="list-group list-assuntos" ng-class="{'list-assuntos-show':$index === selectedrow}">
+        <div class="list-group-item active">
+            <span class="list-group-item-heading">Assuntos</span>
+        </div>
+        <div class="list-group-item active indice-zero">
+            <input type="text"
+                   ng-model="searchtext"
+                   class="form-control busca-assunto"
+                   placeholder="Buscar pelo assunto, texto ou concurso"
+                   aria-describedby="basic-addon1">
+        </div>
+        <div class="list-group-item"
+             ng-show="assunto.ativo === true"
+             ng-repeat="assunto in materias = (materia.materias | index | orderBy: 'listaordem' | filter:subsearchFunc)">
+            <input type="radio" index="{{$index}}" id="assuntock{{$parent.$index}}{{$index}}" name="assunto">
+            &nbsp;
+            <label for="assuntock{{$parent.$index}}{{$index}}" class="assunto-label">
+                {{assunto.listaordem}}. {{assunto.texto}} - <i>{{assunto.concurso}}</i> - {{assunto.geral.total}} / {{assunto.geral.acertos}} / {{assunto.geral.aproveitamento}}%
+            </label>
+            <span class="label label-as-badge label-primary" ng-show="assunto.status === 'completo'">
+                completo
+            </span>
+            <span class="label label-as-badge label-success" ng-show="assunto.status === 'revisar'">
+                revisar
+            </span>
+            <span class="label label-as-badge label-danger" ng-show="assunto.status === 'incompleto'">
+                incompleto
+            </span>
+            <span class="label label-as-badge label-warning" ng-show="!assunto.status">
+                em aberto
+            </span>
+            &nbsp;&nbsp;
+            <span class="label" ng-class="assunto.geral._24h ? 'label-success' : 'label-default'">24h</span>
+            <span class="label" ng-class="assunto.geral._7d ? 'label-success' : 'label-default'">7d</span>
+            <span class="label" ng-class="assunto.geral._30d ? 'label-success' : 'label-default'">30d</span>
+            <div class="pull-right">
+                <a class="btn btn-primary" ng-show="assunto.datas.length > 0" target="_blank" tooltip="Mostrar detalhes" ui-sref="detalhes({'materia':materia._id.$oid, 'indice':materia.materias.indexOf(assunto)})">
+                    <span class="glyphicon glyphicon-search"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-warning" ng-class="classBtn" ng-click="cancelar()" data-dismiss="modal">
+        Cancelar
+    </button>
+    <button type="button" class="btn btn-success" ng-class="classBtn" ng-click="estudar()">
+        Iniciar Estudo
+    </button>
+</div>
