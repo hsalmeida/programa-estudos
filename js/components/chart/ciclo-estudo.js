@@ -18,12 +18,15 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                         display: true,
                         position: 'right'
                     },
-                    showLabel: true
+                    showLabel: true,
+                    responsive: true,
+                    maintainAspectRatio: true
                 };
 
                 $scope.labels = [];
                 $scope.data = [];
                 $scope.assuntos = [];
+                $scope.colors = [];
 
                 for (var z = 0; z < assuntos.length; z++) {
                     if (assuntos[z].horas) {
@@ -37,6 +40,7 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                         }
                         tempoData += minutoData;
                         $scope.labels.push(assuntos[z].assunto);
+                        $scope.colors.push(assuntos[z].cor);
                         $scope.data.push(tempoData);
                     }
                 }
