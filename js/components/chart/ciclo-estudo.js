@@ -20,7 +20,7 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                     },
                     showLabel: true,
                     responsive: true,
-                    maintainAspectRatio: false
+                    maintainAspectRatio: true
                 };
 
                 $scope.labels = [];
