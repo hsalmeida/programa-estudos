@@ -1,0 +1,89 @@
+<div ng-init="initPomodoro();">
+    <div class="pe-navbar">
+        <nav header></nav>
+    </div>
+    <div>
+        <div class="row lista-home">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="panel">
+                            <div class="panel-heading text-center">
+                                <h1>POMODORO</h1>
+                                <h3>{{pomodoro.nome}}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4 text-center">
+                                        <button class="btn btn-lg btn-primary" ng-click="play();"
+                                        ng-disabled="rodando">COMEÇAR</button>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <button class="btn btn-lg btn-danger" ng-click="stop();">TERMINAR</button>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <button class="btn btn-lg btn-warning" ng-click="pause();">PAUSA</button>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <h1>
+                                        <timer interval="timerObj.interval" auto-start="false" countdown="timerObj.countdown"
+                                               finish-callback="finished();">{{mminutes}}:{{sseconds}}
+                                            <div class="progress progress-striped {{displayProgressActive}}">
+                                                <div class="progress-bar" style="width: {{progressBar}}%;"></div>
+                                            </div>
+                                        </timer>
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="list-group">
+                            <div class="list-group-item active">Pomodoros de Encerrados de Hoje: {{pomodoros.length}}</div>
+                            <div class="list-group-item" ng-repeat="pomodoro in pomodoros">
+                                <div class="list-group-item-heading">
+                                    {{now | date:"dd/MM" }} - 18h - 25 min.
+                                </div>
+                                <div>
+                                    <span>{{pomodoro.nome}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="criar-pomodoro.html">
+        <div class="modal-header text-center">
+            <h4 class="modal-title">Novo Pomodoro</h4>
+        </div>
+        <div class="modal-body" ng-init="initCriarPomodoro()">
+            <form name="formulario" class="form-horizontal">
+                <div class="form-group">
+                    <label for="ctexto" class="col-lg-2 control-label">Nome</label>
+
+                    <div class="col-lg-10">
+                        <input id="ctexto" class="form-control" type="text" ng-model="novoPomodoro.nome"
+                               placeholder="Nome do Pomodoro">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <hr>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" ng-click="cancelarCriacao()" data-dismiss="modal">
+                Cancelar
+            </button>
+            <button type="button" class="btn btn-success" ng-click="confirmarInicio()">
+                Iniciar
+            </button>
+        </div>
+    </script>
+</div>

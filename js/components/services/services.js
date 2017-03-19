@@ -4,4 +4,7 @@ angular.module('estudos')
     })
     .factory('Usuario',function($mongolabResourceHttp){
         return $mongolabResourceHttp('usuario');
+    })
+    .factory('Pomodoros',function($mongolabResourceHttp){
+        return $mongolabResourceHttp('pomodoros');
     });

@@ -98,5 +98,14 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
                 requiredlogin: true,
                 tituloPagina: "Planejamento de Estudos"
             }
+        })
+        .state('pomodoro', {
+            url: "/pomodoro",
+            templateUrl: "views/pomodoro/pomodoro.html",
+            controller: 'PomodoroController',
+            data: {
+                requiredlogin: true,
+                tituloPagina: "Pomodoros"
+            }
         });
 });
