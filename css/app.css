@@ -175,3 +175,11 @@ ul[dnd-list] .dndDraggingSource {
     margin-right: 5px;
 
 }
+.lista-btn-pomodoro {
+    margin-bottom: 25px;
+}
+@media (max-width: 768px) {
+    .pomodoro-xs-margim {
+        margin-top: 10px;
+    }
+}

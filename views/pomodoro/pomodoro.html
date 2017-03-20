@@ -9,20 +9,50 @@
                     <div class="col-md-8">
                         <div class="panel">
                             <div class="panel-heading text-center">
-                                <h1>POMODORO</h1>
+                                <h1>{{tipoPomodoro.nome}}</h1>
                                 <h3>{{pomodoro.nome}}</h3>
                             </div>
                             <div class="panel-body">
+                                <div class="row lista-btn-pomodoro">
+                                    <div class="col-xs-6 col-md-4 text-center">
+                                        <button class="btn btn-info" ng-click="btnPomodoro();"
+                                                ng-disabled="disablePlay">
+                                            POMODORO
+                                        </button>
+                                    </div>
+                                    <div class="col-xs-6 col-md-4 text-center">
+                                        <button class="btn btn-info" ng-click="pausaCurta();"
+                                                ng-disabled="disablePlay">
+                                            PAUSA CURTA
+                                        </button>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4 text-center pomodoro-xs-margim">
+                                        <button class="btn btn-info" ng-click="pausaLonga();"
+                                                ng-disabled="disablePlay">
+                                            PAUSA LONGA
+                                        </button>
+                                    </div>
+                                </div>
                                 <div class="row">
-                                    <div class="col-md-4 text-center">
+                                    <div class="col-xs-6 col-md-4 text-center">
                                         <button class="btn btn-lg btn-primary" ng-click="play();"
-                                        ng-disabled="rodando">COMEÇAR</button>
+                                        ng-disabled="disablePlay">
+                                            <i class="glyphicon glyphicon-play"></i>
+                                            &nbsp;COMEÇAR
+                                        </button>
                                     </div>
-                                    <div class="col-md-4 text-center">
-                                        <button class="btn btn-lg btn-danger" ng-click="stop();">TERMINAR</button>
+                                    <div class="col-xs-6 col-md-4 text-center">
+                                        <button class="btn btn-lg btn-danger" ng-click="stop();">
+                                            <i class="glyphicon glyphicon-stop"></i>
+                                            &nbsp;TERMINAR
+                                        </button>
                                     </div>
-                                    <div class="col-md-4 text-center">
-                                        <button class="btn btn-lg btn-warning" ng-click="pause();">PAUSA</button>
+                                    <div class="col-xs-12 col-md-4 text-center pomodoro-xs-margim">
+                                        <button class="btn btn-lg btn-warning" ng-click="pause();"
+                                                ng-disabled="!disablePlay">
+                                            <i class="glyphicon {{glyphPausa}}"></i>
+                                            &nbsp;{{btnPausa}}
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="row text-center">
@@ -43,7 +73,16 @@
                             <div class="list-group-item active">Pomodoros de Encerrados de Hoje: {{pomodoros.length}}</div>
                             <div class="list-group-item" ng-repeat="pomodoro in pomodoros">
                                 <div class="list-group-item-heading">
-                                    {{now | date:"dd/MM" }} - 18h - 25 min.
+                                    {{now | date:"dd/MM" }} - {{pomodoro.termino}} - {{pomodoro.minutos}} min. {{pomodoro.segundos}} seg.
+                                </div>
+                                <div>
+                                    <span>{{pomodoro.nome}}</span>
+                                </div>
+                            </div>
+                            <div class="list-group-item active">Pomodoros de Ontem: {{pomodoros.length}}</div>
+                            <div class="list-group-item" ng-repeat="pomodoro in pomodorosOntem">
+                                <div class="list-group-item-heading">
+                                    {{ontemObj | date:"dd/MM" }} - {{pomodoro.termino}} - {{pomodoro.minutos}} min. {{pomodoro.segundos}} seg.
                                 </div>
                                 <div>
                                     <span>{{pomodoro.nome}}</span>
