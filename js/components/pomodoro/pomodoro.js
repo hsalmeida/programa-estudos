@@ -18,7 +18,7 @@ angular.module('estudos')
             };
             $scope.tipoPomodoro = {
                 nome: "POMODORO",
-                countdown: 1500,
+                countdown: $rootScope.usuarioLogado.pomodoro.tempo,
                 pomodoro: true
             };
             $scope.rodando = false;
@@ -30,6 +30,7 @@ angular.module('estudos')
                 interval: 1000,
                 countdown: $scope.tipoPomodoro.countdown
             };
+            $scope.$broadcast('timer-set-countdown-seconds', $scope.timerObj.countdown);
             var ontem = moment().subtract(1, 'days');
             $scope.ontemObj = ontem.toDate();
             var pomoOntemQuery = {
@@ -52,7 +53,7 @@ angular.module('estudos')
         $scope.btnPomodoro = function () {
             $scope.tipoPomodoro = {
                 nome: "POMODORO",
-                countdown: 1500,
+                countdown: $rootScope.usuarioLogado.pomodoro.tempo,
                 pomodoro: true
             };
 
@@ -63,7 +64,7 @@ angular.module('estudos')
         $scope.pausaCurta = function () {
             $scope.tipoPomodoro = {
                 nome: "PAUSA CURTA",
-                countdown: 300,
+                countdown: $rootScope.usuarioLogado.pomodoro.curta,
                 pomodoro: false
             };
             $scope.timerObj.countdown = $scope.tipoPomodoro.countdown;
@@ -73,7 +74,7 @@ angular.module('estudos')
         $scope.pausaLonga = function () {
             $scope.tipoPomodoro = {
                 nome: "PAUSA LONGA",
-                countdown: 1200,
+                countdown: $rootScope.usuarioLogado.pomodoro.longa,
                 pomodoro: false
             };
 
@@ -100,6 +101,54 @@ angular.module('estudos')
                 });
             }
         });
+
+        $scope.personalizar = function () {
+            $modal
+                .open({
+                    templateUrl: 'personalizar-pomodoro.html',
+                    controller: function ($scope, $rootScope, parentScope, Usuario, $window) {
+                        $scope.tempo = 0;
+                        $scope.curta = 0;
+                        $scope.longa = 0;
+                        $scope.initConfigPomodoro = function () {
+                            $scope.salvando = false;
+                            $scope.tempo = ($rootScope.usuarioLogado.pomodoro.tempo / 60);
+                            $scope.curta = ($rootScope.usuarioLogado.pomodoro.curta / 60);
+                            $scope.longa = ($rootScope.usuarioLogado.pomodoro.longa / 60);
+                        };
+
+                        $scope.cancelarCriacao = function () {
+                            $scope.$dismiss();
+                        };
+
+                        $scope.confirmarConfig = function () {
+                            if ($scope.formulario.$valid) {
+                                $scope.salvando = true;
+                                Usuario.getById($rootScope.usuarioLogado._id.$oid).then(function (usuario) {
+                                    usuario.pomodoro.tempo = ($scope.tempo * 60);
+                                    usuario.pomodoro.curta = ($scope.curta * 60);
+                                    usuario.pomodoro.longa = ($scope.longa * 60);
+
+                                    usuario.$saveOrUpdate().then(function () {
+                                        $window.sessionStorage.setItem('programaEstudosUsuarioLogado', angular.toJson(usuario));
+                                        $rootScope.usuarioLogado = usuario;
+                                        $scope.$close(true);
+                                    });
+                                });
+                            }
+                        };
+                    },
+                    resolve: {
+                        parentScope: function () {
+                            return $scope;
+                        }
+                    }
+                }).result.then(function () {
+                    $scope.initPomodoro();
+            }, function () {
+
+            });
+        };
 
         $scope.play = function () {
 

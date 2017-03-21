@@ -64,6 +64,11 @@
                                             </div>
                                         </timer>
                                     </h1>
+                                    <button class="btn btn-default" ng-disabled="disablePlay"
+                                        ng-click="personalizar();">
+                                        <i class="glyphicon glyphicon-cog"></i>
+                                        &nbsp;Personalizar
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +84,7 @@
                                     <span>{{pomodoro.nome}}</span>
                                 </div>
                             </div>
-                            <div class="list-group-item active">Pomodoros de Ontem: {{pomodoros.length}}</div>
+                            <div class="list-group-item active">Pomodoros de Ontem: {{pomodorosOntem.length}}</div>
                             <div class="list-group-item" ng-repeat="pomodoro in pomodorosOntem">
                                 <div class="list-group-item-heading">
                                     {{ontemObj | date:"dd/MM" }} - {{pomodoro.termino}} - {{pomodoro.minutos}} min. {{pomodoro.segundos}} seg.
@@ -122,6 +127,53 @@
             </button>
             <button type="button" class="btn btn-success" ng-click="confirmarInicio()">
                 Iniciar
+            </button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="personalizar-pomodoro.html">
+        <div class="modal-header text-center">
+            <h4 class="modal-title">Personalizar Pomodoros e Pausas</h4>
+        </div>
+        <div class="modal-body" ng-init="initConfigPomodoro()">
+            <form name="formulario" class="form-horizontal">
+                <div class="form-group">
+                    <label for="tempo" class="col-lg-6 control-label">Minutos dos Pomodoros (1-99)</label>
+
+                    <div class="col-lg-2">
+                        <input id="tempo" class="form-control" type="number" min="1" max="99" ng-model="tempo"
+                               placeholder="Total">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="curta" class="col-lg-6 control-label">Minutos da Pausa Curta (1-99)</label>
+
+                    <div class="col-lg-2">
+                        <input id="curta" class="form-control" type="number" min="1" max="99" ng-model="curta"
+                               placeholder="Total">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="longa" class="col-lg-6 control-label">Minutos da Pausa Longa (1-99)</label>
+
+                    <div class="col-lg-2">
+                        <input id="longa" class="form-control" type="number" min="1" max="99" ng-model="longa"
+                               placeholder="Total">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <hr>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" ng-click="cancelarCriacao()" data-dismiss="modal">
+                Cancelar
+            </button>
+            <button type="button" class="btn btn-success" ng-click="confirmarConfig()" ng-disabled="salvando">
+                Salvar
             </button>
         </div>
     </script>
