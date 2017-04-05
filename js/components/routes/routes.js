@@ -96,7 +96,7 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
             controller: 'PlanejamentoController',
             data: {
                 requiredlogin: true,
-                tituloPagina: "Planejamento de Estudos"
+                tituloPagina: "Planejamentos"
             }
         })
         .state('pomodoro', {

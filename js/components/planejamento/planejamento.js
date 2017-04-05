@@ -30,6 +30,30 @@ angular.module('estudos').controller('PlanejamentoController', ['$scope', '$root
 
         };
 
+        $scope.novoPlanejamento = function () {
+            $modal
+                .open({
+                    templateUrl: 'criarPlanejamento.html',
+                    controller: function ($scope) {
+                        $scope.initNovo = function () {
+
+                        };
+                        $scope.confirmar = function () {
+
+                        };
+                        $scope.cancelar = function () {
+
+                        };
+                    }
+                }).result.then(function () {
+                /*
+                 $scope.recalcular();
+                 $scope.initHome();
+                 */
+            }, function () {
+            });
+        };
+
         /*
          function calcularPorcentagemMaterias() {
          var porcentagens = [];
