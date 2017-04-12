@@ -99,6 +99,15 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
                 tituloPagina: "Planejamentos"
             }
         })
+        .state('planejamento-materias', {
+            url: "/planejamento-materias/:id",
+            templateUrl: "views/planejamento/planejamento-materias.html",
+            controller: 'PlanejamentoMateriasController',
+            data: {
+                requiredlogin: true,
+                tituloPagina: "Planejamentos"
+            }
+        })
         .state('pomodoro', {
             url: "/pomodoro",
             templateUrl: "views/pomodoro/pomodoro.html",

@@ -1,32 +1,21 @@
 angular.module('estudos').controller('PlanejamentoController', ['$scope', '$rootScope', '$state', 'Assuntos',
-    '$modal', '$q',
-    function ($scope, $rootScope, $state, Assuntos, $modal, $q) {
+    '$modal', '$q', 'Planejamentos',
+    function ($scope, $rootScope, $state, Assuntos, $modal, $q, Planejamentos) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
-
+        $scope.idPlanejamento = "";
         $scope.planejamentos = [];
 
         $scope.initPlanejamento = function () {
-            $scope.planejamentos = [{
-                nome: "TRT",
-                prova: (new Date().setMonth(9)),
-                materias: [{id: "1"}, {id: 2}],
-                ativo: true
-            },
-                {
-                    nome: "TRF",
-                    prova: (new Date().setMonth(8)),
-                    materias: [{id: "1"}, {id: 2}],
-                    ativo: true
-                },
-                {
-                    nome: "STF",
-                    prova: (new Date().setMonth(7)),
-                    materias: [{id: "1"}, {id: 2}],
-                    ativo: true
-                }
-            ];
+            $scope.planejamentos = [];
+            var plaQ = {
+                usuario: $rootScope.usuarioLogado._id.$oid
+            };
+            Planejamentos.query(plaQ).then(function (planejamentos) {
+                console.log(planejamentos);
+                $scope.planejamentos = planejamentos;
+            });
 
         };
 
@@ -34,22 +23,55 @@ angular.module('estudos').controller('PlanejamentoController', ['$scope', '$root
             $modal
                 .open({
                     templateUrl: 'criarPlanejamento.html',
-                    controller: function ($scope) {
+                    backdrop: 'static',
+                    resolve: {
+                        idPlanejamento: function () {
+                            return $scope.idPlanejamento;
+                        },
+                        usuario: function () {
+                            return $rootScope.usuarioLogado._id.$oid;
+                        }
+                    },
+                    controller: function ($scope, idPlanejamento, usuario) {
+                        $scope.planejamento = {};
+                        $scope.provaTemp = null;
                         $scope.initNovo = function () {
-
+                            $scope.planejamento = {
+                                nome: "",
+                                prova: {$date: null},
+                                naoSabeFim: false,
+                                ativo: true,
+                                usuario: usuario
+                            };
+                            var format = "YYYY-MM-DD";
+                            $scope.minMax = {
+                                min: moment().format(format),
+                                max: moment().add(12, 'months').format(format)
+                            };
                         };
                         $scope.confirmar = function () {
+                            var planejamento = new Planejamentos();
+                            planejamento = angular.merge(planejamento, $scope.planejamento);
+                            planejamento.$saveOrUpdate().then(function (planejamento) {
+                                idPlanejamento = planejamento._id.$oid;
+                            });
 
+                            $scope.$close(true);
                         };
                         $scope.cancelar = function () {
-
+                            $scope.$dismiss();
+                        };
+                        $scope.modificaNaoSei = function () {
+                            if ($scope.planejamento.naoSabeFim) {
+                                $scope.provaTemp = angular.copy($scope.planejamento.prova.$date);
+                                $scope.planejamento.prova.$date = moment().add(12, 'months').toDate();
+                            } else {
+                                $scope.prova.$date = angular.copy($scope.planejamento.provaTemp);
+                            }
                         };
                     }
                 }).result.then(function () {
-                /*
-                 $scope.recalcular();
-                 $scope.initHome();
-                 */
+                $state.go('planejamento-materias', {id: $scope.idPlanejamento});
             }, function () {
             });
         };
@@ -74,4 +96,13 @@ angular.module('estudos').controller('PlanejamentoController', ['$scope', '$root
          }
          }
          */
+    }]);
+
+angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope', '$rootScope', '$state', '$state',
+    'Assuntos', '$modal', '$q',
+    function ($scope, $rootScope, $state, $stateParams, Assuntos, $modal, $q) {
+        $scope.initPlanejamentoMaterias = function () {
+            console.log('$stateParams', $stateParams);
+            console.log('$state', $state);
+        };
     }]);

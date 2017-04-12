@@ -7,4 +7,7 @@ angular.module('estudos')
     })
     .factory('Pomodoros',function($mongolabResourceHttp){
         return $mongolabResourceHttp('pomodoros');
+    })
+    .factory('Planejamentos',function($mongolabResourceHttp){
+        return $mongolabResourceHttp('planejamentos');
     });
