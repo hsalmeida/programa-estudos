@@ -202,7 +202,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
                                                 }
                                             } else {
                                                 //ultimo
-                                                if(a === (parentScope.materiaMae.materias[j].datas.length - 1)) {
+                                                if(a === (parentScope.materiaMae.materias[indiceMateria].datas.length - 1)) {
                                                     //garanto o ultimo
                                                     maiorAproveitamento = parentScope.materiaMae.materias[indiceMateria].datas[a].aproveitamento;
                                                     maiorAcerto = parentScope.materiaMae.materias[indiceMateria].datas[a].acerto;
