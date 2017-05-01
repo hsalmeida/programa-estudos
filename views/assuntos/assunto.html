@@ -40,7 +40,6 @@
                     <li class="list-group-item" ng-repeat="materia in assunto.materias | orderBy: 'listaordem' | filter:searchtext  track by $index ">
                         <label>
                             <input type="number" step="1" min="1" max="999" ng-model="materia.listaordemTmp" class="lista-ordem">
-                            {{$index}}
                             .&nbsp;{{materia.texto}} -
                             <i>{{materia.concurso}}</i>
                         <span class="label label-warning" ng-show="materia.datas.length > 0">
