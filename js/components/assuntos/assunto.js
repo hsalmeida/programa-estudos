@@ -65,7 +65,7 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
                             return materia;
                         },
                         indiceMateria: function () {
-                            return indice;
+                            return $scope.assunto.materias.indexOf(materia);
                         }
                     }
                 }).result.then(function () {
