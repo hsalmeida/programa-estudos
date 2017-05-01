@@ -79,7 +79,7 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
                 });
         };
 
-        $scope.excluir = function (indice) {
+        $scope.excluir = function (materia) {
             $modal
                 .open({
                     templateUrl: 'exclusao.html',
@@ -93,6 +93,7 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
                         };
                     }
                 }).result.then(function () {
+                    var indice = $scope.assunto.materias.indexOf(materia);
                     $scope.assunto.materias.splice(indice, 1);
                     /*
                     $scope.assunto.$saveOrUpdate().then(function () {
