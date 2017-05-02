@@ -5,27 +5,46 @@
     <div>
         <div class="row lista-home">
             <div class="col-md-10 col-md-offset-1">
-                <form class="form">
-                    <div class="form-group">
-                        <label for="nome" class="control-label">Para qual prova você irá esstudar?</label>
-                        <input id="nome" class="form-control" type="text" ng-model="planejamento.nome"
-                               placeholder="exemplo: TRT, TCU, TCE">
-                    </div>
+                <form class="form" novalidate name="formulario">
+                    <uib-tabset active="active">
+                        <uib-tab index="0" heading="Dados Gerais">
+                            <br />
+                            <div class="form-group">
+                                <label for="nome" class="control-label">Para qual prova você irá esstudar?</label>
+                                <input id="nome" name="nome" class="form-control" type="text" ng-model="planejamento.nome"
+                                       placeholder="exemplo: TRT, TCU, TCE" required>
+                                <div ng-messages="formulario.nome.$error">
+                                    <div ng-message="required">Obrigatório.</div>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="data" class="control-label">Data da Prova</label>
-                        <input id="data" class="form-control" min="{{minMax.min}}" max="{{minMax.max}}"
-                               type="date" ng-model="planejamento.prova.$date">
-                    </div>
-                    <div class="form-group">
-                        <input type="checkbox" id="date-unknow" ng-model="planejamento.naoSabeFim" ng-change="modificaNaoSei()">
-                        <label for="date-unknow" class="">
-                            Ainda não sei a data da prova.
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        faltam {{planejamento.prova.$date | amDifference : null : 'days'}} dias para a prova.
-                    </div>
+                            <div class="form-group">
+                                <label for="data" class="control-label">Data da Prova</label>
+                                <input id="data" name="data" class="form-control" min="{{minMax.min}}" max="{{minMax.max}}"
+                                       type="date" ng-model="planejamento.prova.$date" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" id="date-unknow" ng-model="planejamento.naoSabeFim" ng-change="modificaNaoSei()">
+                                <label for="date-unknow" class="">
+                                    Ainda não sei a data da prova.
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                faltam {{planejamento.prova.$date | amDifference : null : 'days'}} dias para a prova.
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" ng-click="irMaterias();">
+                                    Próximo&nbsp;<i class="glyphicon glyphicon-arrow-right"></i>
+                                </button>
+                            </div>
+                        </uib-tab>
+                        <uib-tab index="1" heading="Matérias">
+
+                        </uib-tab>
+                        <uib-tab index="2" heading="Tempo">
+
+                        </uib-tab>
+                    </uib-tabset>
                 </form>
             </div>
         </div>

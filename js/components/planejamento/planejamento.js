@@ -105,10 +105,9 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
     function ($scope, $rootScope, $state, $stateParams, Assuntos, $uibModal, $q) {
         $scope.planejamento = {};
         $scope.provaTemp = null;
+        $scope.active = 0;
 
         $scope.initPlanejamentoMaterias = function () {
-            console.log('$stateParams', $stateParams);
-            console.log('$state', $state);
 
             $scope.planejamento = {
                 nome: "",
@@ -130,5 +129,10 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
                     $scope.planejamento.prova.$date = angular.copy($scope.planejamento.provaTemp);
                 }
             };
+            $scope.irMaterias = function () {
+                $scope.active = 1;
+
+            };
         };
+
     }]);

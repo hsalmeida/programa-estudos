@@ -53,37 +53,4 @@
             <span class="glyphicon glyphicon-plus"></span>
         </button>
     </div>
-    <script type="text/ng-template" id="criarPlanejamento.html">
-        <div class="modal-header text-center">
-            <h4 class="modal-title">Criar Planejamento</h4>
-        </div>
-        <div class="modal-body" ng-init="initNovo()">
-            <form class="form">
-                <div class="form-group">
-                    <label for="nome" class="control-label">Para qual prova você irá esstudar?</label>
-                    <input id="nome" class="form-control" type="text" ng-model="planejamento.nome"
-                               placeholder="exemplo: TRT, TCU, TCE">
-                </div>
-
-                <div class="form-group">
-                    <label for="data" class="control-label">Data da Prova</label>
-                    <input id="data" class="form-control" min="{{minMax.min}}" max="{{minMax.max}}"
-                           type="date" ng-model="planejamento.prova.$date">
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" id="date-unknow" ng-model="planejamento.naoSabeFim" ng-change="modificaNaoSei()">
-                    <label for="date-unknow" class="">
-                        Ainda não sei a data da prova.
-                    </label>
-                </div>
-                <div class="form-group">
-                    faltam {{planejamento.prova.$date | amDifference : null : 'days'}} dias para a prova.
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-warning" ng-click="cancelar()" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-success" ng-click="confirmar()">Salvar</button>
-        </div>
-    </script>
 </div>
