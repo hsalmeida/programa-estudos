@@ -1,6 +1,6 @@
 angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScope', '$state', '$stateParams', 'Assuntos',
-    '$modal',
-    function ($scope, $rootScope, $state, $stateParams, Assuntos, $modal) {
+    '$uibModal',
+    function ($scope, $rootScope, $state, $stateParams, Assuntos, $uibModal) {
         $scope.relevante = true;
         $scope.initDet = function () {
             waitingDialog.show("Aguarde. Carregando detalhes");
@@ -22,7 +22,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
         };
 
         $scope.editar = function (indice, data) {
-            $modal
+            $uibModal
                 .open({
                     templateUrl: 'editarData.html',
                     controller: function ($scope, parentScope, indiceData, indiceMateria, dataSelecionada) {
@@ -161,7 +161,7 @@ angular.module('estudos').controller('DetalhesController', ['$scope', '$rootScop
         };
 
         $scope.excluir = function (indice) {
-            $modal
+            $uibModal
                 .open({
                     templateUrl: 'confirmarExclusao.html',
                     controller: function ($scope, parentScope, indiceMateria) {

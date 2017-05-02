@@ -1,6 +1,6 @@
 angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootScope', '$state', 'Assuntos',
-    '$modal', '$q', 'ChartJsFactory',
-    function ($scope, $rootScope, $state, Assuntos, $modal, $q, ChartJsFactory) {
+    '$uibModal', '$q', 'ChartJsFactory',
+    function ($scope, $rootScope, $state, Assuntos, $uibModal, $q, ChartJsFactory) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
@@ -69,7 +69,7 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
         };
 
         $scope.adicionarMateria = function () {
-            $modal
+            $uibModal
                 .open({
                     templateUrl: 'adicionar.html',
                     controller: function ($scope, assuntosAdicionados) {
@@ -128,7 +128,7 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
         };
 
         $scope.editarTempo = function (assunto) {
-            $modal
+            $uibModal
                 .open({
                     templateUrl: 'editar.html',
                     controller: function ($scope, assuntoEdicao) {
@@ -168,7 +168,7 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
         };
 
         $scope.removerTempo = function (assunto) {
-            $modal
+            $uibModal
                 .open({
                     templateUrl: 'exclusao.html',
                     controller: function ($scope) {

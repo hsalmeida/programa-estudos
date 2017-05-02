@@ -1,4 +1,4 @@
-angular.module('estudos').controller('CalendarioController', ['$scope', '$rootScope', '$state', 'Assuntos', '$modal',
+angular.module('estudos').controller('CalendarioController', ['$scope', '$rootScope', '$state', 'Assuntos', '$uibModal',
     'calendarConfig',
     function ($scope, $rootScope, $state, Assuntos, $modal, calendarConfig) {
         $scope.logout = function () {
@@ -112,7 +112,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
         };
 
         $scope.eventClicked = function (event) {
-            $modal
+            $uibModal
                 .open({
                     templateUrl: 'evt-detail.html',
                     controller: function ($scope, event) {

@@ -1,5 +1,5 @@
-angular.module('estudos').controller('AssuntosController', ['$scope', '$rootScope', '$state', 'Assuntos', '$modal',
-    function ($scope, $rootScope, $state, Assuntos, $modal) {
+angular.module('estudos').controller('AssuntosController', ['$scope', '$rootScope', '$state', 'Assuntos', '$uibModal',
+    function ($scope, $rootScope, $state, Assuntos, $uibModal) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
@@ -33,7 +33,7 @@ angular.module('estudos').controller('AssuntosController', ['$scope', '$rootScop
         };
 
         $scope.excluir = function (assunto) {
-            $modal
+            $uibModal
                 .open({
                     templateUrl: 'exclusao.html',
                     controller: function ($scope) {
@@ -55,7 +55,7 @@ angular.module('estudos').controller('AssuntosController', ['$scope', '$rootScop
         };
 
         $scope.criarAssunto = function () {
-            $modal
+            $uibModal
                 .open({
                     templateUrl: 'criar-assunto.html',
                     controller: function ($scope, assuntosDB) {

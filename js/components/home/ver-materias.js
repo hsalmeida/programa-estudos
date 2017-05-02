@@ -1,5 +1,5 @@
 angular.module('estudos').controller('VerMateriasController',
-    function ($scope, assuntosDB, materia, $q, $rootScope, $modal) {
+    function ($scope, assuntosDB, materia, $q, $rootScope, $uibModal) {
 
         $scope.searchtext = "";
 
@@ -15,7 +15,7 @@ angular.module('estudos').controller('VerMateriasController',
 
         $scope.estudar = function () {
             if ($scope.selecionado) {
-                $modal
+                $uibModal
                     .open({
                         templateUrl: 'views/estudar/estudar.html',
                         controller: 'EstudarController',

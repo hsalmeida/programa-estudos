@@ -1,6 +1,6 @@
-angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', '$state', '$cookies', '$http', '$filter', '$modal',
+angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', '$state', '$cookies', '$http', '$filter', '$uibModal',
     'Usuario', 'Assuntos', '$q',
-    function ($scope, $rootScope, $state, $cookies, $http, $filter, $modal, Usuario, Assuntos, $q) {
+    function ($scope, $rootScope, $state, $cookies, $http, $filter, $uibModal, Usuario, Assuntos, $q) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
@@ -274,7 +274,7 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
             $scope.verMaterias = function (materia) {
                 console.log(materia);
                 if(materia) {
-                    $modal
+                    $uibModal
                         .open({
                             templateUrl: 'views/home/ver-materias.html',
                             controller: 'VerMateriasController',
@@ -298,7 +298,7 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
 
             $scope.estudar = function () {
                 if ($scope.array && $scope.array.length > 0) {
-                    $modal
+                    $uibModal
                         .open({
                             templateUrl: 'views/estudar/estudar.html',
                             controller: 'EstudarController',

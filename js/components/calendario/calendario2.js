@@ -1,6 +1,6 @@
-angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootScope', '$state', 'Assuntos', '$modal',
+angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootScope', '$state', 'Assuntos', '$uibModal',
     'uiCalendarConfig',
-    function ($scope, $rootScope, $state, Assuntos, $modal, uiCalendarConfig) {
+    function ($scope, $rootScope, $state, Assuntos, $uibModal, uiCalendarConfig) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
@@ -45,7 +45,7 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
         };
 
         $scope.eventoClicado = function (date, jsEvent, view) {
-            $modal
+            $uibModal
                 .open({
                     templateUrl: 'evt-detail.html',
                     controller: function ($scope, event) {

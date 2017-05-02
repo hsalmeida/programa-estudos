@@ -1,6 +1,6 @@
 angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope', '$state', '$stateParams', 'Assuntos',
-    '$modal',
-    function ($scope, $rootScope, $state, $stateParams, Assuntos, $modal) {
+    '$uibModal',
+    function ($scope, $rootScope, $state, $stateParams, Assuntos, $uibModal) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
@@ -40,7 +40,7 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
         };
 
         $scope.editar = function (materia, indice) {
-            $modal
+            $uibModal
                 .open({
                     templateUrl: 'editar.html',
                     controller: function ($scope, parentScope, indiceMateria, materiaSelecionada) {
@@ -80,7 +80,7 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
         };
 
         $scope.excluir = function (materia) {
-            $modal
+            $uibModal
                 .open({
                     templateUrl: 'exclusao.html',
                     controller: function ($scope) {
@@ -119,7 +119,7 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
         };
 
         $scope.criarMateria = function () {
-            $modal
+            $uibModal
                 .open({
                     templateUrl: 'criar-materia.html',
                     controller: function ($scope, parentScope) {

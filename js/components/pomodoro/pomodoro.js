@@ -1,7 +1,7 @@
 angular.module('estudos')
     .controller('PomodoroController', ['$scope', '$rootScope', '$state', 'Pomodoros',
-    '$modal', '$q', 'ngAudio', '$timeout',
-    function ($scope, $rootScope, $state, Pomodoros, $modal, $q, ngAudio, $timeout) {
+    '$uibModal', '$q', 'ngAudio', '$timeout',
+    function ($scope, $rootScope, $state, Pomodoros, $uibModal, $q, ngAudio, $timeout) {
         $scope.pomodoros = [];
         $scope.pomodorosOntem = [];
         $scope.rodando = false;
@@ -103,7 +103,7 @@ angular.module('estudos')
         });
 
         $scope.personalizar = function () {
-            $modal
+            $uibModal
                 .open({
                     templateUrl: 'personalizar-pomodoro.html',
                     controller: function ($scope, $rootScope, parentScope, Usuario, $window) {
@@ -154,7 +154,7 @@ angular.module('estudos')
 
             if($scope.tipoPomodoro.pomodoro) {
 
-                $modal
+                $uibModal
                     .open({
                         templateUrl: 'criar-pomodoro.html',
                         controller: function ($scope, parentScope) {
