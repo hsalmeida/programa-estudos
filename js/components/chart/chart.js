@@ -5,6 +5,32 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
         };
         $scope.detalhado = false;
         $scope.assuntoSelecionado = {};
+        $scope.$on('chart-create', function (evt, chartObj) {
+            var chart = chartObj.chart;
+            if(chart.ctx) {
+                var ctx = chart.ctx;
+                var index = 10;
+                if (index) {
+                    var xaxis = chart.controller.scales['x-axis-0'];
+                    var yaxis = chart.controller.scales['y-axis-0'];
+
+                    var x1 = xaxis.getPixelForValue(index);
+                    var y1 = yaxis.top;
+
+                    var x2 = xaxis.getPixelForValue(index);
+                    var y2 = yaxis.bottom;
+
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y1);
+                    ctx.strokeStyle = 'red';
+                    ctx.lineTo(x2, y2);
+                    ctx.stroke();
+
+                    ctx.restore();
+                }
+            }
+        });
         $scope.initChart = function () {
             $scope.detalhado = false;
             waitingDialog.show("Aguarde. Carregando assuntos");
@@ -13,6 +39,23 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                 "usuario": $rootScope.usuarioLogado._id.$oid
             };
             Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
+
+                for (var index = 0; index < assuntos.length; index++) {
+                    assuntos[index].geral.total = 0;
+                    assuntos[index].geral.acertos = 0;
+                    assuntos[index].geral.aproveitamento = 0;
+
+                    for(var midx = 0; midx < assuntos[index].materias.length; midx++) {
+                        if(assuntos[index].materias[midx].ativo) {
+                            assuntos[index].geral.total += assuntos[index].materias[midx].geral.total;
+                            assuntos[index].geral.acertos += assuntos[index].materias[midx].geral.acertos;
+                        }
+                    }
+                    if(assuntos[index].geral.total > 0) {
+                        assuntos[index].geral.aproveitamento = Math.round((assuntos[index].geral.acertos / assuntos[index].geral.total) * 100)
+                    }
+                }
+
                 $scope.assuntos = assuntos;
 
                 $scope.chartoptions = {

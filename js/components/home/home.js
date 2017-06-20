@@ -208,6 +208,10 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                     var arrayStatusMateriaMae = [0, 0, 0, 0];
                     $scope.materiasUnificadas[z].qtdMaterias = 0;
 
+                    $scope.materiasUnificadas[z].geral.total = 0;
+                    $scope.materiasUnificadas[z].geral.acertos = 0;
+                    $scope.materiasUnificadas[z].geral.aproveitamento = 0;
+
                     for (var j = 0; j < $scope.materiasUnificadas[z].materias.length; j++) {
 
                         if(!$scope.materiasUnificadas[z].materias[j].listaordem) {
@@ -249,7 +253,17 @@ angular.module('estudos').controller('HomeController', ['$scope', '$rootScope', 
                                 arrayStatusMateriaMae[2]++ : $scope.materiasUnificadas[z].materias[j].status === "completo" ?
                                 arrayStatusMateriaMae[3]++ : arrayStatusMateriaMae[0]++;
                             $scope.materiasUnificadas[z].qtdMaterias++;
+
+                            $scope.materiasUnificadas[z].geral.total += $scope.materiasUnificadas[z].materias[j].geral.total;
+                            $scope.materiasUnificadas[z].geral.acertos += $scope.materiasUnificadas[z].materias[j].geral.acertos;
                         }
+
+                    }
+
+                    if($scope.materiasUnificadas[z].geral.total > 0) {
+
+                        $scope.materiasUnificadas[z].geral.aproveitamento = Math.round(($scope.materiasUnificadas[z].geral.acertos /
+                            $scope.materiasUnificadas[z].geral.total) * 100);
                     }
 
                     for (var b = 0; b < arrayStatusMateriaMae.length; b++) {
