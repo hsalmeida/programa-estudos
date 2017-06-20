@@ -3,6 +3,10 @@ html, body {
     margin: 0;
 }
 
+.navbar-brand {
+    font-size: 20px;
+}
+
 .lista-home {
     margin: 0;
 }

@@ -4,7 +4,7 @@
     </div>
     <div>
         <div class="row lista-home">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-8 col-md-offset-2">
                 <div class="form-inline">
                     <div class="form-group">
                         <label for="assunto">Selecione um Assunto</label>
@@ -20,6 +20,9 @@
                                        ng-change="criarGraficoDesempenho()">
                                 Detalhado?</label>
                         </div>
+                        <label for="linha">Linha desempenho</label>
+                        <input class="form-control" id="linha" type="number" min="0" max="100" ng-model="linha">
+                        <button class="btn btn-sm btn-primary" ng-click="updateLinha();">Salvar linha</button>
                     </div>
                 </div>
             </div>
@@ -28,7 +31,7 @@
             <div class="col-md-12">
                 <canvas id="bar" class="chart chart-horizontal-bar"
                         chart-data="bardata" chart-labels="barlabels" chart-colors="colours"
-                        chart-series="series" chart-options="chartoptions">
+                        chart-series="series" chart-options="chartoptions" chart-plugins="plugins">
                 </canvas>
             </div>
         </div>

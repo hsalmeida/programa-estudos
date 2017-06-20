@@ -1,36 +1,11 @@
-angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScope', '$state', 'Assuntos',
-    function ($scope, $rootScope, $state, Assuntos) {
+angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScope', '$state', 'Assuntos', 'Usuario', '$window',
+    function ($scope, $rootScope, $state, Assuntos, Usuario, $window) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
         $scope.detalhado = false;
         $scope.assuntoSelecionado = {};
-        $scope.$on('chart-create', function (evt, chartObj) {
-            var chart = chartObj.chart;
-            if(chart.ctx) {
-                var ctx = chart.ctx;
-                var index = 10;
-                if (index) {
-                    var xaxis = chart.controller.scales['x-axis-0'];
-                    var yaxis = chart.controller.scales['y-axis-0'];
 
-                    var x1 = xaxis.getPixelForValue(index);
-                    var y1 = yaxis.top;
-
-                    var x2 = xaxis.getPixelForValue(index);
-                    var y2 = yaxis.bottom;
-
-                    ctx.save();
-                    ctx.beginPath();
-                    ctx.moveTo(x1, y1);
-                    ctx.strokeStyle = 'red';
-                    ctx.lineTo(x2, y2);
-                    ctx.stroke();
-
-                    ctx.restore();
-                }
-            }
-        });
         $scope.initChart = function () {
             $scope.detalhado = false;
             waitingDialog.show("Aguarde. Carregando assuntos");
@@ -38,6 +13,8 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                 "ativo": true,
                 "usuario": $rootScope.usuarioLogado._id.$oid
             };
+            $scope.linha = $rootScope.usuarioLogado.linhaDesempenho;
+
             Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
 
                 for (var index = 0; index < assuntos.length; index++) {
@@ -45,13 +22,13 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                     assuntos[index].geral.acertos = 0;
                     assuntos[index].geral.aproveitamento = 0;
 
-                    for(var midx = 0; midx < assuntos[index].materias.length; midx++) {
-                        if(assuntos[index].materias[midx].ativo) {
+                    for (var midx = 0; midx < assuntos[index].materias.length; midx++) {
+                        if (assuntos[index].materias[midx].ativo) {
                             assuntos[index].geral.total += assuntos[index].materias[midx].geral.total;
                             assuntos[index].geral.acertos += assuntos[index].materias[midx].geral.acertos;
                         }
                     }
-                    if(assuntos[index].geral.total > 0) {
+                    if (assuntos[index].geral.total > 0) {
                         assuntos[index].geral.aproveitamento = Math.round((assuntos[index].geral.acertos / assuntos[index].geral.total) * 100)
                     }
                 }
@@ -82,6 +59,46 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                     $scope.$apply();
                 }
             });
+
+            $scope.plugins = [{
+                afterDatasetsDraw: function (chartObj, easing) {
+                    var chart = chartObj.chart;
+                    if (chart.ctx) {
+                        var ctx = chart.ctx;
+
+                        //var lineoffset = chartObj.config.data.datasets["0"]._meta[4].data["0"]._model.x;
+                        //console.log(chartObj.getDatasetMeta(0).data[0]._model.x);
+
+                        var xaxis = chartObj.scales['x-axis-0'];
+                        var yaxis = chartObj.scales['y-axis-0'];
+                        var linha = ($scope.linha / 10);
+                        var lineoffset = ((xaxis.width / 10) * linha) + xaxis.left;
+
+                        var y1 = yaxis.top;
+                        var y2 = yaxis.bottom;
+
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.strokeStyle = '#ff0000';
+                        ctx.moveTo(lineoffset, y1);
+                        ctx.lineTo(lineoffset, y2);
+                        ctx.stroke();
+                    }
+                }
+            }];
+        };
+
+        $scope.updateLinha = function () {
+            if($scope.linha) {
+                Usuario.getById($rootScope.usuarioLogado._id.$oid).then(function (usuario) {
+                    usuario.linhaDesempenho = $scope.linha;
+                    usuario.$saveOrUpdate().then(function (usuario) {
+                        $window.sessionStorage.setItem('programaEstudosUsuarioLogado', angular.toJson(usuario));
+                        $rootScope.usuarioLogado = usuario;
+                        $state.go("chartdes");
+                    });
+                });
+            }
         };
 
         function gerarGraficoPadrao(assuntos) {
@@ -136,7 +153,7 @@ angular.module('estudos').controller('ChartDesController', ['$scope', '$rootScop
                         $scope.series[1] = $rootScope.usuarioLogado.calculoDesempenho === "melhor" ? "Melhor" : "Último";
                         for (var j = 0; j < assunto.materias.length; j++) {
                             var totalAproveitamentoTemp = 0;
-                            if(assunto.materias[j].ativo) {
+                            if (assunto.materias[j].ativo) {
                                 if (assunto.materias[j].geral.totalGeral !== 0) {
                                     totalAproveitamentoTemp =
                                         Math.round((assunto.materias[j].geral.totalAcertos
@@ -254,32 +271,32 @@ angular.module('estudos').controller('ChartController', ['$scope', '$rootScope',
                     var estudada = 0;
                     var lenAtiva = 0;
                     for (var j = 0; j < materiasUnificadas[z].materias.length; j++) {
-                        if(materiasUnificadas[z].materias[j].ativo) {
+                        if (materiasUnificadas[z].materias[j].ativo) {
                             lenAtiva++;
                             if (materiasUnificadas[z].materias[j].status === "revisar" ||
                                 materiasUnificadas[z].materias[j].status === "completo") {
                                 estudada++;
                             }
                             /*
-                            var parcialEstudo = 0;
-                            var parcialNaoEstudo = 0;
-                            for (var a = 0; a < materiasUnificadas[z].materias[j].datas.length; a++) {
+                             var parcialEstudo = 0;
+                             var parcialNaoEstudo = 0;
+                             for (var a = 0; a < materiasUnificadas[z].materias[j].datas.length; a++) {
 
-                                if (materiasUnificadas[z].materias[j].datas[a].status === "revisar" ||
-                                    materiasUnificadas[z].materias[j].datas[a].status === "completo") {
-                                    parcialEstudo++;
-                                } else {
-                                    parcialNaoEstudo++;
-                                }
-                            }
-                            if (parcialEstudo > 0 && parcialEstudo == parcialNaoEstudo) {
-                                estudada++;
-                            } else {
-                                if (parcialEstudo > parcialNaoEstudo) {
-                                    estudada++;
-                                }
-                            }
-                            */
+                             if (materiasUnificadas[z].materias[j].datas[a].status === "revisar" ||
+                             materiasUnificadas[z].materias[j].datas[a].status === "completo") {
+                             parcialEstudo++;
+                             } else {
+                             parcialNaoEstudo++;
+                             }
+                             }
+                             if (parcialEstudo > 0 && parcialEstudo == parcialNaoEstudo) {
+                             estudada++;
+                             } else {
+                             if (parcialEstudo > parcialNaoEstudo) {
+                             estudada++;
+                             }
+                             }
+                             */
                         }
                     }
                     totalEstudo = Math.round((estudada / lenAtiva) * 100);
