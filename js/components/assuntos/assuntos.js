@@ -1,5 +1,5 @@
-angular.module('estudos').controller('AssuntosController', ['$scope', '$rootScope', '$state', 'Assuntos', '$uibModal',
-    function ($scope, $rootScope, $state, Assuntos, $uibModal) {
+angular.module('estudos').controller('AssuntosController', ['$scope', '$rootScope', '$state', 'Assuntos', '$uibModal', '$q',
+    function ($scope, $rootScope, $state, Assuntos, $uibModal, $q) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
@@ -9,23 +9,47 @@ angular.module('estudos').controller('AssuntosController', ['$scope', '$rootScop
                 "usuario": $rootScope.usuarioLogado._id.$oid
             };
             Assuntos.query(assuntoQuery, {sort: {"assunto": 1}}).then(function (assuntos) {
+                for (var i = 0; i < assuntos.length; i++) {
+                    if(!assuntos[i].listaordem) {
+                        assuntos[i].listaordem = (i + 1);
+                        assuntos[i].listaordemTmp = assuntos[i].listaordem;
+                    } else {
+                        assuntos[i].listaordemTmp = assuntos[i].listaordem;
+                    }
+                }
                 $scope.materiasUnificadas = assuntos;
+                waitingDialog.hide();
+            });
+        };
+
+        $scope.salvar = function () {
+            waitingDialog.show("Salvando alterações. Aguarde.");
+            var proms = [];
+            for (var i = 0; i < $scope.materiasUnificadas.length; i++) {
+                $scope.materiasUnificadas[i].listaordem = $scope.materiasUnificadas[i].listaordemTmp;
+                proms.push($scope.materiasUnificadas[i].$saveOrUpdate().then(function () {}));
+            }
+            $q.all(proms).then(function () {
                 waitingDialog.hide();
             });
         };
 
         $scope.ativar = function (assunto) {
             assunto.ativo = true;
+            /*
             assunto.$saveOrUpdate().then(function () {
                 $state.reload();
             });
+            */
         };
 
         $scope.desativar = function (assunto) {
             assunto.ativo = false;
+            /*
             assunto.$saveOrUpdate().then(function () {
                 $state.reload();
             });
+            */
         };
 
         $scope.editar = function (assunto) {
