@@ -8,52 +8,103 @@
                 <div class="list-group-item active indice-zero">
                     <input type="text" ng-model="searchtext" class="form-control busca-assunto" placeholder="Buscar pelo assunto, texto ou concurso" aria-describedby="basic-addon1">
                 </div>
-                <div class="list-group-item" ng-repeat="materia in materiasUnificadas | orderBy: 'listaordem' | filter:searchFunc">
-                    <span class="list-group-item-heading materia-header" ng-click="setselectedrow($index)">
-                        <b>{{materia.assunto}} - {{materia.geral.total}} / {{materia.geral.acertos}} / {{materia.geral.aproveitamento}}%</b>
-                        <span class="label label-as-badge label-primary" ng-show="materia.arrayStatus[3] > 0">
-                            {{materia.arrayStatus[3]}}% completo
-                        </span>
-                        <span class="label label-as-badge label-success" ng-show="materia.arrayStatus[2] > 0">
-                            {{materia.arrayStatus[2]}}% revisar
-                        </span>
-                        <span class="label label-as-badge label-danger" ng-show="materia.arrayStatus[1] > 0">
-                            {{materia.arrayStatus[1]}}% incompleto
-                        </span>
-                        <span class="label label-as-badge label-warning" ng-show="materia.arrayStatus[0] > 0">
-                            {{materia.arrayStatus[0]}}% em aberto
-                        </span>
-                    </span>
-                    <div class="list-group list-assuntos" ng-class="{'list-assuntos-show':$index === selectedrow}">
-                        <div class="list-group-item active">
+                <div class="list-group-item materia-item" ng-repeat="materia in materiasUnificadas | orderBy: 'listaordem' | filter:searchFunc">
+                    <div class="materia-header" ng-click="setselectedrow($index)">
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4">
+                                <b>{{materia.assunto}}</b>
+                            </div>
+                            <div class="col-md-1 col-xs-2 coluna-assunto-barra">
+                                <div class="text-center">{{materia.geral.total}}</div>
+                                <div class="text-center text-muted">total</div>
+                            </div>
+                            <div class="col-md-1 col-xs-3 coluna-assunto-barra">
+                                <div class="text-center">{{materia.geral.acertos}}</div>
+                                <div class="text-center text-muted">acertos</div>
+                            </div>
+                            <div class="col-md-2 col-xs-3 coluna-assunto-barra">
+                                <div class="progress home-progress">
+                                    <div class="progress-bar progress-bar-primary progress-bar-striped" style="width: {{materia.geral.aproveitamento}}%">
+                                        <span ng-hide="materia.geral.aproveitamento == 0" class="sr-only">{{materia.geral.aproveitamento}}% Aproveitamento</span>
+                                        <span ng-show="materia.geral.aproveitamento > 0">{{materia.geral.aproveitamento}}%</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-danger progress-bar-striped" style="width: {{100 - materia.geral.aproveitamento}}%">
+                                        <span class="sr-only">{{100 - materia.geral.aproveitamento}}% Aproveitamento</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-12 coluna-assunto-barra-ultima">
+                                <span class="label label-primary label-home-space" ng-show="materia.arrayStatus[3] > 0">
+                                    {{materia.arrayStatus[3]}}% completo
+                                </span>
+                                <span class="label  label-success label-home-space" ng-show="materia.arrayStatus[2] > 0">
+                                    {{materia.arrayStatus[2]}}% revisar
+                                </span>
+
+                                <span class="label label-danger label-home-space" ng-show="materia.arrayStatus[1] > 0">
+                                    {{materia.arrayStatus[1]}}% incompleto
+                                </span>
+
+                                <span class="label label-warning label-home-space" ng-show="materia.arrayStatus[0] > 0">
+                                    {{materia.arrayStatus[0]}}% em aberto
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group list-assuntos assunto-list" ng-class="{'list-assuntos-show':$index === selectedrow}">
+                        <div class="list-group-item active assunto-item">
                             <span class="list-group-item-heading">Assuntos</span>
                         </div>
-                        <div class="list-group-item" ng-show="assunto.ativo === true" ng-repeat="assunto in materia.materias | index | orderBy: 'listaordem' | filter:subsearchFunc">
-                            <input type="checkbox" index="{{$index}}" id="assuntock{{$parent.$index}}{{$index}}" checkbox-group>
-                            &nbsp;
-                            <label for="assuntock{{$parent.$index}}{{$index}}" class="assunto-label">
-                                {{assunto.listaordem}}. {{assunto.texto}} - <i>{{assunto.concurso}}</i> - {{assunto.geral.total}} / {{assunto.geral.acertos}} / {{assunto.geral.aproveitamento}}%
-                            </label>
-                            <span class="label label-as-badge label-primary" ng-show="assunto.status === 'completo'">
-                                completo
-                            </span>
-                            <span class="label label-as-badge label-success" ng-show="assunto.status === 'revisar'">
-                                revisar
-                            </span>
-                            <span class="label label-as-badge label-danger" ng-show="assunto.status === 'incompleto'">
-                                incompleto
-                            </span>
-                            <span class="label label-as-badge label-warning" ng-show="!assunto.status">
-                                em aberto
-                            </span>
+                        <div class="list-group-item assunto-item" ng-show="assunto.ativo === true" ng-repeat="assunto in materia.materias | index | orderBy: 'listaordem' | filter:subsearchFunc">
+                            <div class="row">
+                            <div class="col-md-4 col-xs-12">
+                                <input type="checkbox" index="{{$index}}" id="assuntock{{$parent.$index}}{{$index}}" checkbox-group>
+                                <label for="assuntock{{$parent.$index}}{{$index}}" class="assunto-label">{{assunto.listaordem}}. {{assunto.texto}} - <i>{{assunto.concurso}}</i></label>
+                            </div>
+                            <div class="col-md-1 col-xs-4 coluna-assunto-barra">
+                                <div class="text-center">{{assunto.geral.total}}</div>
+                                <div class="text-center text-muted">total</div>
+                            </div>
+                            <div class="col-md-1 col-xs-4 coluna-assunto-barra">
+                                <div class="text-center">{{assunto.geral.acertos}}</div>
+                                <div class="text-center text-muted">acertos</div>
+                            </div>
+                            <div class="col-md-2 col-xs-4 coluna-assunto-barra">
+                                <div class="progress home-progress">
+                                    <div class="progress-bar progress-bar-primary progress-bar-striped" style="width: {{assunto.geral.aproveitamento}}%">
+                                        <span ng-hide="assunto.geral.aproveitamento == 0" class="sr-only">{{assunto.geral.aproveitamento}}% Aproveitamento</span>
+                                        <span ng-show="assunto.geral.aproveitamento > 0">{{assunto.geral.aproveitamento}}%</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-danger progress-bar-striped" style="width: {{100 - assunto.geral.aproveitamento}}%">
+                                        <span class="sr-only">{{100 - assunto.geral.aproveitamento}}% Aproveitamento</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-xs-5 coluna-assunto-barra text-center">
+                                <span class="label" ng-class="assunto.geral._24h ? 'label-success' : 'label-default'">24h</span>
+                                <span class="label" ng-class="assunto.geral._7d ? 'label-success' : 'label-default'">7d</span>
+                                <span class="label" ng-class="assunto.geral._30d ? 'label-success' : 'label-default'">30d</span>
+                            </div>
+                            <div class="col-md-1 col-xs-4 coluna-assunto-barra">
+                                <span class="label label-primary" ng-show="assunto.status === 'completo'">
+                                    completo
+                                </span>
+                                <span class="label label-success" ng-show="assunto.status === 'revisar'">
+                                    revisar
+                                </span>
+                                <span class="label label-danger" ng-show="assunto.status === 'incompleto'">
+                                    incompleto
+                                </span>
+                                <span class="label label-warning" ng-show="!assunto.status">
+                                    em aberto
+                                </span>
+                            </div>
                             &nbsp;&nbsp;
-                            <span class="label" ng-class="assunto.geral._24h ? 'label-success' : 'label-default'">24h</span>
-                            <span class="label" ng-class="assunto.geral._7d ? 'label-success' : 'label-default'">7d</span>
-                            <span class="label" ng-class="assunto.geral._30d ? 'label-success' : 'label-default'">30d</span>
-                            <div class="pull-right">
+                            <div class="pull-right btn-view-assunto">
                                 <a class="btn btn-primary" ng-show="assunto.datas.length > 0" target="_blank" tooltip="Mostrar detalhes" ui-sref="detalhes({'materia':materia._id.$oid, 'indice':materia.materias.indexOf(assunto)})">
                                     <span class="glyphicon glyphicon-search"></span>
                                 </a>
+                            </div>
                             </div>
                         </div>
                     </div>

@@ -11,6 +11,15 @@ html, body {
     margin: 0;
 }
 
+.home-progress {
+    height: 23px;
+    margin-bottom: 23px;
+}
+
+.label-home-space {
+    margin-right: 2px;
+}
+
 .indice-zero {
     z-index: 0 !important;
 }
@@ -69,6 +78,7 @@ html, body {
 
 .list-assuntos {
     visibility: hidden;
+    margin-bottom: 0;
     height: 0;
     overflow: hidden;
     opacity: 0;
@@ -80,6 +90,33 @@ html, body {
     visibility: visible;
     opacity: 1;
     height: auto;
+    margin-bottom: 20px;
+}
+
+.materia-item {
+
+}
+
+.assunto-list {
+    border: 1px solid #000000;
+    border-radius: 3px;
+}
+
+.btn-view-assunto {
+    padding-right: 16px;
+}
+
+.assunto-item {
+
+}
+
+.coluna-assunto-barra {
+    border-left: 1px solid #dddddd;
+}
+
+.coluna-assunto-barra-ultima {
+    border-left: 1px solid #dddddd;
+    height: 46px;
 }
 
 .obs-content {
