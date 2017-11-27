@@ -261,3 +261,50 @@ ul[dnd-list] .dndDraggingSource {
         display:block !important;
     }
 }
+
+.noPadding {
+    padding: 0!important;
+}
+
+.slider-handle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #3a94a5;
+    background-image: -webkit-linear-gradient(top,#149bdf 0,#0480be 100%);
+    background-image: -o-linear-gradient(top,#149bdf 0,#0480be 100%);
+    background-image: linear-gradient(to bottom,#149bdf 0,#0480be 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff149bdf',endColorstr='#ff0480be',GradientType=0);
+    filter: none;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+    opacity: .8;
+    border: 0 solid transparent;
+}
+
+.slider-track{
+    position: absolute;
+    cursor: pointer;
+    background-image: -webkit-linear-gradient(top,#ECECEC 0,#FFFFFF 25%);
+    background-image: -o-linear-gradient(top,#ECECEC 0,#FFFFFF 25%);
+    background-image: linear-gradient(to bottom,#ECECEC 0,#FFFFFF 25%);
+    background-repeat: repeat-x;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    border-radius: 4px;
+}
+
+.slider-selection {
+    position: absolute;
+    background-image: -webkit-linear-gradient(top,#B9E2F7 0,#B9E2F7 100%);
+    background-image: -o-linear-gradient(top,#B9E2F7 0,#B9E2F7 100%);
+    background-image: linear-gradient(to bottom,#B9E2F7 0,#B9E2F7 100%);
+    background-repeat: repeat-x;
+    -webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 4px;
+}

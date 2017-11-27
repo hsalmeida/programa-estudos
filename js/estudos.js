@@ -1,7 +1,8 @@
 angular.module("estudos", [
     'ui.router', 'ngResource', 'mongolabResourceHttp', 'mwl.calendar',
     'ngCookies', 'ngAnimate', 'ui.bootstrap', 'chart.js', 'dndLists',
-    'colorpicker.module', 'ui.calendar', 'angularMoment', 'timer', 'ngAudio'
+    'colorpicker.module', 'ui.calendar', 'angularMoment', 'timer', 'ngAudio',
+    'ui.bootstrap-slider'
 ])
     .constant('MONGOLAB_CONFIG', {API_KEY: 'YXgR-q92vuVCKlSm-ji3nplDTE7rHIQh', DB_NAME: 'ltdb'})
     .config(function (calendarConfig) {
