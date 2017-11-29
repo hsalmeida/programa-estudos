@@ -7,8 +7,23 @@
     <p>minutosSemanais: {{planejamento.minutosSemanais}}</p>
     <p>totalMultiplicador: {{planejamento.totalMultiplicador}}</p>
     <div class="list-group">
+        <div class="list-group-item">
+            <div class="row">
+                <div class="col-lg-3">Matéria</div>
+                <div class="col-lg-2">Peso</div>
+                <div class="col-lg-2">Conhecimento</div>
+                <div class="col-lg-2">Multiplicador</div>
+                <div class="col-lg-3">Total/Ciclo</div>
+            </div>
+        </div>
         <div class="list-group-item" ng-repeat="materia in planejamento.materias">
-            assunto: {{materia.assunto}} - peso: {{materia.peso}} - conhecimento: {{materia.conhecimentoMultiplicador}} - multiplicador: {{materia.multiplicador}} - totalPorCiclo: {{materia.totalPorCiclo}}
+            <div class="row">
+                <div class="col-lg-4">{{materia.assunto}}</div>
+                <div class="col-lg-2">{{materia.peso}}</div>
+                <div class="col-lg-2">{{materia.conhecimentoMultiplicador}}</div>
+                <div class="col-lg-2">{{materia.multiplicador}}</div>
+                <div class="col-lg-2">{{materia.totalPorCiclo}}</div>
+            </div>
         </div>
     </div>
 </div>

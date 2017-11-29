@@ -166,7 +166,7 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
                     templateUrl: 'views/planejamento/planejamento.modal.html',
                     controller: function ($scope, planejamento) {
                         $scope.planejamento = planejamento;
-                        scope.fechar = function () {
+                        $scope.fechar = function () {
                             $scope.$dismiss();
                         };
                     },
