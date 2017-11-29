@@ -1,0 +1,24 @@
+<div class="modal-header text-center">
+    <h4 class="modal-title">Detalhes Planejamento</h4>
+</div>
+<div class="modal-body">
+    <p>calculoSemana: {{planejamento.calculoSemana}}</p>
+    <p>minutosPorPeso: {{planejamento.minutosPorPeso}}</p>
+    <p>minutosSemanais: {{planejamento.minutosSemanais}}</p>
+    <p>totalMultiplicador: {{planejamento.totalMultiplicador}}</p>
+    <div class="list-group">
+        <div class="list-group-item" ng-repeat="materia in planejamento.materias">
+            assunto: {{materia.assunto}} - peso: {{materia.peso}} - conhecimento: {{materia.conhecimentoMultiplicador}} - multiplicador: {{materia.multiplicador}} - totalPorCiclo: {{materia.totalPorCiclo}}
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-lg-12">
+        <hr>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-warning" ng-click="fechar()" data-dismiss="modal">
+        Fechar
+    </button>
+</div>
