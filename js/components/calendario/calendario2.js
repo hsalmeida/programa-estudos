@@ -70,7 +70,7 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
             $scope.events = [];
             $scope.assuntos = [];
             var ativos = {
-                "ativo": true,
+                //"ativo": true,
                 "usuario": $rootScope.usuarioLogado._id.$oid
             };
             Assuntos.query(ativos).then(function (assuntos) {

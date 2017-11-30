@@ -28,7 +28,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
             $scope.events = [];
             $scope.assuntos = [];
             var ativos = {
-                "ativo": true,
+                //"ativo": true,
                 "usuario": $rootScope.usuarioLogado._id.$oid
             };
 
