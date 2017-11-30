@@ -31,7 +31,7 @@ angular.module('estudos').controller('CicloEstudoController', ['$scope', '$rootS
                 for (var z = 0; z < assuntos.length; z++) {
                     if (assuntos[z].horas) {
                         $scope.assuntos.push(assuntos[z]);
-                        var re = /^([0-9]{2}):([0-9]{2})$/gm;
+                        var re = /^([0-9]{1,2}):([0-9]{2})$/gm;
                         var m = re.exec(assuntos[z].horas);
                         var tempoData = Number(m[1]);
                         var minutoData = Number(m[2]);

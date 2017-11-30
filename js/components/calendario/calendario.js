@@ -1,6 +1,6 @@
 angular.module('estudos').controller('CalendarioController', ['$scope', '$rootScope', '$state', 'Assuntos', '$uibModal',
     'calendarConfig',
-    function ($scope, $rootScope, $state, Assuntos, $modal, calendarConfig) {
+    function ($scope, $rootScope, $state, Assuntos, $uibModal, calendarConfig) {
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
@@ -12,7 +12,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
             if(cell.events) {
                 for (var i = 0; i < cell.events.length; i++) {
                     if (cell.events[i].horas) {
-                        var re = /^([0-9]{2}):([0-9]{2})$/gm;
+                        var re = /^([0-9]{1,2}):([0-9]{2})$/gm;
                         var m = re.exec(cell.events[i].tempo);
                         tempoTotal += Number(m[1]);
                         minutosTotal += Number(m[2]);
@@ -54,7 +54,7 @@ angular.module('estudos').controller('CalendarioController', ['$scope', '$rootSc
                             var minutoData = 0;
 
                             if (data.tempo) {
-                                var re = /^([0-9]{2}):([0-9]{2})$/gm;
+                                var re = /^([0-9]{1,2}):([0-9]{2})$/gm;
                                 var m = re.exec(data.tempo);
                                 tempoData = Number(m[1]);
                                 minutoData = Number(m[2]);
