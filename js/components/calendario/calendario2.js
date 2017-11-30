@@ -88,7 +88,7 @@ angular.module('estudos').controller('Calendario2Controller', ['$scope', '$rootS
                             var minutoData = 0;
 
                             if (data.tempo) {
-                                var re = /^([0-9]{2}):([0-9]{2})$/gm;
+                                var re = /^([0-9]{1,2}):([0-9]{2})$/gm;
                                 var m = re.exec(data.tempo);
                                 tempoData = Number(m[1]);
                                 minutoData = Number(m[2]);

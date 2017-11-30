@@ -101,7 +101,9 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
                             peso: 1,
                             conhecimento: 0,
                             selecionada: true,
-                            id: tempM._id.$oid
+                            id: tempM._id.$oid,
+                            cargaHorariaHoras: 50,
+                            cargaHorariaHorasMinutos: 3000
                         }
                     );
                 }
@@ -175,7 +177,9 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
                             return $scope.planejamento;
                         }
                     }
-                }).result.then(function () {}, function () {});
+                }).result.then(function () {
+            }, function () {
+            });
         };
 
         $scope.calculaHorasSemana = function () {
