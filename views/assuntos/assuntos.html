@@ -11,36 +11,39 @@
                                placeholder="Buscar pelo assunto" aria-describedby="basic-addon1">
                     </div>
                     <div class="list-group-item" ng-repeat="materia in materiasUnificadas | orderBy: 'listaordem' | filter:searchFunc track by $index ">
-                        <span class="list-group-item-heading" ng-click="setselectedrow($index)">
-                            <input type="number" step="1" min="1" max="999" ng-model="materia.listaordemTmp" class="lista-ordem">.&nbsp;
-                            <b>{{materia.assunto}}</b>
-                            <span ng-show="materia.materias.length" class="label label-warning">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input type="number" step="1" min="1" max="999" ng-model="materia.listaordemTmp" class="lista-ordem">.&nbsp;
+                                <b ng-class="{'text-muted' : !materia.ativo}">{{materia.assunto}}</b>
+                            </div>
+                            <div class="col-lg-6 text-right">
+                                <span ng-show="materia.materias.length" class="label label-warning">
                                 {{materia.materias.length}} matérias
                             </span>
-                            &nbsp;
-                            <span ng-show="materia.ativo" class="label label-success">
+                                &nbsp;
+                                <span ng-show="materia.ativo" class="label label-success">
                                 ATIVA
                             </span>
-                            <span ng-show="!materia.ativo" class="label label-danger">
+                                <span ng-show="!materia.ativo" class="label label-danger">
                                 INATIVA
                             </span>
-                            &nbsp;&nbsp;
-                            <button class="btn btn-primary" ng-click="editar(materia)" tooltip="Editar">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                            </button>
+                                &nbsp;&nbsp;
+                                <button class="btn btn-primary" ng-click="editar(materia)" tooltip="Editar">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </button>
 
-                            <button class="btn btn-success" ng-show="!materia.ativo" ng-click="ativar(materia)" tooltip="Exibir">
-                                <span class="glyphicon glyphicon-ok"></span>
-                            </button>
-                            <button class="btn btn-info" ng-show="materia.ativo" ng-click="desativar(materia)" tooltip="Ocultar">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </button>
+                                <button class="btn btn-success" ng-show="!materia.ativo" ng-click="ativar(materia)" tooltip="Exibir">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                                <button class="btn btn-info" ng-show="materia.ativo" ng-click="desativar(materia)" tooltip="Ocultar">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
 
-                            <button class="btn btn-danger" ng-click="excluir(materia)" tooltip="Excluir">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-
-                        </span>
+                                <button class="btn btn-danger" ng-click="excluir(materia)" tooltip="Excluir">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

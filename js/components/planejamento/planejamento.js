@@ -51,18 +51,20 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
             };
             Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
                 $scope.planejamento = {
+                    maximoMinutosPorMateria: 120,
                     nome: "",
                     prova: {$date: null},
                     naoSabeFim: false,
                     ativo: true,
                     usuario: $rootScope.usuarioLogado._id.$oid,
                     materias: [],
+                    cargaHorariaTotal: 0,
                     diaAdia: false,
                     horarios: {
-                        domingo: {
+                        domingo: [{
                             hora: 0,
                             minuto: 0
-                        },
+                        }],
                         segunda: {
                             hora: 0,
                             minuto: 0
@@ -128,7 +130,7 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
         };
         $scope.irMaterias = function () {
             $scope.active = 1;
-
+            $scope.calcularCargaHoraria();
         };
         $scope.irDados = function () {
             $scope.active = 0;
@@ -140,28 +142,32 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
         $scope.verPlanejamento = function () {
             $scope.planejamento.totalMultiplicador = 0;
             angular.forEach($scope.planejamento.materias, function (materia, key) {
-                switch (materia.conhecimento) {
-                    case 0:
-                    case 25:
-                        materia.conhecimentoMultiplicador = 3;
-                        break;
-                    case 50:
-                        materia.conhecimentoMultiplicador = 2;
-                        break;
-                    case 75:
-                    case 100:
-                        materia.conhecimentoMultiplicador = 1;
-                        break;
-                    default:
-                        materia.conhecimentoMultiplicador = 3;
-                        break;
+                if(materia.selecionada) {
+                    switch (materia.conhecimento) {
+                        case 0:
+                        case 25:
+                            materia.conhecimentoMultiplicador = 3;
+                            break;
+                        case 50:
+                            materia.conhecimentoMultiplicador = 2;
+                            break;
+                        case 75:
+                        case 100:
+                            materia.conhecimentoMultiplicador = 1;
+                            break;
+                        default:
+                            materia.conhecimentoMultiplicador = 3;
+                            break;
+                    }
+                    materia.multiplicador = materia.peso * materia.conhecimentoMultiplicador;
+                    $scope.planejamento.totalMultiplicador += materia.multiplicador;
                 }
-                materia.multiplicador = materia.peso * materia.conhecimentoMultiplicador;
-                $scope.planejamento.totalMultiplicador += materia.multiplicador;
             });
             $scope.planejamento.minutosPorPeso = $scope.planejamento.minutosSemanais / $scope.planejamento.totalMultiplicador | 0;
             angular.forEach($scope.planejamento.materias, function (materia, key) {
-                materia.totalPorCiclo = materia.multiplicador * $scope.planejamento.minutosPorPeso;
+                if(materia.selecionada) {
+                    materia.totalPorCiclo = materia.multiplicador * $scope.planejamento.minutosPorPeso;
+                }
             });
             $uibModal
                 .open({
@@ -179,6 +185,15 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
                     }
                 }).result.then(function () {
             }, function () {
+            });
+        };
+
+        $scope.calcularCargaHoraria = function () {
+            $scope.planejamento.cargaHorariaTotal = 0;
+            angular.forEach($scope.planejamento.materias, function (materia, key) {
+                if(materia.selecionada) {
+                    $scope.planejamento.cargaHorariaTotal += materia.cargaHorariaHoras;
+                }
             });
         };
 
@@ -206,6 +221,10 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
             $scope.calculoSemana = horasNaSemana + "h" + " " + minutosNaSemana + "'";
             $scope.planejamento.calculoSemana = $scope.calculoSemana;
             $scope.planejamento.minutosSemanais = (horasNaSemana * 60) + minutosNaSemana;
+            $scope.quantidadeSemanas = $scope.planejamento.cargaHorariaTotal / horasNaSemana | 0;
+            $scope.dataTerminoEstudo = moment().add($scope.quantidadeSemanas, 'w').toDate();
+            $scope.semanasLivres = moment($scope.planejamento.prova.$date).diff(moment($scope.dataTerminoEstudo), 'weeks');
+
         };
         $scope.mudaSemanaClicada = function () {
             if ($scope.planejamento.diaAdia) {

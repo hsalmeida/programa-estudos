@@ -4,8 +4,13 @@ angular.module('estudos').controller('AssuntoController', ['$scope', '$rootScope
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
+        $scope.mover = function (indice) {
+            console.log(indice);
+            $scope.assunto.materias.splice(indice, 1);
+        };
         $scope.assuntoInit = function () {
             waitingDialog.show("Aguarde. Carregando Assunto");
+            $scope.models = {selected : null};
             Assuntos.getById($stateParams.id).then(function (assunto) {
                 for (var i = 0; i < assunto.materias.length; i++) {
                     if(!assunto.materias[i].listaordem) {

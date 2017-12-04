@@ -16,7 +16,7 @@
                 <div class="col-lg-3">Total/Ciclo</div>
             </div>
         </div>
-        <div class="list-group-item" ng-repeat="materia in planejamento.materias">
+        <div class="list-group-item" ng-repeat="materia in planejamento.materias | filter: {selecionada: true}">
             <div class="row">
                 <div class="col-lg-4">{{materia.assunto}}</div>
                 <div class="col-lg-2">{{materia.peso}}</div>
