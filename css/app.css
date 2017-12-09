@@ -262,6 +262,10 @@ ul[dnd-list] .dndDraggingSource {
     }
 }
 
+.materia-select{
+    width: 100% !important;
+}
+
 .noPadding {
     padding: 0!important;
 }

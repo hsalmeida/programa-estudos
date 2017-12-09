@@ -37,7 +37,7 @@
                                 </button>
                             </div>
                         </uib-tab>
-                        <uib-tab index="1" heading="Matérias" disable="formulario.$invalid">
+                        <uib-tab index="1" heading="Matérias" disable="formulario.$invalid" select="tabMateriaSelecionada()">
                             <h4>{{planejamento.nome}} - {{planejamento.cargaHorariaTotal}}h</h4>
                             <hr/>
                             <table class="table table-striped table-responsive">
@@ -79,7 +79,7 @@
                                 </button>
                             </div>
                         </uib-tab>
-                        <uib-tab index="2" heading="Tempo" disable="formulario.$invalid">
+                        <uib-tab index="2" heading="Tempo" disable="formulario.$invalid" select="tabTempoSelecionada()">
                             <h4>{{planejamento.nome}} - {{planejamento.cargaHorariaTotal}}h - {{quantidadeSemanas}} Semanas</h4>
                             <p>Começando hoje a previsão de terminar será em {{dataTerminoEstudo | date: 'dd/MM/yyyy'}}</p>
                             <p>Deixando {{semanasLivres}} semanas até a prova.</p>
@@ -91,74 +91,174 @@
                                     <div class="panel panel-warning form-inline">
                                         <div class="panel-heading">
                                             Domingo
-                                            <button class="btn btn-primary btn-xs pull-right"><i class="glyphicon glyphicon-plus"></i> Matéria</button>
+                                            <button class="btn btn-primary btn-xs pull-right" ng-click="adicionarMateria('domingo')"><i class="glyphicon glyphicon-plus"></i> Matéria</button>
                                         </div>
-                                        <div class="panel-body">
-                                            <div class="row" ng-repeat="domingo in planejamento.horarios.domingo">
-                                                <div class="col-lg-8 col-xs-6">
-                                                    <select class="form-control" ng-model="domingo.materia" ng-options="materia as materia.assunto for materia in planejamento.materias"></select>
+                                        <div class="list-group">
+                                            <div class="list-group-item" ng-repeat="domingo in planejamento.horarios.domingo">
+                                                <div class="col-lg-6 col-xs-12">
+                                                    <select class="form-control materia-select" ng-model="domingo.materia" ng-options="materia.id as materia.assunto for materia in planejamento.materias"></select>
                                                 </div>
-                                                <div class="col-lg-2 col-xs-3">
+                                                <div class="col-lg-2 col-xs-4">
                                                     <select class="form-control" ng-model="domingo.hora" ng-options="hora.value as hora.label for hora in horas" ng-change="calculaHorasSemana()"></select>
                                                 </div>
-                                                <div class="col-lg-2 col-xs-3">
+                                                <div class="col-lg-2 col-xs-4">
                                                     <select class="form-control" ng-model="domingo.minuto" ng-options="minuto.value as minuto.label for minuto in minutos" ng-change="calculaHorasSemana()"></select>
                                                 </div>
+                                                <div class="col-lg-2 col-xs-4 text-right">
+                                                    <button class="btn btn-danger" ng-click="removerMateria('domingo', $index)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </div>
+                                                <hr/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-xs-12">
                                     <div class="panel panel-default form-inline">
-                                        <div class="panel-heading">Segunda</div>
-                                        <div class="panel-body">
-                                            <select class="form-control" ng-model="planejamento.horarios.segunda.hora" ng-options="hora.value as hora.label for hora in horas" ng-change="calculaHorasSemana()"></select>
-                                            <select class="form-control" ng-model="planejamento.horarios.segunda.minuto" ng-options="minuto.value as minuto.label for minuto in minutos" ng-change="calculaHorasSemana()"></select>
+                                        <div class="panel-heading">
+                                            Segunda
+                                            <button class="btn btn-primary btn-xs pull-right" ng-click="adicionarMateria('segunda')"><i class="glyphicon glyphicon-plus"></i> Matéria</button>
+                                        </div>
+                                        <div class="list-group">
+                                            <div class="list-group-item" ng-repeat="segunda in planejamento.horarios.segunda">
+                                                <div class="col-lg-6 col-xs-12">
+                                                    <select class="form-control materia-select" ng-model="segunda.materia" ng-options="materia.id as materia.assunto for materia in planejamento.materias"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4">
+                                                    <select class="form-control" ng-model="segunda.hora" ng-options="hora.value as hora.label for hora in horas" ng-change="calculaHorasSemana()"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4">
+                                                    <select class="form-control" ng-model="segunda.minuto" ng-options="minuto.value as minuto.label for minuto in minutos" ng-change="calculaHorasSemana()"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4 text-right">
+                                                    <button class="btn btn-danger" ng-click="removerMateria('segunda', $index)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </div>
+                                                <hr/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-xs-12">
                                     <div class="panel panel-default form-inline">
-                                        <div class="panel-heading">Terça</div>
-                                        <div class="panel-body">
-                                            <select class="form-control" ng-model="planejamento.horarios.terca.hora" ng-options="hora.value as hora.label for hora in horas" ng-change="calculaHorasSemana()"></select>
-                                            <select class="form-control" ng-model="planejamento.horarios.terca.minuto" ng-options="minuto.value as minuto.label for minuto in minutos" ng-change="calculaHorasSemana()"></select>
+                                        <div class="panel-heading">
+                                            Terça
+                                            <button class="btn btn-primary btn-xs pull-right" ng-click="adicionarMateria('terca')"><i class="glyphicon glyphicon-plus"></i> Matéria</button>
+                                        </div>
+                                        <div class="list-group">
+                                            <div class="list-group-item" ng-repeat="terca in planejamento.horarios.terca">
+                                                <div class="col-lg-6 col-xs-12">
+                                                    <select class="form-control materia-select" ng-model="terca.materia" ng-options="materia.id as materia.assunto for materia in planejamento.materias"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4">
+                                                    <select class="form-control" ng-model="terca.hora" ng-options="hora.value as hora.label for hora in horas" ng-change="calculaHorasSemana()"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4">
+                                                    <select class="form-control" ng-model="terca.minuto" ng-options="minuto.value as minuto.label for minuto in minutos" ng-change="calculaHorasSemana()"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4 text-right">
+                                                    <button class="btn btn-danger" ng-click="removerMateria('terca', $index)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </div>
+                                                <hr/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-xs-12">
                                     <div class="panel panel-default form-inline">
-                                        <div class="panel-heading">Quarta</div>
-                                        <div class="panel-body">
-                                            <select class="form-control" ng-model="planejamento.horarios.quarta.hora" ng-options="hora.value as hora.label for hora in horas" ng-change="calculaHorasSemana()"></select>
-                                            <select class="form-control" ng-model="planejamento.horarios.quarta.minuto" ng-options="minuto.value as minuto.label for minuto in minutos" ng-change="calculaHorasSemana()"></select>
+                                        <div class="panel-heading">
+                                            Quarta
+                                            <button class="btn btn-primary btn-xs pull-right" ng-click="adicionarMateria('quarta')"><i class="glyphicon glyphicon-plus"></i> Matéria</button>
+                                        </div>
+                                        <div class="list-group">
+                                            <div class="list-group-item" ng-repeat="quarta in planejamento.horarios.quarta">
+                                                <div class="col-lg-6 col-xs-12">
+                                                    <select class="form-control materia-select" ng-model="quarta.materia" ng-options="materia.id as materia.assunto for materia in planejamento.materias"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4">
+                                                    <select class="form-control" ng-model="quarta.hora" ng-options="hora.value as hora.label for hora in horas" ng-change="calculaHorasSemana()"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4">
+                                                    <select class="form-control" ng-model="quarta.minuto" ng-options="minuto.value as minuto.label for minuto in minutos" ng-change="calculaHorasSemana()"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4 text-right">
+                                                    <button class="btn btn-danger" ng-click="removerMateria('quarta', $index)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </div>
+                                                <hr/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-xs-12">
                                     <div class="panel panel-default form-inline">
-                                        <div class="panel-heading">Quinta</div>
-                                        <div class="panel-body">
-                                            <select class="form-control" ng-model="planejamento.horarios.quinta.hora" ng-options="hora.value as hora.label for hora in horas" ng-change="calculaHorasSemana()"></select>
-                                            <select class="form-control" ng-model="planejamento.horarios.quinta.minuto" ng-options="minuto.value as minuto.label for minuto in minutos" ng-change="calculaHorasSemana()"></select>
+                                        <div class="panel-heading">
+                                            Quinta
+                                            <button class="btn btn-primary btn-xs pull-right" ng-click="adicionarMateria('quinta')"><i class="glyphicon glyphicon-plus"></i> Matéria</button>
+                                        </div>
+                                        <div class="list-group">
+                                            <div class="list-group-item" ng-repeat="quinta in planejamento.horarios.quinta">
+                                                <div class="col-lg-6 col-xs-12">
+                                                    <select class="form-control materia-select" ng-model="quinta.materia" ng-options="materia.id as materia.assunto for materia in planejamento.materias"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4">
+                                                    <select class="form-control" ng-model="quinta.hora" ng-options="hora.value as hora.label for hora in horas" ng-change="calculaHorasSemana()"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4">
+                                                    <select class="form-control" ng-model="quinta.minuto" ng-options="minuto.value as minuto.label for minuto in minutos" ng-change="calculaHorasSemana()"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4 text-right">
+                                                    <button class="btn btn-danger" ng-click="removerMateria('quinta', $index)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </div>
+                                                <hr/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-xs-12">
                                     <div class="panel panel-default form-inline">
-                                        <div class="panel-heading">Sexta</div>
-                                        <div class="panel-body">
-                                            <select class="form-control" ng-model="planejamento.horarios.sexta.hora" ng-options="hora.value as hora.label for hora in horas" ng-change="calculaHorasSemana()"></select>
-                                            <select class="form-control" ng-model="planejamento.horarios.sexta.minuto" ng-options="minuto.value as minuto.label for minuto in minutos" ng-change="calculaHorasSemana()"></select>
+                                        <div class="panel-heading">
+                                            Sexta
+                                            <button class="btn btn-primary btn-xs pull-right" ng-click="adicionarMateria('sexta')"><i class="glyphicon glyphicon-plus"></i> Matéria</button>
+                                        </div>
+                                        <div class="list-group">
+                                            <div class="list-group-item" ng-repeat="sexta in planejamento.horarios.sexta">
+                                                <div class="col-lg-6 col-xs-12">
+                                                    <select class="form-control materia-select" ng-model="sexta.materia" ng-options="materia.id as materia.assunto for materia in planejamento.materias"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4">
+                                                    <select class="form-control" ng-model="sexta.hora" ng-options="hora.value as hora.label for hora in horas" ng-change="calculaHorasSemana()"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4">
+                                                    <select class="form-control" ng-model="sexta.minuto" ng-options="minuto.value as minuto.label for minuto in minutos" ng-change="calculaHorasSemana()"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4 text-right">
+                                                    <button class="btn btn-danger" ng-click="removerMateria('sexta', $index)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </div>
+                                                <hr/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-xs-12">
                                     <div class="panel panel-success form-inline">
-                                        <div class="panel-heading">Sabado</div>
-                                        <div class="panel-body">
-                                            <select class="form-control" ng-model="planejamento.horarios.sabado.hora" ng-options="hora.value as hora.label for hora in horas" ng-change="calculaHorasSemana()"></select>
-                                            <select class="form-control" ng-model="planejamento.horarios.sabado.minuto" ng-options="minuto.value as minuto.label for minuto in minutos" ng-change="calculaHorasSemana()"></select>
+                                        <div class="panel-heading">
+                                            Sabado
+                                            <button class="btn btn-primary btn-xs pull-right" ng-click="adicionarMateria('sabado')"><i class="glyphicon glyphicon-plus"></i> Matéria</button>
+                                        </div>
+                                        <div class="list-group">
+                                            <div class="list-group-item" ng-repeat="sabado in planejamento.horarios.sabado">
+                                                <div class="col-lg-6 col-xs-12">
+                                                    <select class="form-control materia-select" ng-model="sabado.materia" ng-options="materia.id as materia.assunto for materia in planejamento.materias"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4">
+                                                    <select class="form-control" ng-model="sabado.hora" ng-options="hora.value as hora.label for hora in horas" ng-change="calculaHorasSemana()"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4">
+                                                    <select class="form-control" ng-model="sabado.minuto" ng-options="minuto.value as minuto.label for minuto in minutos" ng-change="calculaHorasSemana()"></select>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-4 text-right">
+                                                    <button class="btn btn-danger" ng-click="removerMateria('sabado', $index)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </div>
+                                                <hr/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

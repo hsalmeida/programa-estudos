@@ -59,40 +59,14 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
                     usuario: $rootScope.usuarioLogado._id.$oid,
                     materias: [],
                     cargaHorariaTotal: 0,
-                    diaAdia: false,
                     horarios: {
-                        domingo: [{
-                            hora: 0,
-                            minuto: 0
-                        }],
-                        segunda: {
-                            hora: 0,
-                            minuto: 0
-                        },
-                        terca: {
-                            hora: 0,
-                            minuto: 0
-                        },
-                        quarta: {
-                            hora: 0,
-                            minuto: 0
-                        },
-                        quinta: {
-                            hora: 0,
-                            minuto: 0
-                        },
-                        sexta: {
-                            hora: 0,
-                            minuto: 0
-                        },
-                        sabado: {
-                            hora: 0,
-                            minuto: 0
-                        },
-                        semana: {
-                            hora: 0,
-                            minuto: 0
-                        }
+                        domingo: [],
+                        segunda: [],
+                        terca: [],
+                        quarta: [],
+                        quinta: [],
+                        sexta: [],
+                        sabado: []
                     }
                 };
                 for (var m = 0; m < assuntos.length; m++) {
@@ -120,6 +94,28 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
 
 
         };
+
+        $scope.tabMateriaSelecionada = function () {
+            $scope.calcularCargaHoraria();
+        };
+
+        $scope.tabTempoSelecionada = function () {
+            $scope.calcularCargaHoraria();
+        };
+
+        $scope.adicionarMateria = function (dia) {
+            $scope.planejamento.horarios[dia].push({
+                materia: "",
+                hora: 0,
+                minuto: 0
+            })
+        };
+
+        $scope.removerMateria = function (dia, indice) {
+            $scope.planejamento.horarios[dia].splice(indice, 1);
+            $scope.calculaHorasSemana();
+        };
+
         $scope.modificaNaoSei = function () {
             if ($scope.planejamento.naoSabeFim) {
                 $scope.provaTemp = angular.copy($scope.planejamento.prova.$date);
@@ -142,7 +138,7 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
         $scope.verPlanejamento = function () {
             $scope.planejamento.totalMultiplicador = 0;
             angular.forEach($scope.planejamento.materias, function (materia, key) {
-                if(materia.selecionada) {
+                if (materia.selecionada) {
                     switch (materia.conhecimento) {
                         case 0:
                         case 25:
@@ -165,7 +161,7 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
             });
             $scope.planejamento.minutosPorPeso = $scope.planejamento.minutosSemanais / $scope.planejamento.totalMultiplicador | 0;
             angular.forEach($scope.planejamento.materias, function (materia, key) {
-                if(materia.selecionada) {
+                if (materia.selecionada) {
                     materia.totalPorCiclo = materia.multiplicador * $scope.planejamento.minutosPorPeso;
                 }
             });
@@ -191,7 +187,7 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
         $scope.calcularCargaHoraria = function () {
             $scope.planejamento.cargaHorariaTotal = 0;
             angular.forEach($scope.planejamento.materias, function (materia, key) {
-                if(materia.selecionada) {
+                if (materia.selecionada) {
                     $scope.planejamento.cargaHorariaTotal += materia.cargaHorariaHoras;
                 }
             });
@@ -199,50 +195,25 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
 
         $scope.calculaHorasSemana = function () {
             var horasNaSemana = 0;
-            var minutosNaSemana = 0;
-            if ($scope.planejamento.diaAdia) {
-                //vejo cada dia
-                var minutosTempD = 0;
-                angular.forEach($scope.planejamento.horarios, function (horario, key) {
-                    if (key !== "semana") {
-                        horasNaSemana += horario.hora;
-                        minutosTempD += horario.minuto;
-                    }
+            var minutosNaSemana;
+            //vejo cada dia
+            var minutosTempD = 0;
+            angular.forEach($scope.planejamento.horarios, function (horario, key) {
+                angular.forEach(horario, function (dia, nome) {
+                    horasNaSemana += dia.hora;
+                    minutosTempD += dia.minuto;
                 });
-                horasNaSemana += minutosTempD / 60 | 0;
-                minutosNaSemana = minutosTempD % 60 | 0;
-            } else {
-                //ou calcula em cima do semana
-                horasNaSemana = $scope.planejamento.horarios.domingo.hora + $scope.planejamento.horarios.sabado.hora + ($scope.planejamento.horarios.semana.hora * 5);
-                var minutosTemp = $scope.planejamento.horarios.domingo.minuto + $scope.planejamento.horarios.sabado.minuto + ($scope.planejamento.horarios.semana.minuto * 5);
-                horasNaSemana += minutosTemp / 60 | 0;
-                minutosNaSemana = minutosTemp % 60 | 0;
-            }
+            });
+            horasNaSemana += minutosTempD / 60 | 0;
+            minutosNaSemana = minutosTempD % 60 | 0;
+
             $scope.calculoSemana = horasNaSemana + "h" + " " + minutosNaSemana + "'";
             $scope.planejamento.calculoSemana = $scope.calculoSemana;
             $scope.planejamento.minutosSemanais = (horasNaSemana * 60) + minutosNaSemana;
             $scope.quantidadeSemanas = $scope.planejamento.cargaHorariaTotal / horasNaSemana | 0;
             $scope.dataTerminoEstudo = moment().add($scope.quantidadeSemanas, 'w').toDate();
-            $scope.semanasLivres = moment($scope.planejamento.prova.$date).diff(moment($scope.dataTerminoEstudo), 'weeks');
+            $scope.semanasLivres = moment($scope.planejamento.prova.$date).diff(moment($scope.dataTerminoEstudo), 'weeks') | 0;
 
-        };
-        $scope.mudaSemanaClicada = function () {
-            if ($scope.planejamento.diaAdia) {
-                var tempHora = $scope.planejamento.horarios.semana.hora;
-                var tempMin = $scope.planejamento.horarios.semana.minuto;
-                angular.forEach($scope.planejamento.horarios, function (horario, key) {
-                    if (key !== "semana" && key !== "sabado" && key !== "domingo") {
-                        horario.hora = tempHora;
-                        horario.minuto = tempMin;
-                    }
-                });
-                $scope.planejamento.horarios.semana.hora = 0;
-                $scope.planejamento.horarios.semana.minuto = 0;
-            } else {
-                $scope.planejamento.horarios.semana.hora = $scope.planejamento.horarios.segunda.hora;
-                $scope.planejamento.horarios.semana.minuto = $scope.planejamento.horarios.segunda.minuto;
-            }
-            $scope.calculaHorasSemana();
         };
     }])
 ;
