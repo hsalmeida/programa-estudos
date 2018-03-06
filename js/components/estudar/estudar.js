@@ -9,8 +9,6 @@ angular.module('estudos').controller('EstudarController', function ($scope, assu
             "11:00", "11:30", "12:00"
         ];
 
-        console.log(arraySelecionados);
-
         var date = new Date();
         date.setMilliseconds(0);
         date.setSeconds(0);
