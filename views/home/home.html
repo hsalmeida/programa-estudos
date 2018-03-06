@@ -58,8 +58,8 @@
                         <div class="list-group-item assunto-item" ng-show="assunto.ativo === true" ng-repeat="assunto in materia.materias | index | orderBy: 'listaordem' | filter:subsearchFunc">
                             <div class="row">
                             <div class="col-md-4 col-xs-12">
-                                <input type="checkbox" index="{{$index}}" id="assuntock{{$parent.$index}}{{$index}}" checkbox-group>
-                                <label for="assuntock{{$parent.$index}}{{$index}}" class="assunto-label">{{assunto.listaordem}}. {{assunto.texto}} - <i>{{assunto.concurso}}</i></label>
+                                <input type="checkbox" index="{{$index}}" id="assuntock{{materia._id.$oid}}{{$index}}" checkbox-group>
+                                <label for="assuntock{{materia._id.$oid}}{{$index}}" class="assunto-label">{{assunto.listaordem}}. {{assunto.texto}} - <i>{{assunto.concurso}}</i></label>
                             </div>
                             <div class="col-md-1 col-xs-4 coluna-assunto-barra">
                                 <div class="text-center">{{assunto.geral.total}}</div>

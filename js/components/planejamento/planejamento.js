@@ -4,27 +4,132 @@ angular.module('estudos').controller('PlanejamentoController', ['$scope', '$root
         $scope.logout = function () {
             $rootScope.$emit("logout", {});
         };
-        $scope.idPlanejamento = "";
         $scope.planejamentos = [];
 
         $scope.initPlanejamento = function () {
+            waitingDialog.show("Aguarde. Carregando planejamentos");
             $scope.planejamentos = [];
             var plaQ = {
                 usuario: $rootScope.usuarioLogado._id.$oid
             };
             Planejamentos.query(plaQ).then(function (planejamentos) {
                 $scope.planejamentos = planejamentos;
+                waitingDialog.hide();
             });
         };
 
+        $scope.ver = function (planejamento) {
+
+        };
+
+        $scope.editar = function (planejamento) {
+            $state.go('planejamento-materias', {id: planejamento._id.$oid});
+        };
+
         $scope.novoPlanejamento = function () {
-            $state.go('planejamento-materias');
+            $state.go('planejamento-materias', {id: null});
         };
     }]);
 
-angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope', '$rootScope', '$state', '$state',
-    'Assuntos', '$uibModal', '$q',
-    function ($scope, $rootScope, $state, $stateParams, Assuntos, $uibModal, $q) {
+angular.module('estudos').controller('VerPlanejamentoController', ['$scope', '$rootScope', '$state', '$stateParams',
+    'Assuntos', '$uibModal', '$q', 'Planejamentos', '$filter',
+    function ($scope, $rootScope, $state, $stateParams, Assuntos, $uibModal, $q, Planejamentos, $filter) {
+        $scope.planejamento = {};
+        $scope.assuntos = [];
+        $scope.usuario = $rootScope.usuarioLogado;
+        $scope.today = moment();
+        $scope.dateSelected;
+        $scope.dateSearch = moment();
+        $scope.estudos = [];
+        $scope.disableToday = false;
+        $scope.centerDay = {};
+        $scope.yesterday = {};
+        $scope.beforeYesterday = {};
+        $scope.tomorow = {};
+        $scope.afterTomorow = {};
+
+        $scope.initVerPlanejamento = function () {
+            if ($stateParams.id) {
+                waitingDialog.show("Aguarde. Carregando planejamento");
+                $scope.dateSelected = 2;
+                $scope.centerDay = angular.copy($scope.dateSearch);
+                $scope.yesterday = moment($scope.dateSearch).subtract(1, 'd');
+                $scope.beforeYesterday = moment($scope.dateSearch).subtract(2, 'd');
+                $scope.tomorow = moment($scope.dateSearch).add(1, 'd');
+                $scope.afterTomorow = moment($scope.dateSearch).add(2, 'd');
+                Planejamentos.getById($stateParams.id).then(function (plan) {
+                    plan.prova.$date = new Date(plan.prova.$date);
+                    $scope.planejamento = plan;
+                    var ativos = {
+                        "ativo": true,
+                        "usuario": $rootScope.usuarioLogado._id.$oid
+                    };
+                    Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
+                        $scope.assuntos = assuntos;
+                        carregarEstudos(plan);
+                        waitingDialog.hide();
+                        $scope.disableToday = true;
+                    });
+                });
+            }
+        };
+
+        function carregarEstudos(planejamento) {
+            var nomeDia = recuperarDia();
+            var dataDia = recuperarData();
+            //verificar se possui estudo nesse dia.
+            if (planejamento.horarios[nomeDia].length > 0) {
+                $scope.estudos = angular.copy(planejamento.horarios[nomeDia]);
+                angular.forEach($scope.estudos, function (estudo, chave) {
+                    var materia = $filter('filter')(planejamento.materias, {id: estudo.materia});
+                    estudo.assunto = materia && materia.length > 0 ? materia[0] : {};
+                    estudo.tempo = 0;
+                    estudo.tempoNecessario = (estudo.hora * 60) + estudo.minuto;
+                    var assunto = $filter('filter')($scope.assuntos, {_id : { $oid: estudo.materia} });
+                    if(assunto && assunto.length > 0) {
+                        angular.forEach(assunto[0].materias, function (mat, chaveMat) {
+                            angular.forEach(mat.datas, function (data, chaveData) {
+                                if(data.data.contains(dataDia)) {
+                                    var re = /^([0-9]{1,2}):([0-9]{2})$/gm;
+                                    var m = re.exec(data.tempo);
+                                    estudo.tempo += (Number(m[1]) * 60) + Number(m[2]);
+                                }
+                            });
+                        });
+                        estudo.concluido = (estudo.tempo / estudo.tempoNecessario) * 100;
+                    }
+                });
+            }
+        }
+
+        function recuperarData() {
+            return $scope.dateSearch.format("YYYY-MM-DD");
+        }
+
+        function recuperarDia() {
+            switch ($scope.dateSearch.format("e")) {
+                case "0":
+                    return "domingo";
+                case "1":
+                    return "segunda";
+                case "2":
+                    return "terca";
+                case "3":
+                    return "quarta";
+                case "4":
+                    return "quinta";
+                case "5":
+                    return "sexta";
+                case "6":
+                    return "sabado";
+            }
+        }
+
+    }]);
+
+angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope', '$rootScope', '$state', '$stateParams',
+    'Assuntos', '$uibModal', '$q', 'Planejamentos',
+    function ($scope, $rootScope, $state, $stateParams, Assuntos, $uibModal, $q, Planejamentos) {
         $scope.planejamento = {};
         $scope.provaTemp = null;
         $scope.active = 0;
@@ -44,55 +149,64 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
         $scope.calculoSemana = "";
 
         $scope.initPlanejamentoMaterias = function () {
-            waitingDialog.show("Aguarde. Carregando matérias");
-            var ativos = {
-                "ativo": true,
-                "usuario": $rootScope.usuarioLogado._id.$oid
+            var format = "YYYY-MM-DD";
+            $scope.minMax = {
+                min: moment().format(format),
+                max: moment().add(12, 'months').format(format)
             };
-            Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
-                $scope.planejamento = {
-                    maximoMinutosPorMateria: 120,
-                    nome: "",
-                    prova: {$date: null},
-                    naoSabeFim: false,
-                    ativo: true,
-                    usuario: $rootScope.usuarioLogado._id.$oid,
-                    materias: [],
-                    cargaHorariaTotal: 0,
-                    horarios: {
-                        domingo: [],
-                        segunda: [],
-                        terca: [],
-                        quarta: [],
-                        quinta: [],
-                        sexta: [],
-                        sabado: []
-                    }
+
+            if ($stateParams.id) {
+                waitingDialog.show("Aguarde. Carregando planejamento");
+                Planejamentos.getById($stateParams.id).then(function (plan) {
+                    plan.prova.$date = new Date(plan.prova.$date);
+                    $scope.planejamento = plan;
+                    $scope.calculaHorasSemana();
+                    waitingDialog.hide();
+                });
+            } else {
+                waitingDialog.show("Aguarde. Carregando matérias");
+                var ativos = {
+                    "ativo": true,
+                    "usuario": $rootScope.usuarioLogado._id.$oid
                 };
-                for (var m = 0; m < assuntos.length; m++) {
-                    var tempM = assuntos[m];
-                    $scope.planejamento.materias.push(
-                        {
-                            assunto: tempM.assunto,
-                            peso: 1,
-                            conhecimento: 0,
-                            selecionada: true,
-                            id: tempM._id.$oid,
-                            cargaHorariaHoras: 50,
-                            cargaHorariaHorasMinutos: 3000
+                Assuntos.query(ativos, {sort: {"assunto": 1}}).then(function (assuntos) {
+                    $scope.planejamento = new Planejamentos({
+                        maximoMinutosPorMateria: 120,
+                        nome: "",
+                        prova: {$date: null},
+                        naoSabeFim: false,
+                        ativo: true,
+                        usuario: $rootScope.usuarioLogado._id.$oid,
+                        materias: [],
+                        cargaHorariaTotal: 0,
+                        horarios: {
+                            domingo: [],
+                            segunda: [],
+                            terca: [],
+                            quarta: [],
+                            quinta: [],
+                            sexta: [],
+                            sabado: []
                         }
-                    );
-                }
-                var format = "YYYY-MM-DD";
-                $scope.minMax = {
-                    min: moment().format(format),
-                    max: moment().add(12, 'months').format(format)
-                };
-                $scope.calculaHorasSemana();
-                waitingDialog.hide();
-            });
-
-
+                    });
+                    for (var m = 0; m < assuntos.length; m++) {
+                        var tempM = assuntos[m];
+                        $scope.planejamento.materias.push(
+                            {
+                                assunto: tempM.assunto,
+                                peso: 1,
+                                conhecimento: 0,
+                                selecionada: true,
+                                id: tempM._id.$oid,
+                                cargaHorariaHoras: 50,
+                                cargaHorariaHorasMinutos: 3000
+                            }
+                        );
+                    }
+                    $scope.calculaHorasSemana();
+                    waitingDialog.hide();
+                });
+            }
         };
 
         $scope.tabMateriaSelecionada = function () {
@@ -136,6 +250,7 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
         };
 
         $scope.verPlanejamento = function () {
+            /*
             $scope.planejamento.totalMultiplicador = 0;
             angular.forEach($scope.planejamento.materias, function (materia, key) {
                 if (materia.selecionada) {
@@ -181,6 +296,12 @@ angular.module('estudos').controller('PlanejamentoMateriasController', ['$scope'
                     }
                 }).result.then(function () {
             }, function () {
+            });
+            */
+            waitingDialog.show("Aguarde. Salvando planejamento");
+            $scope.planejamento.$saveOrUpdate().then(function () {
+                waitingDialog.hide();
+                $state.go("planejamento");
             });
         };
 

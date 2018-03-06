@@ -11,38 +11,47 @@
                                placeholder="Buscar pelo nome" aria-describedby="basic-addon1">
                     </div>
                     <div class="list-group-item" ng-repeat="planejamento in planejamentos | filter:searchFunc">
-                        <span class="list-group-item-heading" ng-click="setselectedrow($index)">
-                            <b>
-                                {{planejamento.nome}} prova dia {{planejamento.prova.$date | date: "dd/MM/yy"}}
-                                 faltam {{planejamento.prova.$date | amDifference : null : 'days'}} dias.
-                            </b>
-                            <span ng-show="materia.materias.length" class="label label-warning">
-                                {{planejamento.materias.length}} matérias
-                            </span>
-                            &nbsp;
-                            <span ng-show="planejamento.ativo" class="label label-success">
-                                ATIVO
-                            </span>
-                            <span ng-show="!planejamento.ativo" class="label label-danger">
-                                INATIVO
-                            </span>
-                            &nbsp;&nbsp;
-                            <button class="btn btn-primary" ng-click="editar(planejamento)" tooltip="Editar">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                            </button>
+                        <div class="list-group-item-heading" ng-click="setselectedrow($index)">
 
-                            <button class="btn btn-success" ng-show="!planejamento.ativo" ng-click="ativar(planejamento)" tooltip="Exibir">
-                                <span class="glyphicon glyphicon-ok"></span>
-                            </button>
-                            <button class="btn btn-info" ng-show="planejamento.ativo" ng-click="desativar(planejamento)" tooltip="Desativar">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </button>
+                            <div class="row">
+                                <div class="col-md-4 col-xs-4">
+                                    <a ui-sref="ver-planejamento({id : planejamento._id.$oid})">
+                                        <h4>{{planejamento.nome}}</h4>
+                                    </a>
+                                </div>
+                                <div class="col-md-2 col-xs-2 coluna-assunto-barra">
+                                    <div class="text-center">{{planejamento.prova.$date | date: "dd/MM/yy"}}</div>
+                                    <div class="text-center text-muted">prova dia</div>
+                                </div>
+                                <div class="col-md-2 col-xs-3 coluna-assunto-barra">
+                                    <div class="text-center">faltam {{planejamento.prova.$date | amDifference : null : 'days'}}</div>
+                                    <div class="text-center text-muted">dias</div>
+                                </div>
+                                <div class="col-md-4 col-xs-12 coluna-assunto-barra-ultima text-right">
+                                    <span ng-show="materia.materias.length" class="label label-warning">{{planejamento.materias.length}} matérias</span>
+                                    &nbsp;
+                                    <span ng-show="false" class="label label-success">ATIVO</span>
+                                    <span ng-show="false" class="label label-danger">INATIVO</span>
+                                    &nbsp;&nbsp;
+                                    <button class="btn btn-success" ng-click="ver(planejamento)" tooltip="Desativar">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                    <button class="btn btn-primary" ng-click="editar(planejamento)" tooltip="Editar">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                    <button class="btn btn-success" ng-show="false" ng-click="ativar(planejamento)" tooltip="Exibir">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                    <button class="btn btn-info" ng-show="false" ng-click="desativar(planejamento)" tooltip="Desativar">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                    <button class="btn btn-danger" ng-click="excluir(planejamento)" tooltip="Excluir">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </div>
+                            </div>
 
-                            <button class="btn btn-danger" ng-click="excluir(planejamento)" tooltip="Excluir">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-
-                        </span>
+                        </div>
                     </div>
                 </div>
             </div>

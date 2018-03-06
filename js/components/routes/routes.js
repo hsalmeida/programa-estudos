@@ -108,6 +108,15 @@ angular.module('estudos').config(function ($stateProvider, $urlRouterProvider) {
                 tituloPagina: "Planejamentos"
             }
         })
+        .state('ver-planejamento', {
+            url: "/ver-planejamento/:id",
+            templateUrl: "views/planejamento/ver-planejamento.html",
+            controller: 'VerPlanejamentoController',
+            data: {
+                requiredlogin: true,
+                tituloPagina: "Planejamento"
+            }
+        })
         .state('pomodoro', {
             url: "/pomodoro",
             templateUrl: "views/pomodoro/pomodoro.html",
